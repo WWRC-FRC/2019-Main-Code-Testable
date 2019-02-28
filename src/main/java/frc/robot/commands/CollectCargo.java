@@ -8,39 +8,36 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-//import frc.robot.commands.*;
-//import frc.robot.*;
-//import frc.robot.subsystems.*;
+//import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Constants;
 public class CollectCargo extends CommandGroup {
-  /**
-   * Add your docs here.
+  /*
+   * Pick up a cargo ball from either the ground or the depot
+   * When picking up from the ground the following sequence is performed
+   *   Move lift to ground pickup height
+   *   Turn on the intake, don't wait for it to capture a ball though
+   * When picking up from the depot the following sequence is performed
+   *   Align with the guide line
+   *   Move the lift to the correct height
+   *   Drive straight to the correct distance from the wall
+   *   Turn on the intake and wait for a ball to be captured
+   *   Back away from the wall
+   *   Set the lift to the default height
    */
-  boolean eject = false;
-  boolean intake = true;
-  double distance;
   public CollectCargo(int location) {
-    // Add Commands here:
-    // e.g. addSequential(new Command1());
-    // addSequential(new Command2());
-    // these will run in order.
-     if(location == 1){
-     //addSequential(new FindLine());
-     addSequential(new LiftToPosition(3,true, 0));
-     //addSequential(new DriveToPosition(distance, blocking));
-     addSequential(new IntakeManual(intake));
-     //addSequential(new LiftToPosition(18,true, 0));
-     }
-     if(location == 2){
-      addSequential(new LiftToPosition(40,true, 0));
-      //addSequential(new DriveToPosition(distance, blocking));
-      addSequential(new IntakeManual(intake));
-     // addSequential(new LiftToPosition(18,true, 0));
-     }
+    if(location == Constants.CargoRetrieveLocationGround){
+      //addSequential(new FindLine());//Ground doesn't need the line finder
+      addSequential(new LiftToHeight(Constants.CargoRetrieveGroundHeight,false));//Lift to height, no block
+      addSequential(new HandleCargo(Constants.IntakeIn, false));//Turn on intake, no waiting until captured
+    }
+    else if(location == Constants.CargoRetrieveLocationDepot){
+      addSequential(new FindLine());
+      addSequential(new LiftToHeight(Constants.CargoRetrieveDepotHeight,true));//Lift to height, block
+      addSequential(new DriveToPosition(Constants.AutoStopMaxDistance, Constants.AutoInSpeed, Constants.AutoStopFromDistanceCargo));
+      addSequential(new HandleCargo(Constants.IntakeIn, true));
+      addSequential(new DriveToPosition(-Constants.AutoBackoffDistance, Constants.AutoOutSpeed, 10000));
+      addSequential(new LiftToHeight(Constants.AutoDefaultLiftHeight,true));
+    }
 
-    // A command group will require all of the subsystems that each member
-    // would require.
-    // e.g. if Command1 requires chassis, and Command2 requires arm,
-    // a CommandGroup containing them would require both the chassis and the
-    // arm.
   }
 }

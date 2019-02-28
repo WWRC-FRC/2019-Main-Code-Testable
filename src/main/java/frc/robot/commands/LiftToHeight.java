@@ -4,61 +4,66 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
+ 
 package frc.robot.commands;
-
 import frc.robot.Robot;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-//import com.ctre.phoenix.motorcontrol.Faults;
-//import com.ctre.phoenix.motorcontrol.InvertType;
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-//import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-//import com.analog.adis16470.frc.ADIS16470_IMU;
+//import com.ctre.phoenix.motorcontrol.ControlMode;
+
+//import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+//import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.subsystems.*;
 
+public class LiftToHeight extends Command {
+  double distanceTicks;
+ // private double oldPosition;
+  private boolean localBlocking;
+  private double localHeightInches;
+  private boolean done = false;
 
-public class LiftManual extends Command {
-public boolean isUp;
-public boolean isRunning;
-  public LiftManual(boolean isUp) {
+  public LiftToHeight(double heightInches, boolean blocking) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.liftSystem);
-    this.isUp = isUp;
+    localBlocking = blocking;
+    localHeightInches = heightInches;    
   }
-  
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Robot.lift.getSelectedSensorPosition() < 1000 || Robot.lift.getSelectedSensorPosition() > (524*78))isRunning = true;
-    if(isUp)Robot.lift.set(ControlMode.PercentOutput, 0.6);
-    if(!isUp)Robot.lift.set(ControlMode.PercentOutput, -0.6);
-    
+    //Set the target height
+    Lift.liftToPositionInches(localHeightInches);
+    //If blocking then wait until either reached the height, appear to be stalled or timed out
+    if (localBlocking == true){
+      done = !Lift.isBusy();
+    }
+    else
+      done = true;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(isRunning)return true;
-    else return false;
+    return done;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.lift.set(ControlMode.PercentOutput, 0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.lift.set(ControlMode.PercentOutput, 0);
+    //If interrupted then hold the current position, wherever it is currently
+    Lift.liftToPositionInches(Lift.getLiftPositionInches());
   }
+
 }

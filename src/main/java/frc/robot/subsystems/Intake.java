@@ -11,23 +11,27 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.can.*;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DigitalInput;
+import com.ctre.phoenix.motorcontrol.*;
 
 /**
  * Add your docs here.
  */
 public class Intake extends Subsystem {
-  TalonSRX intake;
-  DigitalInput limitSwitch;
+  static TalonSRX intake;
+  static DigitalInput limitSwitch;
 
   public Intake(){
     intake = new TalonSRX(Constants.CANIntakeController);
     limitSwitch = new DigitalInput(0);
   }
 
-  public boolean isBallIn(){
-    return limitSwitch.get();
+  public static boolean isBallIn(){
+    return limitSwitch.get();//ToDo : Check polarity. True SHOULD mean the cargo is in
   }
 
+  public static void setIntakeSpeed(double speed){
+    intake.set(ControlMode.Velocity, speed);
+  }
 
   @Override
   public void initDefaultCommand() {

@@ -9,12 +9,12 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import java.net.Socket;
+//import java.net.Socket;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.*;
 import frc.robot.Constants;
-import frc.robot.Constants.*;
+//import frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import frc.robot.commands.*;
 
@@ -97,7 +97,8 @@ public class DriveTrain extends Subsystem {
     rightFollower.setNeutralMode(NeutralMode.Brake);
 
     //Configure ultrasonic range finder
-    ultrasonicSensor = new Ultrasonic(Constants.DigUltrasonicPingChannel, Constants.DigUltrasonicEchoChannel, Unit.kMillimeters);
+//    ultrasonicSensor = new Ultrasonic(Constants.DigUltrasonicPingChannel, Constants.DigUltrasonicEchoChannel, Unit.kMillimeters);
+    ultrasonicSensor = new Ultrasonic(Constants.DigUltrasonicPingChannel, Constants.DigUltrasonicEchoChannel);
 
     resetEncoders();
   }
@@ -119,11 +120,11 @@ public class DriveTrain extends Subsystem {
   }
 
   private double getLeftEncoderInches(){
-    return leftFront.getSelectedSensorPosition() / Constants.wheelTicksPerInch;
+    return leftFront.getSelectedSensorPosition() / Constants.WheelTicksPerInch;
   }
 
   private double getRightEncoderInches(){
-    return rightFront.getSelectedSensorPosition() / Constants.wheelTicksPerInch;
+    return rightFront.getSelectedSensorPosition() / Constants.WheelTicksPerInch;
   }
 
   public void setSpeedPercent(double leftSpeed, double rightSpeed){

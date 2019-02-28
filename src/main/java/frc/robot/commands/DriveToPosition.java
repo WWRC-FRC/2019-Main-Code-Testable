@@ -7,8 +7,6 @@
  
 package frc.robot.commands;
 import frc.robot.Robot;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import frc.robot.*;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveToPosition extends Command {
@@ -38,7 +36,7 @@ public class DriveToPosition extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.driveTrain.isBusy();//Only flag finished once drive train is no longer busy
+    return !Robot.driveTrain.isBusy();//Only flag finished once drive train is no longer busy
   }
 
   // Called once after isFinished returns true

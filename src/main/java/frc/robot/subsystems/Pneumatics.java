@@ -6,6 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Compressor;
+import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -13,8 +16,31 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Add your docs here.
  */
 public class Pneumatics extends Subsystem {
+  public static Pneumatics pneumaticsSystem;
+  public static DoubleSolenoid solenoid;
+  public static Compressor compressor;
+
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  private void initPneumatics(){
+    pneumaticsSystem = new Pneumatics();
+    solenoid = new DoubleSolenoid(Constants.PneuStroke1Channel, Constants.PneuStroke2Channel);
+    compressor = new Compressor();
+
+    compressor.setClosedLoopControl(true);
+  }
+
+  public Pneumatics(){
+    initPneumatics();
+  }
+
+  public static void setLiftPiston(boolean state){
+    if(state == Constants.PneuLiftIn)
+      solenoid.set(DoubleSolenoid.Value.kReverse);
+    else
+      solenoid.set(DoubleSolenoid.Value.kForward);
+  }
 
   @Override
   public void initDefaultCommand() {

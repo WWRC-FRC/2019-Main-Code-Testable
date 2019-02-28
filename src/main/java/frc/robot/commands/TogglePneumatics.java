@@ -7,27 +7,25 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+//import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
+//import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.subsystems.Pneumatics;
 
 public class TogglePneumatics extends Command {
-  private boolean on;
-  private boolean finish;
-  public TogglePneumatics(boolean on) {
+  private boolean localState;
+  public TogglePneumatics(boolean state) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.pneumaticsSystem);
-    this.on = on;
-    finish = false;
+    requires(Robot.pneumaticSystem);
+    localState = state;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-   if(on)Robot.solenoid.set(DoubleSolenoid.Value.kReverse);
-   if(!on)Robot.solenoid.set(DoubleSolenoid.Value.kForward);
-    finish = true;
+    Pneumatics.setLiftPiston(localState);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -38,7 +36,7 @@ public class TogglePneumatics extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return finish;
+    return true;
   }
 
   // Called once after isFinished returns true

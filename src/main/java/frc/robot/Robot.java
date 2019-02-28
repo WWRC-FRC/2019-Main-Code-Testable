@@ -13,38 +13,33 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.Ultrasonic.Unit;
+//import edu.wpi.first.wpilibj.Ultrasonic.Unit;
 //import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Compressor;
 import frc.robot.commands.DrivesWithJoysticks;
-import frc.robot.commands.*;
+//import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 //https://www.bing.com/videos/search?q=best+tom+and+jerry&view=detail&mid=ADE99A515A0765A73415ADE99A515A0765A73415&FORM=VIRE 
 public class Robot extends TimedRobot {
-  private OI m_oi;
-  LiftToPosition test;
+//  private OI m_oi;
+//  LiftToPosition test;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   Command driveWithJoystick;
-  Command liftToPosition;
-  public static double currentHeightInches = 0.0;
+  //Command liftToPosition;
   public static Hand leftStick = Hand.kLeft;
   public static Hand rightStick = Hand.kRight;
 
   public static DriveTrain driveTrain;
   public static ADIS16470_IMU imu;
   public static Lift liftSystem;
+  public static Pneumatics pneumaticSystem;
 //  public static Vision vision;
   public static Intake IntakeSystem;
 //  public static UltrasonicSensor ultrasonicSensorVision;
 //  public static UltrasonicSensorDrive ultrasonicSensorDrive;
-  public static Pneumatics pneumaticsSystem;
-  public static DoubleSolenoid solenoid;
-  public static Compressor compressor;
   //Not needed anymore? public static DifferentialDrive driveSystem;
   
     public static DrivesWithJoysticks driveIntake = new DrivesWithJoysticks();
@@ -62,24 +57,21 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     driveTrain = new DriveTrain();
     liftSystem = new Lift();
-    
-    ADIS16470_IMU imu = new ADIS16470_IMU();
-//    vision = new Vision();
+    pneumaticSystem = new Pneumatics();
     IntakeSystem = new Intake();
+//    driveWithJoystick = new DrivesWithJoysticks();
+    
+//    ADIS16470_IMU imu = new ADIS16470_IMU();
+//    vision = new Vision();
 //    ultrasonicSensorVision = new UltrasonicSensor();
 //    ultrasonicSensorDrive = new UltrasonicSensorDrive();
-    pneumaticsSystem = new Pneumatics();
-    solenoid = new DoubleSolenoid(Constants.PneuStroke1Channel, Constants.PneuStroke2Channel);
-    compressor = new Compressor();
   
     //Not needed anymore? driveSystem = new DifferentialDrive(_leftFront, _rghtFront);
 
-    m_oi = new OI();
+//    m_oi = new OI();
    
-     driveWithJoystick = new DrivesWithJoysticks();
 
      // pneumaticsSmash.setClosedLoopControl(true);
-    compressor.setClosedLoopControl(true);
     
     CameraServer.getInstance().startAutomaticCapture();
  
@@ -157,7 +149,7 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
       if(driveWithJoystick != null) 
         driveWithJoystick.start();
-      compressor.setClosedLoopControl(true);
+//      compressor.setClosedLoopControl(true);
      
   } 
 
@@ -177,8 +169,8 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
   }
 
-  public static double ultrasonicDistance(){
-    return ultrasonicSensor.getRangeInches();
-  }
+//  public static double ultrasonicDistance(){
+//    return ultrasonicSensor.getRangeInches();
+//  }
  
  }
