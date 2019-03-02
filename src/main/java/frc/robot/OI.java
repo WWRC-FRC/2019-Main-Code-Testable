@@ -50,7 +50,7 @@ public class OI {
   Button ButtonHatchOutMid =           new JoystickButton(primaryJoystick,Constants.HatchDepositMidButton);
   Button ButtonHatchOutHigh =          new JoystickButton(primaryJoystick,Constants.HatchDepositHighButton);
   Button ButtonCargoInGround =         new JoystickButton(primaryJoystick,Constants.CargoRetrieveGroundButton);
-  Button ButtonHatchOutRover =         new JoystickButton(primaryJoystick,Constants.HatchDepositRoverButton);
+//  Button ButtonHatchOutRover =         new JoystickButton(primaryJoystick,Constants.HatchDepositRoverButton); Shared button with Hatch out low
   Button ButtonCargoInDepot =          new JoystickButton(primaryJoystick,Constants.CargoRetrieveDepotButton);
  // Button LiftPosition17 = new JoystickButton(primaryJoystick,17);
  // Button LiftPosition18 = new JoystickButton(primaryJoystick,18);
@@ -107,7 +107,7 @@ public class OI {
     ButtonHatchOutLow.whileHeld(    new LiftAndDepositHatch(Constants.HatchDepositLowHeight));
     ButtonHatchOutMid.whileHeld(    new LiftAndDepositHatch(Constants.HatchDepositMidHeight));
     ButtonHatchOutHigh.whileHeld(   new LiftAndDepositHatch(Constants.HatchDepositHighHeight));
-    ButtonHatchOutRover.whenPressed(new LiftAndDepositHatch(Constants.HatchDepositRoverHeight));
+   // ButtonHatchOutRover.whenPressed(new LiftAndDepositHatch(Constants.HatchDepositRoverHeight));
 
    // LiftPosition15.whileHeld(new RetrieveHatch(Constants.HatchRetrieveDepotHeight);
 

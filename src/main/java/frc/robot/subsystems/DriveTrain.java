@@ -110,7 +110,7 @@ public class DriveTrain extends Subsystem {
     leftFront.setSelectedSensorPosition(0,0,Constants.kTimeoutMs);
     rightFront.setSelectedSensorPosition(0,0,Constants.kTimeoutMs);
   }
-
+/*
   private double getLeftEncoderTicks(){
     return leftFront.getSelectedSensorPosition();
   }
@@ -118,7 +118,7 @@ public class DriveTrain extends Subsystem {
   private double getRightEncoderTicks(){
     return rightFront.getSelectedSensorPosition();
   }
-
+*/
   private double getLeftEncoderInches(){
     return leftFront.getSelectedSensorPosition() / Constants.WheelTicksPerInch;
   }

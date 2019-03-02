@@ -34,7 +34,7 @@ public class Constants {
 	//Lift constants
 	public static double LiftSprocketCircumference       = 4;//16 teeth spaced at 1/4 inch
 	public static double LiftCountsPerRev                = 4096;//ToDo : Check this
-	public static double LiftTicksPerInch                = LiftCountsPerRev / LiftSprocketCircumference;//ToDo : Check this since 512 used previously
+	public static double LiftTicksPerInch                = (LiftCountsPerRev / LiftSprocketCircumference) / 2;//Divided by 2 because of two-stage lift
 	public static double LiftMaxHeight                   = 68;
 	public static double LiftPositionTolerance           = 2;
 
@@ -76,20 +76,25 @@ public class Constants {
 	public static double HatchGrabDelta              = 4.0;//Distance to move up to grab when capturing
 
 	//Button allocations
-	public static int   CargoIntakeInButton          = 3;
-	public static int   CargoIntakeOutButton         = 6;
+	public static int 	LiftMoveUpButton             = 2;
+	public static int   CargoIntakeOutButton         = 3;
+	public static int   LiftMoveDownButton           = 5;
+	public static int   CargoIntakeInButton          = 6;
 	public static int   CargoDepositLowButton        = 7;
 	public static int   CargoDepositMidButton        = 8;
 	public static int   CargoDepositHighButton       = 9;
 	public static int   CargoDepositRoverButton      = 10;
-	public static int   CargoRetrieveGroundButton    = 14;
-	public static int   CargoRetrieveDepotButton     = 16;
 	public static int   HatchDepositLowButton        = 11;
 	public static int   HatchDepositMidButton        = 12;
 	public static int   HatchDepositHighButton       = 13;
-	public static int   HatchDepositRoverButton      = 15;
-	public static int   HatchRetrieveDepotButton     = 17;//ToDo : Need to re-assign some buttons
-	public static int   LiftExtendButton             = 1;//ToDo : Check if assigned on button board or joystick
+	public static int   CargoRetrieveGroundButton    = 14;
+	public static int   HatchRetrieveDepotButton     = 15;
+	public static int   CargoRetrieveDepotButton     = 16;
+	public static int   HatchDepositRoverButton      = 11;
+	
+
+	//Controller button allocations
+	public static int   LiftExtendButton             = 1;
 	public static int   LiftRetractButton            = 2;
 
 	/**
