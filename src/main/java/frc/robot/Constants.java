@@ -76,6 +76,7 @@ public class Constants {
 	public static double HatchGrabDelta              = 4.0;//Distance to move up to grab when capturing
 
 	//Button allocations
+	public static int 	TestButton                   = 1;
 	public static int 	LiftMoveUpButton             = 2;
 	public static int   CargoIntakeOutButton         = 3;
 	public static int   LiftMoveDownButton           = 5;

@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
 //  private OI m_oi;
 //  LiftToPosition test;
   Command m_autonomousCommand;
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  //SendableChooser<Command> m_chooser = new SendableChooser<>();
   Command driveWithJoystick;
   //Command liftToPosition;
   public static Hand leftStick = Hand.kLeft;
@@ -42,7 +42,8 @@ public class Robot extends TimedRobot {
 //  public static UltrasonicSensorDrive ultrasonicSensorDrive;
   //Not needed anymore? public static DifferentialDrive driveSystem;
   
-    public static DrivesWithJoysticks driveIntake = new DrivesWithJoysticks();
+  //public static DrivesWithJoysticks driveIntake = new DrivesWithJoysticks();
+  public static DrivesWithJoysticks driveIntake;
     //public static boolean;
   //  static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
@@ -59,7 +60,7 @@ public class Robot extends TimedRobot {
     liftSystem = new Lift();
     pneumaticSystem = new Pneumatics();
     IntakeSystem = new Intake();
-//    driveWithJoystick = new DrivesWithJoysticks();
+    driveWithJoystick = new DrivesWithJoysticks();
     
 //    ADIS16470_IMU imu = new ADIS16470_IMU();
 //    vision = new Vision();
@@ -73,7 +74,7 @@ public class Robot extends TimedRobot {
 
      // pneumaticsSmash.setClosedLoopControl(true);
     
-    CameraServer.getInstance().startAutomaticCapture();
+//    CameraServer.getInstance().startAutomaticCapture();
  
   }
 

@@ -8,40 +8,40 @@
 package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FindLine extends Command {
-  public FindLine() {
+public class TestCommand extends Command {
+  public TestCommand() {
 //    requires(Robot.vision);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    System.out.println("Finding line : init");
+    System.out.println("TestCommand : init");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("Finding line: execute");
+    System.out.println("TestCommand: execute");
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    System.out.println("Finding line: isFinished");
+    System.out.println("TestCommand: isFinished");
     return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    System.out.println("Finding line: end");
+    System.out.println("TestCommand: end");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    System.out.println("Finding line: interrupted");
+    System.out.println("TestCommand: interrupted");
   }
 }

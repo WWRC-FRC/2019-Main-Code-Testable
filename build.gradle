@@ -1,6 +1,15 @@
+//Updated to include simulation environment from Arctic Warriors
+//See here for more details...
+// https://github.com/pjreiniger
+//Make sure to clone and build SnobotSim and SnobotSimPlugin
+//https://github.com/pjreiniger/SnobotSim
+//https://github.com/pjreiniger/SnobotSimPlugin
+//These must build before simulation will run correctly
+
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2019.2.1"
+    id "edu.wpi.first.GradleRIO" version "2019.4.1"
+    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2019-2.0.0" apply false
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -45,6 +54,15 @@ repositories {
     mavenCentral()
 }
 
+/////////////////////////////////////////////////////
+// Snobot Sim
+apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
+// This isn't necessary, but running analysis on your code is a good idea. If you do it, the files should probably be in your project dir,
+// but since this is shared I have it in a more centralized location
+//apply from: "../styleguide/java_style.gradle"
+// End Snobot Sim
+/////////////////////////////////////////////////////
+
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 4.
 dependencies {
@@ -53,6 +71,25 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile 'junit:junit:4.12'
+    simulation "edu.wpi.first.halsim:halsim_lowfi:${wpi.wpilibVersion}:${wpi.platforms.desktop}@zip"
+    simulation "edu.wpi.first.halsim:halsim_ds_socket:${wpi.wpilibVersion}:${wpi.platforms.desktop}@zip"
+
+    snobotSimCompile snobotSimJava()
+
+    //Driver station HAL. Taken from the following guide/location
+    //https://www.chiefdelphi.com/t/wpilib-rocks/339145/12
+    //https://github.com/CurtinFRC/2019-DeepSpace/blob/master/teams.gradle#L34-L46
+    //It is also necessary to copy the 3 files from the following location into the robot code 'libs' directory
+    //https://github.com/CurtinFRC/2019-DeepSpace/tree/master/libs
+    if (wpi.platforms.desktop == 'windowsx86-64') {
+        simulation rootProject.files('libs/halsim_ds_socketd.dll')
+    } else if (wpi.platforms.desktop == 'osxx86-64') {
+        simulation rootProject.files('libs/libhalsim_ds_socketd.dylib')
+    } else if (wpi.platforms.desktop == 'linuxx86-64') {
+        simulation rootProject.files('libs/libhalsim_ds_socketd.so')
+    } else {
+        simulation "edu.wpi.first.halsim:halsim_ds_socket:${wpi.wpilibVersion}:${wpi.platforms.desktop}debug@zip"
+    }
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

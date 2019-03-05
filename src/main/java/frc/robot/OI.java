@@ -32,10 +32,12 @@ public class OI {
   //public static double joyX;
   //public static double joyY;
 
-  private Joystick primaryJoystick =   new Joystick(0);
-  private Joystick secondaryJoystick = new Joystick(1);
+  private static Joystick primaryJoystick =   new Joystick(0);
+//  private Joystick secondaryJoystick = new Joystick(1);
+  private static XboxController secondaryJoystick = new XboxController(1);
   Button togglePneumatics =            new JoystickButton(secondaryJoystick, 1);//ToDo : pneumatics need constants defined correctly
   Button togglePneumatics2 =           new JoystickButton(secondaryJoystick, 2);//ToDo : pneumatics need constants defined correctly
+  Button ButtonTest =                  new JoystickButton(secondaryJoystick, Constants.TestButton);
   Button LiftPosition1 =               new JoystickButton(primaryJoystick,1);//ToDo : 
   Button LiftPosition2 =               new JoystickButton(primaryJoystick,2);//ToDo : 
   Button ButtonIntakeIn =              new JoystickButton(primaryJoystick,Constants.CargoIntakeInButton);
@@ -59,7 +61,7 @@ public class OI {
   //// joystick.
   // You create one by telling it which joystick it's on and which button
   // number it is.
-    private static XboxController controllerDr;
+//    private static XboxController controllerDr;
   //  private static Button LiftUp;
 
   // There are a few additional built in buttons you can use. Additionally,
@@ -82,8 +84,8 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
   public OI(){
-    controllerDr = new XboxController(1);
-    
+//    controllerDr = new XboxController(1);
+
     togglePneumatics.whenPressed(   new TogglePneumatics(false));
     togglePneumatics2.whenPressed(  new TogglePneumatics(true));
     //LiftPosition2.whenPressed(new HatchRelease()); 
@@ -97,7 +99,7 @@ public class OI {
     
     //LiftPosition5.whileHeld(new IntakeManual(false));
     ButtonCargoOutRover.whileHeld(  new LiftAndDepositCargo(Constants.CargoDepositRoverHeight));
-    ButtonCargoOutLow.whileHeld(    new  LiftAndDepositCargo(Constants.CargoDepositLowHeight));
+    ButtonCargoOutLow.whileHeld(    new LiftAndDepositCargo(Constants.CargoDepositLowHeight));
     ButtonCargoOutMid.whileHeld(    new LiftAndDepositCargo(Constants.CargoDepositMidHeight));
     ButtonCargoOutHigh.whileHeld(   new LiftAndDepositCargo(Constants.CargoDepositHighHeight));
     
@@ -110,10 +112,12 @@ public class OI {
    // ButtonHatchOutRover.whenPressed(new LiftAndDepositHatch(Constants.HatchDepositRoverHeight));
 
    // LiftPosition15.whileHeld(new RetrieveHatch(Constants.HatchRetrieveDepotHeight);
+    ButtonTest.whileHeld(new TestCommand());
 
   }
 
- public static XboxController getControllerDr() {
-    return controllerDr;
+  public static XboxController getControllerDr() {//ToDo : This really is not testable. Need to abstract functions for each thing we want to read
+    return secondaryJoystick;
   }
+
 }                    

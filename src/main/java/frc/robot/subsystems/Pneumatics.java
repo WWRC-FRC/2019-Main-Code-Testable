@@ -24,7 +24,7 @@ public class Pneumatics extends Subsystem {
   // here. Call these from Commands.
 
   private void initPneumatics(){
-    pneumaticsSystem = new Pneumatics();
+//    pneumaticsSystem = new Pneumatics();//Creating here is circular !!!
     solenoid = new DoubleSolenoid(Constants.PneuStroke1Channel, Constants.PneuStroke2Channel);
     compressor = new Compressor();
 

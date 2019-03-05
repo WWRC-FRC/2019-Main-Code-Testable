@@ -20,9 +20,6 @@ import edu.wpi.first.wpilibj.command.Command;
  * An example command.  You can replace me with your own command.
  */
 public class DrivesWithJoysticks extends Command {
- // private double leftSpeed;
-  private double leftSpeed;
-  private double rightSpeed;
   public DrivesWithJoysticks() {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.driveTrain);
@@ -36,11 +33,10 @@ public class DrivesWithJoysticks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    //OI.joyX = OI.getControllerDr().getX(Hand.kLeft);
-    //OI.joyY = OI.getControllerDr().getY(Hand.kLeft);
-
-    leftSpeed =  OI.getControllerDr().getY(Hand.kLeft); /* positive is forward */
+    double leftSpeed;
+    double rightSpeed;
+  
+    leftSpeed =  OI.getControllerDr().getY(Hand.kLeft); //positive is forward ToDo : Check since print shows not the case
     rightSpeed =  OI.getControllerDr().getY(Hand.kRight); 
     if (Math.abs(leftSpeed) < 0.10) 
     {
@@ -49,22 +45,19 @@ public class DrivesWithJoysticks extends Command {
     if (Math.abs(rightSpeed) < 0.10) {
       rightSpeed = 0;
   }
-   leftSpeed*=.8;
-   rightSpeed*=.805;
-   if(OI.getControllerDr().getTriggerAxis(Hand.kRight) > 0.05){
+
+  if(OI.getControllerDr().getTriggerAxis(Hand.kRight) > 0.05){
     leftSpeed*=.75;
     rightSpeed*=.75;
+//    System.out.println("Slow speed");
    }
-   //System.out.println("Left speed =" + leftSpeed);
-   //System.out.println("Right speed =" + rightSpeed);
+//   System.out.println("Left speed =" + leftSpeed);
+//   System.out.println("Right speed =" + rightSpeed);
    if(!OI.getControllerDr().getXButton()){
-//     Robot.driveSystem.tankDrive(leftSpeed, rightSpeed);
     Robot.driveTrain.setSpeedPercent(leftSpeed, rightSpeed);
    }
    else {
-//     Robot.driveSystem.tankDrive(-.35, -.355);
    }
-  /* drive robot */
   }
   
 
