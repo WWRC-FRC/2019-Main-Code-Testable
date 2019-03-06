@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import java.lang.Math;
 
 //import java.net.Socket;
 
@@ -142,29 +143,38 @@ public class DriveTrain extends Subsystem {
   }
 
   public void driveDistanceStraight(double distance, double speed, double stopDistance) {
+    //distance = distance to travel. +ve = forward, -ve = backwards
+    //speed    = speed percentage. Should be +ve
     boolean driveStopped = false;
     double distanceTraveled;
     double leftDistanceTraveled;
     double rightDistanceTraveled;
     double leftRightDistanceDelta;
     double leftRightSpeedCorrection;
+    double direction;
     
     busy = true;
+    //Note which direction we are going. Used to set motors later
+    if (distance < 0)
+      direction = -1.0;
+    else
+      direction = 1.0;
+
     resetEncoders();//Reset the encoders so we can simply count from here
     while(!driveStopped){
       leftDistanceTraveled  = getLeftEncoderInches();
       rightDistanceTraveled = getRightEncoderInches(); 
       distanceTraveled = (leftDistanceTraveled + rightDistanceTraveled) / 2;//Average the left and right encoders
-      if (distanceTraveled >= distance){//Check if gone the entire distance
+      if (Math.abs(distanceTraveled) >= Math.abs(distance)){//Check if gone the entire distance (note, direction is important)
         driveStopped = true;
       }
-      else if (ultrasonicSensor.getRangeInches() < stopDistance){//Check if too close
+      else if ((ultrasonicSensor.getRangeInches() < stopDistance) && (distance > 0.0)){//Check if too close. Can't use for reverse, but don't need at the moment
         driveStopped = true;
       }
       else{//Otherwise make sure driving straight
         leftRightDistanceDelta = leftDistanceTraveled - rightDistanceTraveled;
         leftRightSpeedCorrection = leftRightDistanceDelta * Constants.DriveStraightPGain;
-        setSpeedPercent(speed - leftRightSpeedCorrection, speed + leftRightSpeedCorrection);
+        setSpeedPercent(direction * (speed - leftRightSpeedCorrection), direction * (speed + leftRightSpeedCorrection));
       }
     }
     //Not sure if this is needed or not. Joystick should take over on exit. ToDo : Check if needed

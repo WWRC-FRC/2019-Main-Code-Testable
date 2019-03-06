@@ -30,10 +30,10 @@ public class LiftAndDepositHatch extends CommandGroup {
     // arm.
 
     addSequential(new FindLine());
-    addSequential(new LiftToHeight(height, true));//Move the lift to the selected height and wait until finished
+    addSequential(new LiftToHeight(height, Constants.HatchDepositDelta, true));//Move the lift to the selected height plus the offset since in the captured position and wait until finished
     addSequential(new DriveToPosition(24, Constants.AutoInSpeed, 4));//Move to within 4 inches of the target but a max of 24 inches
-    addSequential(new LiftToHeight(height - Constants.HatchDepositDelta, true));//Move the lift to the selected height and wait until finished
+    addSequential(new LiftToHeight(height, 0, true));//Move the lift down and wait until finished
     addSequential(new DriveToPosition(-Constants.AutoBackoffDistance, Constants.AutoOutSpeed, 10000));//Back away
-    addSequential(new LiftToHeight(Constants.AutoDefaultLiftHeight,true));//Lift ready 
+    addSequential(new LiftToHeight(Constants.AutoDefaultLiftHeight, 0,true));//Lift to default height
  }
 }

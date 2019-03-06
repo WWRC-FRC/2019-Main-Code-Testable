@@ -74,7 +74,9 @@ public class Robot extends TimedRobot {
 
      // pneumaticsSmash.setClosedLoopControl(true);
     
-//    CameraServer.getInstance().startAutomaticCapture();
+     if (Robot.isReal() == true){
+      CameraServer.getInstance().startAutomaticCapture();
+     }
  
   }
 
@@ -110,7 +112,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    Scheduler.getInstance().run();
+    Scheduler.getInstance().run();//ToDo : Do we really want the scheduler to run when disabled?
   }
 
 
@@ -129,8 +131,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    if(driveWithJoystick != null) 
-      driveWithJoystick.start();
+//    if(driveWithJoystick != null) 
+//      driveWithJoystick.start();
   }
 
   /**
@@ -148,8 +150,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-      if(driveWithJoystick != null) 
-        driveWithJoystick.start();
+//      if(driveWithJoystick != null) 
+//        driveWithJoystick.start();
 //      compressor.setClosedLoopControl(true);
      
   } 

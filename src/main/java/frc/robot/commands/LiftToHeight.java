@@ -17,16 +17,18 @@ import frc.robot.subsystems.*;
 public class LiftToHeight extends Command {
   double distanceTicks;
  // private double oldPosition;
-  private boolean localBlocking;
+ private double localOffset;
+ private boolean localBlocking;
   private double localHeightInches;
   private boolean done = false;
 
-  public LiftToHeight(double heightInches, boolean blocking) {
+  public LiftToHeight(double heightInches, double offset, boolean blocking) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.liftSystem);
     localBlocking = blocking;
     localHeightInches = heightInches;    
+    localOffset = offset;
   }
 
   // Called just before this Command runs the first time
@@ -38,7 +40,7 @@ public class LiftToHeight extends Command {
   @Override
   protected void execute() {
     //Set the target height
-    Lift.liftToPositionInches(localHeightInches);
+    Lift.liftToPositionInches(localHeightInches, localOffset);
     //If blocking then wait until either reached the height, appear to be stalled or timed out
     if (localBlocking == true){
       done = !Lift.isBusy();
@@ -63,7 +65,7 @@ public class LiftToHeight extends Command {
   @Override
   protected void interrupted() {
     //If interrupted then hold the current position, wherever it is currently
-    Lift.liftToPositionInches(Lift.getLiftPositionInches());
+    Lift.liftToPositionInches(Lift.getLiftPositionInches(), 0);
   }
 
 }

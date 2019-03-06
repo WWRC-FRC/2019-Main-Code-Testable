@@ -26,16 +26,20 @@ public class Lift extends Subsystem {
     liftMotor.set(ControlMode.Position, heightTicks);
   }
 
-  public static void liftToPositionInches(double heightInches) {
-    //Make sure not too high/low
-    if (heightInches > Constants.LiftMaxHeight)
-      heightInches = Constants.LiftMaxHeight;
-    else if (heightInches < 0)
-      heightInches = 0;
-
+  public static void liftToPositionInches(double heightInches, double offset) {
+    //Note where we were asked to go to, excluding the offset
     liftPositionTarget = heightInches;
 
-    liftMotor.set(ControlMode.Position, heightInches * Constants.LiftTicksPerInch);
+    //The actual target is the selected height plus the hatch offset
+    double target = liftPositionTarget + offset;
+
+    //Make sure not too high/low
+    if (target > Constants.LiftMaxHeight)
+      target = Constants.LiftMaxHeight;
+    else if (target < 0)
+      target = 0;
+
+    liftMotor.set(ControlMode.Position, target * Constants.LiftTicksPerInch);
   }
 
   private void configureMotors(){
@@ -80,11 +84,13 @@ public class Lift extends Subsystem {
   }
 
   public static double getLiftPositionInches(){
-    return liftMotor.getSelectedSensorPosition() / Constants.LiftTicksPerInch;//encoderMeters; 38150
+    return liftMotor.getSelectedSensorPosition() / Constants.LiftTicksPerInch;
   }
 
   public void moveLift(double moveDelta){
-    liftToPositionInches(getLiftPositionInches() + moveDelta);
+    //Move to where we are right now plus some delta
+    //Offset = 0 since we are reading where we really are first so any offsets become invalid anyhow
+    liftToPositionInches(getLiftPositionInches() + moveDelta, 0);
   }
 
   public static double getLiftPositionTarget(){
@@ -110,7 +116,7 @@ public class Lift extends Subsystem {
   public static boolean isBusy(){
     //Use various measurements to determine if the lift is busy moving to where we asked it to
     //Options are...
-    // Check the velocity
+    //Check the velocity
     //Check the motor output power
     //Check the absolute position error
     //Check the PID calculated position error
