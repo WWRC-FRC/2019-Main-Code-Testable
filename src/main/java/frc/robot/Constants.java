@@ -67,13 +67,15 @@ public class Constants {
 
 	//Hatch constants
 	//Heights are the height at which the robot should push at to deposit or move in at to retrieve
-	public static double HatchDepositLowHeight       = 8.0;
-	public static double HatchDepositMidHeight       = 34.0;
-	public static double HatchDepositHighHeight      = 62.0;
-	public static double HatchDepositRoverHeight     = 4.0;
-	public static double HatchRetrieveDepotHeight    = 4.0;
-	public static double HatchDepositDelta           = 4.0;//Distance to move down in order to unhook when depositing
-	public static double HatchGrabDelta              = 4.0;//Distance to move up to grab when capturing
+	public static double  HatchDepositLowHeight       = 8.0;
+	public static double  HatchDepositMidHeight       = 34.0;
+	public static double  HatchDepositHighHeight      = 62.0;
+	public static double  HatchDepositRoverHeight     = 4.0;
+	public static double  HatchRetrieveDepotHeight    = 4.0;
+	public static double  HatchDepositDelta           = 4.0;//Distance to move down in order to unhook when depositing
+	public static double  HatchGrabDelta              = 4.0;//Distance to move up to grab when capturing
+	public static boolean HatchDownState              = false;//Flag to note if hook is up or down
+	public static boolean HatchUpState                = true;
 
 	//Button allocations
 	public static int 	TestButton                   = 1;

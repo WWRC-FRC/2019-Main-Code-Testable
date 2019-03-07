@@ -8,7 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
@@ -33,14 +33,28 @@ public class HandleHatch extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //If 'up' then 
+    double offset;
+    double currentPosition;
 
-    //Now check if we need to wait or not...
-    if (localBlock == true){
-    }
-    else{
-      isDone = true;//Not blocking so finished
-    }
+    //Which state are we looking for?
+    if (localUpDown == Constants.HatchDownState)
+      offset = 0.0;
+    else
+      offset = Constants.HatchDepositDelta;
+
+    //Get the current position
+    //Using the current position rather than the current target position allows setting based on mid flight position if necessary
+    //Might need to change to target position rather than current position if behavior feels wrong
+    currentPosition = Lift.getLiftPositionInches();
+    //Move list to correct position
+    Lift.liftToPositionInches(currentPosition, offset);
+
+    //Now check if we need to wait for move completion or not...
+    if (localBlock == true)
+      while(Lift.isBusy());
+
+    //Done
+    isDone = true;//Not blocking so finished
   }
 
   // Make this return true when this Command no longer needs to run execute()
