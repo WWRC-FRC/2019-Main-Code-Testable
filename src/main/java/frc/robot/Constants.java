@@ -66,7 +66,7 @@ public class Constants {
 	public static double  IntakeHoldSpeed  = 0.2;
 
 	//Hatch constants
-	//Heights are the height at which the robot should push at to deposit or move in at to retrieve
+	//Heights are the height at which the robot should be at to be able to go through center ToDo : THESE HEIGHTS NEED TO BE CHANGED 
 	public static double  HatchDepositLowHeight       = 8.0;
 	public static double  HatchDepositMidHeight       = 34.0;
 	public static double  HatchDepositHighHeight      = 62.0;
