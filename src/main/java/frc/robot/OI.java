@@ -16,46 +16,33 @@ import edu.wpi.first.wpilibj.XboxController;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-/*  public int lowCargo = 25;
-  public int mediumCargo = 53;
-  public int highCargo = 76;
-  public int groundCargo = 1;
-  public int cargoLoadingStation = 2;
-  public int depotCargo = 43;//ToDo : Need to check height
-  public int shipCargo = 38;
-  public int lowHatch = 8;
-  public int mediumHatch = 34;
-  public int highHatch = 62;
-  public int hatchZone = 4;
-  */
 
-  //public static double joyX;
-  //public static double joyY;
-
-  private static Joystick primaryJoystick =   new Joystick(0);
+  private static Joystick buttonBoard =   new Joystick(Constants.ButtonController);
 //  private Joystick secondaryJoystick = new Joystick(1);
-  private static XboxController secondaryJoystick = new XboxController(1);
-  Button togglePneumatics =            new JoystickButton(secondaryJoystick, 1);//ToDo : pneumatics need constants defined correctly
-  Button togglePneumatics2 =           new JoystickButton(secondaryJoystick, 2);//ToDo : pneumatics need constants defined correctly
-  Button ButtonTest =                  new JoystickButton(secondaryJoystick, Constants.TestButton);
-  Button LiftPosition1 =               new JoystickButton(primaryJoystick,1);//ToDo : 
-  Button LiftPosition2 =               new JoystickButton(primaryJoystick,2);//ToDo : 
-  Button ButtonIntakeIn =              new JoystickButton(primaryJoystick,Constants.CargoIntakeInButton);
-  Button LiftPosition4 =               new JoystickButton(primaryJoystick,4);//ToDo : 
-  Button LiftPosition5 =               new JoystickButton(primaryJoystick,5);//ToDo : 
-  Button ButtonIntakeOut =             new JoystickButton(primaryJoystick,Constants.CargoIntakeOutButton);
-  Button ButtonCargoOutLow =           new JoystickButton(primaryJoystick,Constants.CargoDepositLowButton);
-  Button ButtonCargoOutMid =           new JoystickButton(primaryJoystick,Constants.CargoDepositMidButton);
-  Button ButtonCargoOutHigh =          new JoystickButton(primaryJoystick,Constants.CargoDepositHighButton);
-  Button ButtonCargoOutRover =         new JoystickButton(primaryJoystick,Constants.CargoDepositRoverButton);
-  Button ButtonHatchOutLow =           new JoystickButton(primaryJoystick,Constants.HatchDepositLowButton);
-  Button ButtonHatchOutMid =           new JoystickButton(primaryJoystick,Constants.HatchDepositMidButton);
-  Button ButtonHatchOutHigh =          new JoystickButton(primaryJoystick,Constants.HatchDepositHighButton);
-  Button ButtonCargoInGround =         new JoystickButton(primaryJoystick,Constants.CargoRetrieveGroundButton);
-//  Button ButtonHatchOutRover =         new JoystickButton(primaryJoystick,Constants.HatchDepositRoverButton); Shared button with Hatch out low
-  Button ButtonCargoInDepot =          new JoystickButton(primaryJoystick,Constants.CargoRetrieveDepotButton);
- // Button LiftPosition17 = new JoystickButton(primaryJoystick,17);
- // Button LiftPosition18 = new JoystickButton(primaryJoystick,18);
+  private static XboxController driveJoystick = new XboxController(Constants.MainController);
+
+  //ToDo : Need to check button assignments
+  Button ButtonLiftOut =               new JoystickButton(driveJoystick, Constants.LiftExtendButton);//ToDo : Check which is in and which is out
+  Button ButtonLiftIn =                new JoystickButton(driveJoystick, Constants.LiftRetractButton);//ToDo : pneumatics need constants defined correctly
+  Button ButtonLiftUp =                new JoystickButton(driveJoystick,Constants.LiftUpButton);
+  Button ButtonLiftDown =              new JoystickButton(driveJoystick,Constants.LiftDownButton);
+  Button ButtonHatchLift =             new JoystickButton(driveJoystick,Constants.HatchLiftButton);
+  Button ButtonHatchDrop =             new JoystickButton(driveJoystick,Constants.HatchDropButton);
+  Button ButtonTest =                  new JoystickButton(driveJoystick, Constants.TestButton);
+
+  Button ButtonIntakeIn =              new JoystickButton(buttonBoard,Constants.CargoIntakeInButton);
+  Button ButtonIntakeOut =             new JoystickButton(buttonBoard,Constants.CargoIntakeOutButton);
+  Button ButtonCargoInGround =         new JoystickButton(buttonBoard,Constants.CargoRetrieveGroundButton);
+  Button ButtonCargoInDepot =          new JoystickButton(buttonBoard,Constants.CargoRetrieveDepotButton);
+  Button ButtonCargoOutLow =           new JoystickButton(buttonBoard,Constants.CargoDepositLowButton);
+  Button ButtonCargoOutMid =           new JoystickButton(buttonBoard,Constants.CargoDepositMidButton);
+  Button ButtonCargoOutHigh =          new JoystickButton(buttonBoard,Constants.CargoDepositHighButton);
+  Button ButtonCargoOutRover =         new JoystickButton(buttonBoard,Constants.CargoDepositRoverButton);
+  Button ButtonHatchOutLow =           new JoystickButton(buttonBoard,Constants.HatchDepositLowButton);
+  Button ButtonHatchOutMid =           new JoystickButton(buttonBoard,Constants.HatchDepositMidButton);
+  Button ButtonHatchOutHigh =          new JoystickButton(buttonBoard,Constants.HatchDepositHighButton);
+
+
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
   //// joystick.
@@ -84,40 +71,34 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
   public OI(){
-//    controllerDr = new XboxController(1);
 
-    togglePneumatics.whenPressed(   new TogglePneumatics(false));
-    togglePneumatics2.whenPressed(  new TogglePneumatics(true));
-    //LiftPosition2.whenPressed(new HatchRelease()); 
-    //LiftPosition4.whenPressed(new IntakeToPosition(30.0, false));
-    
-//    LiftPosition4.whenPressed(new BallIn());
-//    LiftPosition3.whileHeld(new IntakeManual(false));
-//    LiftPosition6.whileHeld(new IntakeManual(true)); 
+    ButtonLiftIn.whenPressed(       new TogglePneumatics(false));
+    ButtonLiftOut.whenPressed(      new TogglePneumatics(true));
+
     ButtonIntakeIn.whileHeld(       new HandleCargo(Constants.IntakeIn,false));
     ButtonIntakeOut.whileHeld(      new HandleCargo(Constants.IntakeOut,false));
+
+    ButtonLiftUp.whileHeld(         new HandleCargo(Constants.IntakeIn,false));
+    ButtonLiftDown.whileHeld(       new HandleCargo(Constants.IntakeOut,false));
     
-    //LiftPosition5.whileHeld(new IntakeManual(false));
     ButtonCargoOutRover.whileHeld(  new LiftAndDepositCargo(Constants.CargoDepositRoverHeight));
     ButtonCargoOutLow.whileHeld(    new LiftAndDepositCargo(Constants.CargoDepositLowHeight));
     ButtonCargoOutMid.whileHeld(    new LiftAndDepositCargo(Constants.CargoDepositMidHeight));
     ButtonCargoOutHigh.whileHeld(   new LiftAndDepositCargo(Constants.CargoDepositHighHeight));
-    
     ButtonCargoInGround.whileHeld(  new CollectCargo(Constants.CargoRetrieveLocationGround)); 
     ButtonCargoInDepot.whileHeld(   new CollectCargo(Constants.CargoRetrieveLocationDepot));
-    
+
     ButtonHatchOutLow.whileHeld(    new LiftAndDepositHatch(Constants.HatchDepositLowHeight));
     ButtonHatchOutMid.whileHeld(    new LiftAndDepositHatch(Constants.HatchDepositMidHeight));
     ButtonHatchOutHigh.whileHeld(   new LiftAndDepositHatch(Constants.HatchDepositHighHeight));
-   // ButtonHatchOutRover.whenPressed(new LiftAndDepositHatch(Constants.HatchDepositRoverHeight));
+    ButtonHatchLift.whenPressed(    new HandleHatch(Constants.HatchUpState, true));
+    ButtonHatchDrop.whenPressed(    new HandleHatch(Constants.HatchDownState, true));
 
-   // LiftPosition15.whileHeld(new RetrieveHatch(Constants.HatchRetrieveDepotHeight);
-    ButtonTest.whileHeld(new TestCommand());
-
+    ButtonTest.whileHeld(         new TestCommand());
   }
 
   public static XboxController getControllerDr() {//ToDo : This really is not testable. Need to abstract functions for each thing we want to read
-    return secondaryJoystick;
+    return driveJoystick;
   }
 
 }                    

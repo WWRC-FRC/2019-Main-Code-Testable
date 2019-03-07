@@ -47,21 +47,21 @@ public class Lift extends Subsystem {
     liftFollower = new VictorSPX(Constants.CANLiftFollowerController);
 
     //ToDo : 'Constants' should really be noted as lift specific
-    liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-    liftMotor.setSensorPhase(Constants.kSensorPhase);
-    liftMotor.setInverted(Constants.kMotorInvert);
-    liftMotor.configNominalOutputForward(0, Constants.kTimeoutMs);
-    liftMotor.configNominalOutputReverse(0, Constants.kTimeoutMs);
-    liftMotor.configPeakOutputForward(1, Constants.kTimeoutMs);
-    liftMotor.configPeakOutputReverse(-.6, Constants.kTimeoutMs);
-    liftMotor.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-    liftMotor.config_kP(Constants.kPIDLoopIdx, Constants.kGains.kP, Constants.kTimeoutMs);
-    liftMotor.config_kI(Constants.kPIDLoopIdx, Constants.kGains.kI, Constants.kTimeoutMs);
-    liftMotor.config_kD(Constants.kPIDLoopIdx, Constants.kGains.kD, Constants.kTimeoutMs);
-    liftMotor.config_kF(Constants.kPIDLoopIdx, Constants.kGains.kF, Constants.kTimeoutMs);
+    liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.LiftkkPIDLoopIdx, Constants.LiftkTimeoutMs);
+    liftMotor.setSensorPhase(Constants.LiftkSensorPhase);
+    liftMotor.setInverted(Constants.LiftkMotorInvert);
+    liftMotor.configNominalOutputForward(0, Constants.LiftkTimeoutMs);
+    liftMotor.configNominalOutputReverse(0, Constants.LiftkTimeoutMs);
+    liftMotor.configPeakOutputForward(Constants.LiftPIDpeakoutputUp, Constants.LiftkTimeoutMs);
+    liftMotor.configPeakOutputReverse(-Constants.LiftPIDpeakoutputDown, Constants.LiftkTimeoutMs);
+    liftMotor.configAllowableClosedloopError(Constants.LiftPIDmaxerror, Constants.LiftkkPIDLoopIdx, Constants.LiftkTimeoutMs);
+    liftMotor.config_kP(Constants.LiftkkPIDLoopIdx, Constants.LiftPIDkP, Constants.LiftkTimeoutMs);
+    liftMotor.config_kI(Constants.LiftkkPIDLoopIdx, Constants.LiftPIDkI, Constants.LiftkTimeoutMs);
+    liftMotor.config_kD(Constants.LiftkkPIDLoopIdx, Constants.LiftPIDkD, Constants.LiftkTimeoutMs);
+    liftMotor.config_kF(Constants.LiftkkPIDLoopIdx, Constants.LiftPIDkF, Constants.LiftkTimeoutMs);
     /* Set the quadrature (relative) sensor to match absolute */
-    liftMotor.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-    liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 10, Constants.kTimeoutMs);
+    liftMotor.setSelectedSensorPosition(0, Constants.LiftkkPIDLoopIdx, Constants.LiftkTimeoutMs);
+    liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 10, Constants.LiftkTimeoutMs);
     //Configure lift follower
     liftFollower.follow(liftMotor);
 
@@ -76,7 +76,7 @@ public class Lift extends Subsystem {
   private  void resetEncoder(){
     //ToDo : Check the parameters. They are supposed to be the count, PID & timeout values not the CAN ID
 //    lift.setSelectedSensorPosition(11,1,1);
-    liftMotor.setSelectedSensorPosition(0,0,Constants.kTimeoutMs);
+    liftMotor.setSelectedSensorPosition(0,0,Constants.LiftkTimeoutMs);
   }
 
   public static double getLiftPositionTicks(){

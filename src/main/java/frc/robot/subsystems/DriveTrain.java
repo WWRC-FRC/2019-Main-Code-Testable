@@ -45,37 +45,37 @@ public class DriveTrain extends Subsystem {
     //Configure drive train
     //ToDo : Change for integrated PID instead of wpilib
     //Make constants different to those used for the lift
-    rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-    rightFront.setSensorPhase(Constants.kSensorPhase);
-    rightFront.setInverted(Constants.kMotorInvert);
-    rightFront.configNominalOutputForward(0, Constants.kTimeoutMs);
-    rightFront.configNominalOutputReverse(0, Constants.kTimeoutMs);
-    rightFront.configPeakOutputForward(1, Constants.kTimeoutMs);
-    rightFront.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-    rightFront.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-    rightFront.config_kF(Constants.kPIDLoopIdx, Constants.kGains.kF, Constants.kTimeoutMs);
-		rightFront.config_kP(Constants.kPIDLoopIdx, Constants.kGains.kP, Constants.kTimeoutMs);
-		rightFront.config_kI(Constants.kPIDLoopIdx, Constants.kGains.kI, Constants.kTimeoutMs);
-    rightFront.config_kD(Constants.kPIDLoopIdx, Constants.kGains.kD, Constants.kTimeoutMs);
+    rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
+    rightFront.setSensorPhase(Constants.DrivekSensorPhase);
+    rightFront.setInverted(Constants.DrivekMotorInvert);
+    rightFront.configNominalOutputForward(0, Constants.DrivekTimeoutMs);
+    rightFront.configNominalOutputReverse(0, Constants.DrivekTimeoutMs);
+    rightFront.configPeakOutputForward(Constants.DrivePIDpeakoutput, Constants.DrivekTimeoutMs);
+    rightFront.configPeakOutputReverse(-Constants.DrivePIDpeakoutput, Constants.DrivekTimeoutMs);
+    rightFront.configAllowableClosedloopError(Constants.DrivePIDmaxerror, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
+    rightFront.config_kF(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkF, Constants.DrivekTimeoutMs);
+		rightFront.config_kP(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkP, Constants.DrivekTimeoutMs);
+		rightFront.config_kI(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkI, Constants.DrivekTimeoutMs);
+    rightFront.config_kD(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkD, Constants.DrivekTimeoutMs);
     rightFront.setInverted(true);
 		/* Set the quadrature (relative) sensor to match absolute */
-    rightFront.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    rightFront.setSelectedSensorPosition(0, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
 
-    leftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-    leftFront.setSensorPhase(Constants.kSensorPhase);
-    leftFront.setInverted(Constants.kMotorInvert);
-    leftFront.configNominalOutputForward(0, Constants.kTimeoutMs);
-    leftFront.configNominalOutputReverse(0, Constants.kTimeoutMs);
-    leftFront.configPeakOutputForward(1, Constants.kTimeoutMs);
-    leftFront.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-    leftFront.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-    leftFront.config_kF(Constants.kPIDLoopIdx, Constants.kGains.kF, Constants.kTimeoutMs);
-		leftFront.config_kP(Constants.kPIDLoopIdx, Constants.kGains.kP, Constants.kTimeoutMs);
-		leftFront.config_kI(Constants.kPIDLoopIdx, Constants.kGains.kI, Constants.kTimeoutMs);
-    leftFront.config_kD(Constants.kPIDLoopIdx, Constants.kGains.kD, Constants.kTimeoutMs);
+    leftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
+    leftFront.setSensorPhase(Constants.DrivekSensorPhase);
+    leftFront.setInverted(Constants.DrivekMotorInvert);
+    leftFront.configNominalOutputForward(0, Constants.DrivekTimeoutMs);
+    leftFront.configNominalOutputReverse(0, Constants.DrivekTimeoutMs);
+    leftFront.configPeakOutputForward(Constants.DrivePIDpeakoutput, Constants.DrivekTimeoutMs);
+    leftFront.configPeakOutputReverse(-Constants.DrivePIDpeakoutput, Constants.DrivekTimeoutMs);
+    leftFront.configAllowableClosedloopError(Constants.DrivePIDmaxerror, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
+    leftFront.config_kF(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkF, Constants.DrivekTimeoutMs);
+		leftFront.config_kP(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkP, Constants.DrivekTimeoutMs);
+		leftFront.config_kI(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkI, Constants.DrivekTimeoutMs);
+    leftFront.config_kD(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkD, Constants.DrivekTimeoutMs);
     leftFront.setInverted(true);
 		/* Set the quadrature (relative) sensor to match absolute */
-    leftFront.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    leftFront.setSelectedSensorPosition(0, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
 
     //Set rampe rate. ToDo : Dynamically change PID in the joystick controlled code to effectively set different forward and backwards rates. Don't forget to configure for semi auto actions though !!
     rightFront.configOpenloopRamp(.3, 1000);
@@ -90,8 +90,8 @@ public class DriveTrain extends Subsystem {
     rightFront.setSensorPhase(true);
     leftFront.setSensorPhase(true);
 
-    leftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 6,  Constants.kTimeoutMs);
-    rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 7 ,  Constants.kTimeoutMs);
+    leftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 6,  Constants.DrivekTimeoutMs);
+    rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 7 ,  Constants.DrivekTimeoutMs);
     leftFront.setNeutralMode(NeutralMode.Brake);
     rightFront.setNeutralMode(NeutralMode.Brake);
     leftFollower.setNeutralMode(NeutralMode.Brake);
@@ -108,8 +108,8 @@ public class DriveTrain extends Subsystem {
     //ToDo : Check the parameters. They are supposed to be the count, PID & timeout values  the CAN ID
 //    _leftFront.setSelectedSensorPosition(6,1,1);
 //    _rightFront.setSelectedSensorPosition(8,1,1);
-    leftFront.setSelectedSensorPosition(0,0,Constants.kTimeoutMs);
-    rightFront.setSelectedSensorPosition(0,0,Constants.kTimeoutMs);
+    leftFront.setSelectedSensorPosition(0,0,Constants.DrivekTimeoutMs);
+    rightFront.setSelectedSensorPosition(0,0,Constants.DrivekTimeoutMs);
   }
 /*
   private double getLeftEncoderTicks(){
