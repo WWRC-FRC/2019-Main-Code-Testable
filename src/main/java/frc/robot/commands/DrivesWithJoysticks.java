@@ -60,15 +60,14 @@ public class DrivesWithJoysticks extends Command {
    }
    
    if(OI.getControllerDr().getXButton()){
-     newLeftSpeed = Constants.CrawlSpeed;
-     newRightSpeed = Constants.CrawlSpeed;
-   }
-   else {
-    newLeftSpeed = adjustSpeed(currentLeftSpeed, targetLeftSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
-    newRightSpeed = adjustSpeed(currentRightSpeed, targetRightSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
+    targetLeftSpeed = Constants.CrawlSpeed;
+    targetRightSpeed = Constants.CrawlSpeed;
    }
 
-//   System.out.println("Left speed =\t" + newLeftSpeed + "\tRight speed =\t" + newRightSpeed);
+    newLeftSpeed = adjustSpeed(currentLeftSpeed, targetLeftSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
+    newRightSpeed = adjustSpeed(currentRightSpeed, targetRightSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
+  
+   System.out.println("Left speed =\t" + newLeftSpeed + "\tRight speed =\t" + newRightSpeed);
    //System.out.println("Left speed = " + newLeftSpeed);
    //System.out.println("Right speed = " + newRightSpeed);
 

@@ -23,7 +23,7 @@ import frc.robot.subsystems.*;
 
 //https://www.bing.com/videos/search?q=best+tom+and+jerry&view=detail&mid=ADE99A515A0765A73415ADE99A515A0765A73415&FORM=VIRE 
 public class Robot extends TimedRobot {
-//  private OI m_oi;
+  private OI m_oi;
 //  LiftToPosition test;
   Command m_autonomousCommand;
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
   
     //Not needed anymore? driveSystem = new DifferentialDrive(_leftFront, _rghtFront);
 
-//    m_oi = new OI();
+    m_oi = new OI();
    
 
      // pneumaticsSmash.setClosedLoopControl(true);
