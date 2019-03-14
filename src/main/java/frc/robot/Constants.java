@@ -28,7 +28,7 @@ public class Constants {
 	public static final double WheelDiameter                   = 6;//6 inch diameter
 	public static final double WheelCircumference              = Math.PI*WheelDiameter;
 	public static final double WheelTicksPerInch               = WheelCountsPerRev / WheelCircumference;
-	public static final int    SpeedMaxTicksPer100mS           = 1000;//ToDo : Need to measure
+	public static final int    SpeedMaxTicksPer100mS           = 6000;//ToDo : Need to measure
 	public static final double DriveStraightPGain              = 0.1;//ToDo : Need to tune
 
 	//Lift constants
@@ -125,14 +125,20 @@ public class Constants {
 	public static final int     LiftPIDmaxerror       = 1000;
 
 	//Drivetrain PID parameters
-	public static final int     DrivekPIDkSlotIdx     = 0;
+	//Joystick parameters
+	public static final double  JoystickAccelleration = 0.1;
+	public static final double  JoystickDecelleration = 0.07;
+	public static final double  CrawlSpeed            = 0.15;
+
+	//PID parameters
+	public static final int     DrivekPIDkSlotIdx     = 1;
 	public static final int     DrivekkPIDLoopIdx     = 0;
 	public static final int     DrivekTimeoutMs       = 30;
 	public static final boolean DrivekSensorPhase     = true;
 	public static final boolean DrivekMotorInvert     = true;
 	//kp, ki, kd, kf, izone, peak output
 	//ToDo : Need to set these parameters
-	public static final double  DrivePIDkP            = 0.3;
+	public static final double  DrivePIDkP            = 0.2;
 	public static final double  DrivePIDkI            = 0.0;
 	public static final double  DrivePIDkD            = 1.0;
 	public static final double  DrivePIDkF            = 0.0;

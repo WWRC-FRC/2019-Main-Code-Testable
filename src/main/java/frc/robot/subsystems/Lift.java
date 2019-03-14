@@ -54,14 +54,14 @@ public class Lift extends Subsystem {
     liftMotor.configNominalOutputReverse(0, Constants.LiftkTimeoutMs);
     liftMotor.configPeakOutputForward(Constants.LiftPIDpeakoutputUp, Constants.LiftkTimeoutMs);
     liftMotor.configPeakOutputReverse(-Constants.LiftPIDpeakoutputDown, Constants.LiftkTimeoutMs);
-    liftMotor.configAllowableClosedloopError(Constants.LiftPIDmaxerror, Constants.LiftkkPIDLoopIdx, Constants.LiftkTimeoutMs);
+    liftMotor.configAllowableClosedloopError(Constants.LiftkkPIDLoopIdx, Constants.LiftPIDmaxerror);
     liftMotor.config_kP(Constants.LiftkkPIDLoopIdx, Constants.LiftPIDkP, Constants.LiftkTimeoutMs);
     liftMotor.config_kI(Constants.LiftkkPIDLoopIdx, Constants.LiftPIDkI, Constants.LiftkTimeoutMs);
     liftMotor.config_kD(Constants.LiftkkPIDLoopIdx, Constants.LiftPIDkD, Constants.LiftkTimeoutMs);
     liftMotor.config_kF(Constants.LiftkkPIDLoopIdx, Constants.LiftPIDkF, Constants.LiftkTimeoutMs);
     /* Set the quadrature (relative) sensor to match absolute */
     liftMotor.setSelectedSensorPosition(0, Constants.LiftkkPIDLoopIdx, Constants.LiftkTimeoutMs);
-    liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 10, Constants.LiftkTimeoutMs);
+    //liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 10, Constants.LiftkTimeoutMs);
     //Configure lift follower
     liftFollower.follow(liftMotor);
 

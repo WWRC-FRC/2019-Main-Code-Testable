@@ -28,7 +28,7 @@ public class OI {
   Button ButtonLiftDown =              new JoystickButton(driveJoystick,Constants.LiftDownButton);
   Button ButtonHatchLift =             new JoystickButton(driveJoystick,Constants.HatchLiftButton);
   Button ButtonHatchDrop =             new JoystickButton(driveJoystick,Constants.HatchDropButton);
-  Button ButtonTest =                  new JoystickButton(driveJoystick, Constants.TestButton);
+  Button ButtonTest =                  new JoystickButton(buttonBoard, Constants.TestButton);
 
   Button ButtonIntakeIn =              new JoystickButton(buttonBoard,Constants.CargoIntakeInButton);
   Button ButtonIntakeOut =             new JoystickButton(buttonBoard,Constants.CargoIntakeOutButton);
@@ -94,7 +94,11 @@ public class OI {
     ButtonHatchLift.whenPressed(    new HandleHatch(Constants.HatchUpState, true));
     ButtonHatchDrop.whenPressed(    new HandleHatch(Constants.HatchDownState, true));
 
-    ButtonTest.whileHeld(         new TestCommand());
+    ButtonTest.whenPressed(         new TestCommand());
+  }
+
+  public static boolean getButtonPad1(){
+    return buttonBoard.getRawButton(1);
   }
 
   public static XboxController getControllerDr() {//ToDo : This really is not testable. Need to abstract functions for each thing we want to read

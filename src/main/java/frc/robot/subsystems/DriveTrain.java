@@ -18,18 +18,23 @@ import frc.robot.Constants;
 //import frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import frc.robot.commands.*;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
+
 
 public class DriveTrain extends Subsystem {
   TalonSRX rightFront;
-  TalonSRX rightFollower;
+  VictorSPX rightFollower;
   TalonSRX leftFront;
   TalonSRX leftFollower;
   Ultrasonic ultrasonicSensor;
+  private double leftCurrentPercent = 0.0;
+  private double rightCurrentPercent = 0.0;
   private boolean busy = false;
 
   public DriveTrain(){
     rightFront    = new TalonSRX(Constants.CANRightFrontMasterController);
-    rightFollower = new TalonSRX(Constants.CANRightFrontFollowerController);
+    rightFollower = new VictorSPX(Constants.CANRightFrontFollowerController);
     leftFront     = new TalonSRX(Constants.CANLeftFrontMasterController);
     leftFollower  = new TalonSRX(Constants.CANLeftFrontFollowerController);
 
@@ -57,24 +62,22 @@ public class DriveTrain extends Subsystem {
 		rightFront.config_kP(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkP, Constants.DrivekTimeoutMs);
 		rightFront.config_kI(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkI, Constants.DrivekTimeoutMs);
     rightFront.config_kD(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkD, Constants.DrivekTimeoutMs);
-    rightFront.setInverted(true);
 		/* Set the quadrature (relative) sensor to match absolute */
     rightFront.setSelectedSensorPosition(0, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
 
     leftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
     leftFront.setSensorPhase(Constants.DrivekSensorPhase);
-    leftFront.setInverted(Constants.DrivekMotorInvert);
+    leftFront.setInverted(!Constants.DrivekMotorInvert);
     leftFront.configNominalOutputForward(0, Constants.DrivekTimeoutMs);
     leftFront.configNominalOutputReverse(0, Constants.DrivekTimeoutMs);
     leftFront.configPeakOutputForward(Constants.DrivePIDpeakoutput, Constants.DrivekTimeoutMs);
     leftFront.configPeakOutputReverse(-Constants.DrivePIDpeakoutput, Constants.DrivekTimeoutMs);
-    leftFront.configAllowableClosedloopError(Constants.DrivePIDmaxerror, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
+    leftFront.configAllowableClosedloopError(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDmaxerror);
     leftFront.config_kF(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkF, Constants.DrivekTimeoutMs);
 		leftFront.config_kP(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkP, Constants.DrivekTimeoutMs);
 		leftFront.config_kI(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkI, Constants.DrivekTimeoutMs);
     leftFront.config_kD(Constants.DrivekkPIDLoopIdx, Constants.DrivePIDkD, Constants.DrivekTimeoutMs);
-    leftFront.setInverted(true);
-		/* Set the quadrature (relative) sensor to match absolute */
+ 		/* Set the quadrature (relative) sensor to match absolute */
     leftFront.setSelectedSensorPosition(0, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
 
     //Set rampe rate. ToDo : Dynamically change PID in the joystick controlled code to effectively set different forward and backwards rates. Don't forget to configure for semi auto actions though !!
@@ -90,8 +93,8 @@ public class DriveTrain extends Subsystem {
     rightFront.setSensorPhase(true);
     leftFront.setSensorPhase(true);
 
-    leftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 6,  Constants.DrivekTimeoutMs);
-    rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 7 ,  Constants.DrivekTimeoutMs);
+    //leftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 6,  Constants.DrivekTimeoutMs);
+    //rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 7 ,  Constants.DrivekTimeoutMs);
     leftFront.setNeutralMode(NeutralMode.Brake);
     rightFront.setNeutralMode(NeutralMode.Brake);
     leftFollower.setNeutralMode(NeutralMode.Brake);
@@ -130,6 +133,16 @@ public class DriveTrain extends Subsystem {
 
   public void setSpeedPercent(double leftSpeed, double rightSpeed){
     setSpeedRaw(leftSpeed * Constants.SpeedMaxTicksPer100mS, rightSpeed * Constants.SpeedMaxTicksPer100mS);
+    leftCurrentPercent = leftSpeed;
+    rightCurrentPercent = rightSpeed;
+  }
+
+  public double getLeftSpeedPercent(){
+    return leftCurrentPercent;
+  }
+
+  public double getRightSpeedPercent(){
+    return rightCurrentPercent;
   }
 
   public void driveDistanceStraight(double distance) {

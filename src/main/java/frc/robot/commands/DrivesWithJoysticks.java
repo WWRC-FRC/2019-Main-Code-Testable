@@ -8,6 +8,7 @@
 package frc.robot.commands;
 import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.Constants;
 
 //import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -33,33 +34,70 @@ public class DrivesWithJoysticks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double leftSpeed;
-    double rightSpeed;
+    double targetLeftSpeed;
+    double targetRightSpeed;
+    double currentLeftSpeed;
+    double currentRightSpeed;
+    double newLeftSpeed;
+    double newRightSpeed;
   
-    leftSpeed =  OI.getControllerDr().getY(Hand.kLeft); //positive is forward ToDo : Check since print shows not the case
-    rightSpeed =  OI.getControllerDr().getY(Hand.kRight); 
-    if (Math.abs(leftSpeed) < 0.10) 
+    targetLeftSpeed =  -OI.getControllerDr().getY(Hand.kLeft); //positive is forward ToDo : Check since print shows not the case
+    targetRightSpeed =  -OI.getControllerDr().getY(Hand.kRight); 
+    if (Math.abs(targetLeftSpeed) < 0.10) 
     {
-      leftSpeed = 0;
+      targetLeftSpeed = 0;
     }
-    if (Math.abs(rightSpeed) < 0.10) {
-      rightSpeed = 0;
+    if (Math.abs(targetRightSpeed) < 0.10) {
+      targetRightSpeed = 0;
   }
 
+  currentLeftSpeed = Robot.driveTrain.getLeftSpeedPercent();
+  currentRightSpeed = Robot.driveTrain.getRightSpeedPercent();
+
   if(OI.getControllerDr().getTriggerAxis(Hand.kRight) > 0.05){
-    leftSpeed*=.75;
-    rightSpeed*=.75;
-//    System.out.println("Slow speed");
+    targetLeftSpeed*=.75;
+    targetRightSpeed*=.75;
    }
-//   System.out.println("Left speed =" + leftSpeed);
-//   System.out.println("Right speed =" + rightSpeed);
-   if(!OI.getControllerDr().getXButton()){
-    Robot.driveTrain.setSpeedPercent(leftSpeed, rightSpeed);
+   
+   if(OI.getControllerDr().getXButton()){
+     newLeftSpeed = Constants.CrawlSpeed;
+     newRightSpeed = Constants.CrawlSpeed;
    }
    else {
+    newLeftSpeed = adjustSpeed(currentLeftSpeed, targetLeftSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
+    newRightSpeed = adjustSpeed(currentRightSpeed, targetRightSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
    }
+
+//   System.out.println("Left speed =\t" + newLeftSpeed + "\tRight speed =\t" + newRightSpeed);
+   //System.out.println("Left speed = " + newLeftSpeed);
+   //System.out.println("Right speed = " + newRightSpeed);
+
+  Robot.driveTrain.setSpeedPercent(newLeftSpeed, newRightSpeed);
   }
   
+  private double adjustSpeed(double current, double target, double upDelta, double downDelta)
+  {
+    double result = 0.0;
+
+    //If need to slow down...
+    if (target < current){
+      result = current - downDelta;
+      //Check if gone too far
+      if (result < target)
+        result = target;
+    }
+    //Need to speed up
+    else if (target > current){
+      result = current + upDelta;
+      //Check if gone too far
+      if (result > target)
+        result = target;
+    }
+    else
+      result = target;
+      
+    return result;
+  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
