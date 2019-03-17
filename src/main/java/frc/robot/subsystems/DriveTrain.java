@@ -199,7 +199,7 @@ public class DriveTrain extends Subsystem {
   private void setSpeedRaw(double leftSpeed, double rightSpeed){
     //Speed is ticks per 100mS ?
     leftFront.set(ControlMode.Velocity, leftSpeed);
-    rightFront.set(ControlMode.Velocity, leftSpeed);
+    rightFront.set(ControlMode.Velocity, rightSpeed);
   }
 
   @Override
