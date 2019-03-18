@@ -17,10 +17,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Add your docs here.
  */
 public class Pneumatics extends Subsystem {
-  public static Pneumatics pneumaticsSystem;
-  public static DoubleSolenoid solenoid;
-  public static Compressor compressor;
+  private static DoubleSolenoid solenoid;
+  private static Compressor compressor;
   private String CommandName = "Pneumatics";
+  private static boolean pneumaticState = false;
+
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -35,14 +36,26 @@ public class Pneumatics extends Subsystem {
 
   public Pneumatics(){
     Robot.logMessage(CommandName, "constructor");
-    initPneumatics();
+    if (Robot.isReal() == true)
+      initPneumatics();
   }
 
   public static void setLiftPiston(boolean state){
-    if(state == Constants.PneuLiftIn)
-      solenoid.set(DoubleSolenoid.Value.kReverse);
-    else
-      solenoid.set(DoubleSolenoid.Value.kForward);
+    
+    if(state == Constants.PneuLiftIn){
+      pneumaticState = false;
+      if (Robot.isReal() == true)
+        solenoid.set(DoubleSolenoid.Value.kReverse);
+    }
+    else{
+      pneumaticState = true;
+      if (Robot.isReal() == true)
+        solenoid.set(DoubleSolenoid.Value.kForward);
+    }
+  }
+
+  public boolean getPneumaticsState(){
+    return pneumaticState;
   }
 
   @Override

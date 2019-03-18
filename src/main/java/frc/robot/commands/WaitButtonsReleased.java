@@ -8,7 +8,6 @@
 package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.Constants;
 
 public class WaitButtonsReleased extends Command {
   public WaitButtonsReleased() {

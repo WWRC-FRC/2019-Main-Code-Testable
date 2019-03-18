@@ -7,8 +7,6 @@
 
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import java.lang.Math;
 //import javax.swing.text.StyleContext.SmallAttributeSet;
 //import java.net.Socket;
 import com.ctre.phoenix.motorcontrol.*;
@@ -28,7 +26,6 @@ public class DriveTrain extends Subsystem {
   Ultrasonic ultrasonicSensor;
   private double leftCurrentPercent = 0.0;
   private double rightCurrentPercent = 0.0;
-  private boolean busy = false;
   private String CommandName = "DriveTrain";
   private int leftEncoderSimulation = 1021210;//Set to random value to check that we actually reset correctly
   private int rightEncoderSimulation = -1213310;

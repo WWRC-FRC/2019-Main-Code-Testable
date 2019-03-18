@@ -47,7 +47,6 @@ public class Robot extends TimedRobot {
 
   Faults _faults_L = new Faults();
   Faults _faults_R = new Faults();
-  private int MessageCount = 0; 
 
   private void updateSmartDashboard(){
     //Historically we have found that if items are not added 
@@ -57,6 +56,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left dist.", driveTrain.getLeftEncoderInches());
     SmartDashboard.putNumber("Right dist.", driveTrain.getRightEncoderInches());
     SmartDashboard.putBoolean("Cargo in", intakeSystem.isBallIn());
+    SmartDashboard.putBoolean("Lift extend", pneumaticSystem.getPneumaticsState());
   }
 
   /**
@@ -98,12 +98,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    //Use this for simulation updates
-    if (MessageCount == 0){
-      MessageCount++;
-      logMessage("Robot", "robotPeriodic");
-    }
     updateSmartDashboard();
+    //Use this for simulation updates
     if (Robot.isSimulation()){
       liftSystem.updateLiftSimulation();
       intakeSystem.updateIntakeSimulation();
