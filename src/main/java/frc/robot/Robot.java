@@ -88,6 +88,13 @@ public class Robot extends TimedRobot {
  
   }
 
+  private void updateSimulations(){
+    liftSystem.updateLiftSimulation();
+    intakeSystem.updateIntakeSimulation();
+    driveTrain.updateDrivetrainSimulation();
+
+  }
+  
   /**
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,
@@ -100,11 +107,8 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     updateSmartDashboard();
     //Use this for simulation updates
-    if (Robot.isSimulation()){
-      liftSystem.updateLiftSimulation();
-      intakeSystem.updateIntakeSimulation();
-      driveTrain.updateDrivetrainSimulation();
-    }
+    if (Robot.isSimulation())
+      updateSimulations();
   }
 
   /**
@@ -134,8 +138,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-//    if(driveWithJoystick != null) 
-//      driveWithJoystick.start();
   }
 
   /**
@@ -144,19 +146,11 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    
+    driveTrain.updateDriveTrain();
     }
  
     @Override
-  public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-//      if(driveWithJoystick != null) 
-//        driveWithJoystick.start();
-//      compressor.setClosedLoopControl(true);
-     
+  public void teleopInit() {    
   } 
 
   /**
@@ -166,6 +160,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    driveTrain.updateDriveTrain();
   }
 
   /**
@@ -174,10 +169,6 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
-
-//  public static double ultrasonicDistance(){
-//    return ultrasonicSensor.getRangeInches();
-//  }
 
   public static void logMessage(String module, String message){
     System.out.println(module + " : " + message);

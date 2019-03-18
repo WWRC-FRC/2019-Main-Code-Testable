@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DrivesWithJoysticks extends Command {
   public DrivesWithJoysticks() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.driveTrain);
+    //requires(Robot.driveTrain);
   }
 
   // Called just before this Command runs the first time
@@ -71,7 +71,7 @@ public class DrivesWithJoysticks extends Command {
     newLeftSpeed = adjustSpeed(currentLeftSpeed, targetLeftSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
     newRightSpeed = adjustSpeed(currentRightSpeed, targetRightSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
   
-    Robot.driveTrain.setSpeedPercent(newLeftSpeed, newRightSpeed);
+    Robot.driveTrain.setSpeedPercentJoystick(newLeftSpeed, newRightSpeed);
   }
   
   private double adjustSpeed(double current, double target, double upDelta, double downDelta)

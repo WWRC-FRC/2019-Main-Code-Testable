@@ -16,6 +16,7 @@ public class DriveToPosition extends Command {
   private double localStopDistance;
   private int direction;
   private boolean driveStopped = false;
+  private String CommandName = "DriveToPosition";
 
   public DriveToPosition(double distanceInches, double speed, double stopDistance) {
     // Use requires() here to declare subsystem dependencies
@@ -34,8 +35,10 @@ public class DriveToPosition extends Command {
   @Override
   protected void initialize() {
 //      Robot.driveTrain.driveDistanceStraight(localDistanceInches, localSpeed, localStopDistance);
+    Robot.logMessage(CommandName, "initialize");
+    Robot.driveTrain.setAutoFlag(true);
     Robot.driveTrain.resetEncoders();//Reset the encoders so we can simply count from here
-    }
+  }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
@@ -58,7 +61,7 @@ public class DriveToPosition extends Command {
     else{//Otherwise make sure driving straight
       leftRightDistanceDelta = leftDistanceTraveled - rightDistanceTraveled;
       leftRightSpeedCorrection = leftRightDistanceDelta * Constants.DriveStraightPGain;
-      Robot.driveTrain.setSpeedPercent(direction * (localSpeed - leftRightSpeedCorrection), direction * (localSpeed + leftRightSpeedCorrection));
+      Robot.driveTrain.setSpeedPercentAuto(direction * (localSpeed - leftRightSpeedCorrection), direction * (localSpeed + leftRightSpeedCorrection));
     }
 }
 
@@ -71,12 +74,17 @@ public class DriveToPosition extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.driveTrain.setSpeedPercent(0, 0);
+    Robot.logMessage(CommandName, "end");
+    //Robot.driveTrain.setSpeedPercent(0, 0);
+    Robot.driveTrain.setAutoFlag(false);//Return control back to the joystick
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.logMessage(CommandName, "interrupted");
+    //Robot.driveTrain.setSpeedPercent(0, 0);
+    Robot.driveTrain.setAutoFlag(false);//Return control back to the joystick
   }
 }

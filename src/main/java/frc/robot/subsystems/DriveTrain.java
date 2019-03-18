@@ -24,6 +24,10 @@ public class DriveTrain extends Subsystem {
   TalonSRX leftFront;
   TalonSRX leftFollower;
   Ultrasonic ultrasonicSensor;
+  private double leftCurrentPercentJoystick = 0.0;
+  private double rightCurrentPercentJoystick = 0.0;
+  private double leftCurrentPercentAuto = 0.0;
+  private double rightCurrentPercentAuto = 0.0;
   private double leftCurrentPercent = 0.0;
   private double rightCurrentPercent = 0.0;
   private String CommandName = "DriveTrain";
@@ -32,6 +36,7 @@ public class DriveTrain extends Subsystem {
   private double ultrasonicRangeSimulation = 0;
   private double leftSpeedSimulation = 0;
   private double rightSpeedSimulation = 0;
+  private boolean autoFlag = false;
 
   private void DriveTrainInit(){
     rightFront    = new TalonSRX(Constants.CANRightFrontMasterController);
@@ -153,10 +158,28 @@ public class DriveTrain extends Subsystem {
     return getRightEncoderTicks() / Constants.WheelTicksPerInch;
   }
 
-  public void setSpeedPercent(double leftSpeed, double rightSpeed){
-    leftCurrentPercent = leftSpeed;
-    rightCurrentPercent = rightSpeed;
-    setSpeedRaw(leftSpeed * Constants.SpeedMaxTicksPer100mS, rightSpeed * Constants.SpeedMaxTicksPer100mS);
+  public void setSpeedPercentJoystick(double leftSpeed, double rightSpeed){
+    leftCurrentPercentJoystick = leftSpeed;
+    rightCurrentPercentJoystick = rightSpeed;
+    //setSpeedRaw(leftSpeed * Constants.SpeedMaxTicksPer100mS, rightSpeed * Constants.SpeedMaxTicksPer100mS);
+  }
+
+  public void setSpeedPercentAuto(double leftSpeed, double rightSpeed){
+    leftCurrentPercentAuto = leftSpeed;
+    rightCurrentPercentAuto = rightSpeed;
+    //setSpeedRaw(leftSpeed * Constants.SpeedMaxTicksPer100mS, rightSpeed * Constants.SpeedMaxTicksPer100mS);
+  }
+
+  public void updateDriveTrain(){
+    if (autoFlag == true){
+      leftCurrentPercent = leftCurrentPercentAuto;
+      rightCurrentPercent = rightCurrentPercentAuto;
+    }
+    else{
+      leftCurrentPercent = leftCurrentPercentJoystick;
+      rightCurrentPercent = rightCurrentPercentJoystick;
+    }
+    setSpeedRaw(leftCurrentPercent * Constants.SpeedMaxTicksPer100mS, rightCurrentPercent * Constants.SpeedMaxTicksPer100mS);
   }
 
   public double getLeftSpeedPercent(){
@@ -209,5 +232,8 @@ public class DriveTrain extends Subsystem {
     rightEncoderSimulation = (int)(rightEncoderSimulation + (rightSpeedSimulation / 50));
   }
 
+  public void setAutoFlag(boolean state){
+    autoFlag = state;
+  }
 
 }

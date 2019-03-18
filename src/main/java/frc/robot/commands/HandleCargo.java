@@ -17,30 +17,30 @@ public class HandleCargo extends Command {
   private boolean localInOut;
   private boolean localBlock;
   private boolean isDone = false; 
-  
+  private String CommandName = "HandleCargo";
+
   public HandleCargo(boolean inOut, boolean block) {
     requires(Robot.intakeSystem);
-    this.localInOut = inOut;
-    this.localBlock = block;
+    localInOut = inOut;
+    localBlock = block;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
+    Robot.logMessage(CommandName, "initialize");
     //Set the intake motor direction
     if(localInOut == Constants.IntakeIn){
       Intake.setIntakeSpeed(Constants.IntakeInSpeed);
     }
     else {
       Intake.setIntakeSpeed(Constants.IntakeEjectSpeed);
-    }
+    }    
+  }
 
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
     //Now check if we need to wait or not...
     //if((inOut == Constants.IntakeIn) && (!Intake.isBallIn())){//Asking for intake and ball is not yet in
     if (localBlock == true){
@@ -49,6 +49,8 @@ public class HandleCargo extends Command {
         if (Intake.isBallIn() == true){
           //Yes, intaking and ball is captured
           isDone = true;
+          //Keep the cargo held
+          Intake.setIntakeSpeed(Constants.IntakeHoldSpeed);
         }
       }
       else {//Ejecting the ball so make sure it is out
@@ -57,6 +59,8 @@ public class HandleCargo extends Command {
           //Need to delay a little though to allow the ball to really get out
           Timer.delay(Constants.CargoEjectDelay);
           isDone = true;
+          //Disable the intake
+          Intake.setIntakeSpeed(0);
         }
       }
     }
@@ -74,6 +78,7 @@ public class HandleCargo extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.logMessage(CommandName, "end");
     //Intake.setIntakeSpeed(Constants.IntakeHoldSpeed);//Can't do this since we need the intake to remain running sometimes
   }
 
