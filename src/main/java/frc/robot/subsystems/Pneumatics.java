@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Compressor;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -19,6 +20,7 @@ public class Pneumatics extends Subsystem {
   public static Pneumatics pneumaticsSystem;
   public static DoubleSolenoid solenoid;
   public static Compressor compressor;
+  private String CommandName = "Pneumatics";
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -32,6 +34,7 @@ public class Pneumatics extends Subsystem {
   }
 
   public Pneumatics(){
+    Robot.logMessage(CommandName, "constructor");
     initPneumatics();
   }
 

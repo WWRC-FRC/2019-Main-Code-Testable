@@ -10,7 +10,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 //import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Constants;
+import frc.robot.Robot;
+
 public class CollectCargo extends CommandGroup {
+  private String CommandName = "CollectCargo";
   /*
    * Pick up a cargo ball from either the ground or the depot
    * When picking up from the ground the following sequence is performed
@@ -25,6 +28,7 @@ public class CollectCargo extends CommandGroup {
    *   Set the lift to the default height
    */
   public CollectCargo(int location) {
+    Robot.logMessage(CommandName, "constructor");
     if(location == Constants.CargoRetrieveLocationGround){
       //addSequential(new FindLine());//Ground doesn't need the line finder
       addSequential(new LiftToHeight(Constants.CargoRetrieveGroundHeight,0, false));//Lift to height, no block, no offset

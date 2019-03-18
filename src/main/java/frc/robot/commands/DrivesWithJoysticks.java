@@ -6,14 +6,14 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-import frc.robot.OI;
+//import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.Constants;
 
 //import com.ctre.phoenix.motorcontrol.ControlMode;
 
 //import edu.wpi.first.hal.sim.mockdata.DriverStationDataJNI;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
+//import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 //import frc.robot.Robot;
 
@@ -41,8 +41,11 @@ public class DrivesWithJoysticks extends Command {
     double newLeftSpeed;
     double newRightSpeed;
   
-    targetLeftSpeed =  -OI.getControllerDr().getY(Hand.kLeft); //positive is forward ToDo : Check since print shows not the case
-    targetRightSpeed =  -OI.getControllerDr().getY(Hand.kRight); 
+//    targetLeftSpeed =  -OI.getControllerDr().getY(Hand.kLeft); //positive is forward ToDo : Check since print shows not the case
+//    targetRightSpeed =  -OI.getControllerDr().getY(Hand.kRight); 
+    targetLeftSpeed =  Robot.operatorInterface.getControllerStickLeft();
+    targetRightSpeed = Robot.operatorInterface.getControllerStickRight();
+
     if (Math.abs(targetLeftSpeed) < 0.10) 
     {
       targetLeftSpeed = 0;
@@ -54,24 +57,21 @@ public class DrivesWithJoysticks extends Command {
   currentLeftSpeed = Robot.driveTrain.getLeftSpeedPercent();
   currentRightSpeed = Robot.driveTrain.getRightSpeedPercent();
 
-  if(OI.getControllerDr().getTriggerAxis(Hand.kRight) > 0.05){
+  if(Robot.operatorInterface.getControllerTriggerRight() > 0.05){
     targetLeftSpeed*=.75;
     targetRightSpeed*=.75;
    }
    
-   if(OI.getControllerDr().getXButton()){
-    targetLeftSpeed = Constants.CrawlSpeed;
-    targetRightSpeed = Constants.CrawlSpeed;
-   }
+    //if(OI.getControllerDr().getXButton()){
+    if(Robot.operatorInterface.getControllerButtonState(Constants.XBoxButtonX)){
+      targetLeftSpeed = Constants.CrawlSpeed;
+      targetRightSpeed = Constants.CrawlSpeed;
+    }
 
     newLeftSpeed = adjustSpeed(currentLeftSpeed, targetLeftSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
     newRightSpeed = adjustSpeed(currentRightSpeed, targetRightSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
   
-   System.out.println("Left speed =\t" + newLeftSpeed + "\tRight speed =\t" + newRightSpeed);
-   //System.out.println("Left speed = " + newLeftSpeed);
-   //System.out.println("Right speed = " + newRightSpeed);
-
-  Robot.driveTrain.setSpeedPercent(newLeftSpeed, newRightSpeed);
+    Robot.driveTrain.setSpeedPercent(newLeftSpeed, newRightSpeed);
   }
   
   private double adjustSpeed(double current, double target, double upDelta, double downDelta)

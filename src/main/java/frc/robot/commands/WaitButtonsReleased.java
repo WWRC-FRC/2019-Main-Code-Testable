@@ -7,41 +7,41 @@
 
 package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+import frc.robot.Constants;
 
-public class TestCommand extends Command {
-  public TestCommand() {
-//    requires(Robot.vision);
+public class WaitButtonsReleased extends Command {
+  public WaitButtonsReleased() {
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    System.out.println("TestCommand : init");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("TestCommand: execute");
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    System.out.println("TestCommand: isFinished");
-    return true;
+    boolean somethingPressed = false;
+    for (int i = 1; i <= 16; i++) {
+        somethingPressed |= Robot.operatorInterface.getControllerButtonState(i);
+      }
+    return somethingPressed;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    System.out.println("TestCommand: end");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    System.out.println("TestCommand: interrupted");
   }
 }

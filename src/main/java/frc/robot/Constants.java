@@ -82,9 +82,11 @@ public class Constants {
 	public static final int   ButtonController             = 1;
 
 	//Button allocations
-	public static final int   TestButton                   = 1;
+//	public static final int   TestButton                   = 1;
+	public static final int   HatchLiftButton              = 1;
 	public static final int   LiftMoveUpButton             = 2;
 	public static final int   CargoIntakeOutButton         = 3;
+	public static final int   HatchDropButton              = 4;
 	public static final int   LiftMoveDownButton           = 5;
 	public static final int   CargoIntakeInButton          = 6;
 	public static final int   CargoDepositLowButton        = 7;
@@ -92,20 +94,34 @@ public class Constants {
 	public static final int   CargoDepositHighButton       = 9;
 	public static final int   CargoDepositRoverButton      = 10;
 	public static final int   HatchDepositLowButton        = 11;
+	public static final int   HatchDepositRoverButton      = 11;
 	public static final int   HatchDepositMidButton        = 12;
 	public static final int   HatchDepositHighButton       = 13;
 	public static final int   CargoRetrieveGroundButton    = 14;
 	public static final int   HatchRetrieveDepotButton     = 15;
 	public static final int   CargoRetrieveDepotButton     = 16;
-	public static final int   HatchDepositRoverButton      = 11;
 	
 	//Controller button allocations
-	public static int   LiftExtendButton             = 1;
-	public static int   LiftRetractButton            = 2;
-	public static int   LiftUpButton                 = 3;
-	public static int   LiftDownButton               = 4;
-	public static int   HatchLiftButton              = 5;
-	public static int   HatchDropButton              = 6;
+	public static final int   LiftExtendButton             = 1;
+	public static final int   LiftRetractButton            = 2;
+	public static final int   LiftUpButton                 = 3;
+	public static final int   LiftDownButton               = 4;
+
+	//XBox raw button mappings
+	public static final int   XBoxButtonX                 = 3;
+	public static final int   XBoxButtonY                 = 4;
+	public static final int   XBoxButtonA                 = 1;
+	public static final int   XBoxButtonB                 = 2;
+//	public static final int   XBoxButtonUp                = 3;
+//	public static final int   XBoxButtonDown              = 3;
+//	public static final int   XBoxButtonLeft              = 3;
+//	public static final int   XBoxButtonRight             = 3;
+	public static final int   XBoxButtonStickLeft         = 9;
+	public static final int   XBoxButtonStickRight        = 10;
+	public static final int   XBoxButtonTriggerLeft       = 5;
+	public static final int   XBoxButtonTriggerRight      = 6;
+	public static final int   XBoxButtonHome              = 7;
+	public static final int   XBoxButtonMenu              = 8;
 
 	//Lift PID parameters
 	public static final int     LiftkPIDkSlotIdx     = 0;
@@ -145,6 +161,9 @@ public class Constants {
 	public static final double  DrivePIDizone         = 0.0;
 	public static final double  DrivePIDpeakoutput    = 1.0;
 	public static final int     DrivePIDmaxerror      = 0;
+
+	//Simulation parameters
+	public static final int liftSpeedSimulation       = 90;
 
 
 	/**

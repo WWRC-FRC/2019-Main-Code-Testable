@@ -19,7 +19,7 @@ public class HandleCargo extends Command {
   private boolean isDone = false; 
   
   public HandleCargo(boolean inOut, boolean block) {
-    requires(Robot.IntakeSystem);
+    requires(Robot.intakeSystem);
     this.localInOut = inOut;
     this.localBlock = block;
   }

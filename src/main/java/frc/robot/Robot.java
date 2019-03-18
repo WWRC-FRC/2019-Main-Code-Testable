@@ -16,16 +16,15 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 //import edu.wpi.first.wpilibj.Ultrasonic.Unit;
 //import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DrivesWithJoysticks;
 //import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 //https://www.bing.com/videos/search?q=best+tom+and+jerry&view=detail&mid=ADE99A515A0765A73415ADE99A515A0765A73415&FORM=VIRE 
 public class Robot extends TimedRobot {
-  private OI m_oi;
-//  LiftToPosition test;
-  Command m_autonomousCommand;
+  public static OI operatorInterface;
+  //Command m_autonomousCommand;
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
   Command driveWithJoystick;
   //Command liftToPosition;
@@ -36,19 +35,29 @@ public class Robot extends TimedRobot {
   public static ADIS16470_IMU imu;
   public static Lift liftSystem;
   public static Pneumatics pneumaticSystem;
-//  public static Vision vision;
-  public static Intake IntakeSystem;
-//  public static UltrasonicSensor ultrasonicSensorVision;
-//  public static UltrasonicSensorDrive ultrasonicSensorDrive;
+  //public static Vision vision;
+  public static Intake intakeSystem;
+  //public static UltrasonicSensor ultrasonicSensorVision;
+  //public static UltrasonicSensorDrive ultrasonicSensorDrive;
   //Not needed anymore? public static DifferentialDrive driveSystem;
-  
-  //public static DrivesWithJoysticks driveIntake = new DrivesWithJoysticks();
+    //public static DrivesWithJoysticks driveIntake = new DrivesWithJoysticks();
   public static DrivesWithJoysticks driveIntake;
-    //public static boolean;
-  //  static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  //public static boolean;
+  //static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
-    Faults _faults_L = new Faults();
-    Faults _faults_R = new Faults();
+  Faults _faults_L = new Faults();
+  Faults _faults_R = new Faults();
+  private int MessageCount = 0; 
+
+  private void updateSmartDashboard(){
+    //Historically we have found that if items are not added 
+    SmartDashboard.putNumber("Left power", driveTrain.getLeftSpeedPercent());
+    SmartDashboard.putNumber("Right power", driveTrain.getRightSpeedPercent());
+    SmartDashboard.putNumber("LiftPosition", liftSystem.getLiftPositionInches());
+    SmartDashboard.putNumber("Left dist.", driveTrain.getLeftEncoderInches());
+    SmartDashboard.putNumber("Right dist.", driveTrain.getRightEncoderInches());
+    SmartDashboard.putBoolean("Cargo in", intakeSystem.isBallIn());
+  }
 
   /**
    * This function is run when the robot is first started up and should be
@@ -59,19 +68,18 @@ public class Robot extends TimedRobot {
     driveTrain = new DriveTrain();
     liftSystem = new Lift();
     pneumaticSystem = new Pneumatics();
-    IntakeSystem = new Intake();
+    intakeSystem = new Intake();
     driveWithJoystick = new DrivesWithJoysticks();
+    //OI must come after subsystems since it references commands which in turn reference sub-systems
+    operatorInterface = new OI();
+
+    updateSmartDashboard();
     
 //    ADIS16470_IMU imu = new ADIS16470_IMU();
 //    vision = new Vision();
 //    ultrasonicSensorVision = new UltrasonicSensor();
 //    ultrasonicSensorDrive = new UltrasonicSensorDrive();
   
-    //Not needed anymore? driveSystem = new DifferentialDrive(_leftFront, _rghtFront);
-
-    m_oi = new OI();
-   
-
      // pneumaticsSmash.setClosedLoopControl(true);
     
      if (Robot.isReal() == true){
@@ -79,9 +87,6 @@ public class Robot extends TimedRobot {
      }
  
   }
-
-
-
 
   /**
    * This function is called every robot packet, no matter the mode. Use
@@ -93,10 +98,18 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    //Use this for simulation updates
+    if (MessageCount == 0){
+      MessageCount++;
+      logMessage("Robot", "robotPeriodic");
+    }
+    updateSmartDashboard();
+    if (Robot.isSimulation()){
+      liftSystem.updateLiftSimulation();
+      intakeSystem.updateIntakeSimulation();
+      driveTrain.updateDrivetrainSimulation();
+    }
   }
-
-
-
 
   /**
    * This function is called once each time the robot enters Disabled mode.
@@ -107,16 +120,10 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
   }
 
-
-
-
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();//ToDo : Do we really want the scheduler to run when disabled?
   }
-
-
-
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
@@ -175,5 +182,9 @@ public class Robot extends TimedRobot {
 //  public static double ultrasonicDistance(){
 //    return ultrasonicSensor.getRangeInches();
 //  }
- 
+
+  public static void logMessage(String module, String message){
+    System.out.println(module + " : " + message);
+  }
+
  }

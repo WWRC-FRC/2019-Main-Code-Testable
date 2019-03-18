@@ -19,7 +19,7 @@ public class HandleHatch extends Command {
   private boolean isDone = false; 
   
   public HandleHatch(boolean upDown, boolean block) {
-    requires(Robot.IntakeSystem);
+    requires(Robot.intakeSystem);
     this.localUpDown = upDown;
     this.localBlock = block;
   }
@@ -42,19 +42,18 @@ public class HandleHatch extends Command {
     else
       offset = Constants.HatchDepositDelta;
 
-    //Get the current position
-    //Using the current position rather than the current target position allows setting based on mid flight position if necessary
+    //Get the current target position
+    //Changed from Using the current position rather than the current target position allows setting based on mid flight position if necessary
     //Might need to change to target position rather than current position if behavior feels wrong
-    currentPosition = Lift.getLiftPositionInches();
+    currentPosition = Lift.getLiftPositionTarget();
     //Move list to correct position
     Lift.liftToPositionInches(currentPosition, offset);
 
     //Now check if we need to wait for move completion or not...
     if (localBlock == true)
-      while(Lift.isBusy());
-
-    //Done
-    isDone = true;//Not blocking so finished
+      isDone = (Lift.isBusy());
+    else
+      isDone = true;//Not blocking so finished
   }
 
   // Make this return true when this Command no longer needs to run execute()

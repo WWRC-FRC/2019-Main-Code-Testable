@@ -16,14 +16,17 @@ import frc.robot.subsystems.*;
 
 public class LiftToHeight extends Command {
   double distanceTicks;
- // private double oldPosition;
- private double localOffset;
- private boolean localBlocking;
+  // private double oldPosition;
+  private double localOffset;
+  private boolean localBlocking;
   private double localHeightInches;
   private boolean done = false;
+  private static String CommandName = "LiftToHeight";
+
 
   public LiftToHeight(double heightInches, double offset, boolean blocking) {
-    // Use requires() here to declare subsystem dependencies
+    Robot.logMessage(CommandName, "constructor - " + heightInches + " - " + offset + " - " + blocking);
+        // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.liftSystem);
     localBlocking = blocking;
@@ -34,13 +37,16 @@ public class LiftToHeight extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.logMessage(CommandName, "initialize" + " - " + localHeightInches + " - " + localOffset);
+    //Trigger the lift to move
+    Lift.liftToPositionInches(localHeightInches, localOffset);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     //Set the target height
-    Lift.liftToPositionInches(localHeightInches, localOffset);
+//    Robot.logMessage(CommandName, "execute");
     //If blocking then wait until either reached the height, appear to be stalled or timed out
     if (localBlocking == true){
       done = !Lift.isBusy();
@@ -52,20 +58,23 @@ public class LiftToHeight extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+//    Robot.logMessage(CommandName, "isFinished");
     return done;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+//    Robot.logMessage(CommandName, "end");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+//    Robot.logMessage(CommandName, "interrupted");
     //If interrupted then hold the current position, wherever it is currently
-    Lift.liftToPositionInches(Lift.getLiftPositionInches(), 0);
+//    Lift.liftToPositionInches(Lift.getLiftPositionInches(), 0);
   }
 
 }

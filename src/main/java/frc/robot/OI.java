@@ -11,6 +11,7 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -26,9 +27,7 @@ public class OI {
   Button ButtonLiftIn =                new JoystickButton(driveJoystick, Constants.LiftRetractButton);//ToDo : pneumatics need constants defined correctly
   Button ButtonLiftUp =                new JoystickButton(driveJoystick,Constants.LiftUpButton);
   Button ButtonLiftDown =              new JoystickButton(driveJoystick,Constants.LiftDownButton);
-  Button ButtonHatchLift =             new JoystickButton(driveJoystick,Constants.HatchLiftButton);
-  Button ButtonHatchDrop =             new JoystickButton(driveJoystick,Constants.HatchDropButton);
-  Button ButtonTest =                  new JoystickButton(buttonBoard, Constants.TestButton);
+//  Button ButtonTest =                  new JoystickButton(buttonBoard, Constants.TestButton);
 
   Button ButtonIntakeIn =              new JoystickButton(buttonBoard,Constants.CargoIntakeInButton);
   Button ButtonIntakeOut =             new JoystickButton(buttonBoard,Constants.CargoIntakeOutButton);
@@ -41,6 +40,8 @@ public class OI {
   Button ButtonHatchOutLow =           new JoystickButton(buttonBoard,Constants.HatchDepositLowButton);
   Button ButtonHatchOutMid =           new JoystickButton(buttonBoard,Constants.HatchDepositMidButton);
   Button ButtonHatchOutHigh =          new JoystickButton(buttonBoard,Constants.HatchDepositHighButton);
+  Button ButtonHatchLift =             new JoystickButton(buttonBoard,Constants.HatchLiftButton);
+  Button ButtonHatchDrop =             new JoystickButton(buttonBoard,Constants.HatchDropButton);
 
 
   //// CREATING BUTTONS
@@ -94,7 +95,7 @@ public class OI {
     ButtonHatchLift.whenPressed(    new HandleHatch(Constants.HatchUpState, true));
     ButtonHatchDrop.whenPressed(    new HandleHatch(Constants.HatchDownState, true));
 
-    ButtonTest.whenPressed(         new TestCommand());
+//    ButtonTest.whenPressed(         new TestCommand());
   }
 
   public static boolean getButtonPad1(){
@@ -104,5 +105,29 @@ public class OI {
   public static XboxController getControllerDr() {//ToDo : This really is not testable. Need to abstract functions for each thing we want to read
     return driveJoystick;
   }
+
+  public double getControllerStickLeft(){
+    return -driveJoystick.getY(Hand.kLeft);
+  }
+
+  public double getControllerStickRight(){
+    return -driveJoystick.getY(Hand.kRight);
+  }
+
+  public boolean getControllerButtonState(int buttonID){
+    return driveJoystick.getRawButton(buttonID);
+  }
+
+  public double getControllerTriggerLeft(){
+    return driveJoystick.getTriggerAxis(Hand.kLeft);
+  }
+
+  public double getControllerTriggerRight(){
+    return driveJoystick.getTriggerAxis(Hand.kRight);
+  }
+
+//  public void logMessage(String module, String message){
+//    System.out.println(module + " : " + message);
+//  }
 
 }                    

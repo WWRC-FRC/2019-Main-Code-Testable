@@ -6,12 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.lang.Math;
-
+//import javax.swing.text.StyleContext.SmallAttributeSet;
 //import java.net.Socket;
-
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.*;
 import frc.robot.Constants;
@@ -19,8 +18,7 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import frc.robot.commands.*;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-
-
+import frc.robot.Robot;
 
 public class DriveTrain extends Subsystem {
   TalonSRX rightFront;
@@ -31,8 +29,14 @@ public class DriveTrain extends Subsystem {
   private double leftCurrentPercent = 0.0;
   private double rightCurrentPercent = 0.0;
   private boolean busy = false;
+  private String CommandName = "DriveTrain";
+  private int leftEncoderSimulation = 1021210;//Set to random value to check that we actually reset correctly
+  private int rightEncoderSimulation = -1213310;
+  private double ultrasonicRangeSimulation = 0;
+  private double leftSpeedSimulation = 0;
+  private double rightSpeedSimulation = 0;
 
-  public DriveTrain(){
+  private void DriveTrainInit(){
     rightFront    = new TalonSRX(Constants.CANRightFrontMasterController);
     rightFollower = new VictorSPX(Constants.CANRightFrontFollowerController);
     leftFront     = new TalonSRX(Constants.CANLeftFrontMasterController);
@@ -104,37 +108,58 @@ public class DriveTrain extends Subsystem {
 //    ultrasonicSensor = new Ultrasonic(Constants.DigUltrasonicPingChannel, Constants.DigUltrasonicEchoChannel, Unit.kMillimeters);
     ultrasonicSensor = new Ultrasonic(Constants.DigUltrasonicPingChannel, Constants.DigUltrasonicEchoChannel);
 
+  }
+
+  public DriveTrain(){
+    //Drive train constructor
+    Robot.logMessage(CommandName, "constructor");
+    //Initialize the drive train
+    if (Robot.isReal() == true){
+      DriveTrainInit();
+    }
     resetEncoders();
   }
 
-  private  void resetEncoders(){
+  public void resetEncoders(){
     //ToDo : Check the parameters. They are supposed to be the count, PID & timeout values  the CAN ID
 //    _leftFront.setSelectedSensorPosition(6,1,1);
 //    _rightFront.setSelectedSensorPosition(8,1,1);
-    leftFront.setSelectedSensorPosition(0,0,Constants.DrivekTimeoutMs);
-    rightFront.setSelectedSensorPosition(0,0,Constants.DrivekTimeoutMs);
+    if (Robot.isReal() == true){
+      leftFront.setSelectedSensorPosition(0,0,Constants.DrivekTimeoutMs);
+      rightFront.setSelectedSensorPosition(0,0,Constants.DrivekTimeoutMs);
+    }
+    else{
+      leftEncoderSimulation = 0;
+      rightEncoderSimulation = 0;
+    }
   }
-/*
+
   private double getLeftEncoderTicks(){
-    return leftFront.getSelectedSensorPosition();
+    if (Robot.isReal() == true)
+      return leftFront.getSelectedSensorPosition();
+    else
+      return leftEncoderSimulation;
   }
 
   private double getRightEncoderTicks(){
-    return rightFront.getSelectedSensorPosition();
-  }
-*/
-  private double getLeftEncoderInches(){
-    return leftFront.getSelectedSensorPosition() / Constants.WheelTicksPerInch;
+    if (Robot.isReal() == true)
+      return rightFront.getSelectedSensorPosition();
+    else
+      return rightEncoderSimulation;
   }
 
-  private double getRightEncoderInches(){
-    return rightFront.getSelectedSensorPosition() / Constants.WheelTicksPerInch;
+  public double getLeftEncoderInches(){
+    return getLeftEncoderTicks() / Constants.WheelTicksPerInch;
+  }
+
+  public double getRightEncoderInches(){
+    return getRightEncoderTicks() / Constants.WheelTicksPerInch;
   }
 
   public void setSpeedPercent(double leftSpeed, double rightSpeed){
-    setSpeedRaw(leftSpeed * Constants.SpeedMaxTicksPer100mS, rightSpeed * Constants.SpeedMaxTicksPer100mS);
     leftCurrentPercent = leftSpeed;
     rightCurrentPercent = rightSpeed;
+    setSpeedRaw(leftSpeed * Constants.SpeedMaxTicksPer100mS, rightSpeed * Constants.SpeedMaxTicksPer100mS);
   }
 
   public double getLeftSpeedPercent(){
@@ -144,7 +169,7 @@ public class DriveTrain extends Subsystem {
   public double getRightSpeedPercent(){
     return rightCurrentPercent;
   }
-
+/*
   public void driveDistanceStraight(double distance) {
     //Drive straight for the specified distance at the default speed, no ultrasonic override
     driveDistanceStraight(distance, 0.5, -1000);
@@ -154,52 +179,26 @@ public class DriveTrain extends Subsystem {
     //Drive straight for the specified distance at the specified speed, no ultrasonic override
     driveDistanceStraight(distance, 0.5, -1000);
   }
-
-  public void driveDistanceStraight(double distance, double speed, double stopDistance) {
-    //distance = distance to travel. +ve = forward, -ve = backwards
-    //speed    = speed percentage. Should be +ve
-    boolean driveStopped = false;
-    double distanceTraveled;
-    double leftDistanceTraveled;
-    double rightDistanceTraveled;
-    double leftRightDistanceDelta;
-    double leftRightSpeedCorrection;
-    double direction;
-    
-    busy = true;
-    //Note which direction we are going. Used to set motors later
-    if (distance < 0)
-      direction = -1.0;
-    else
-      direction = 1.0;
-
-    resetEncoders();//Reset the encoders so we can simply count from here
-    while(!driveStopped){
-      leftDistanceTraveled  = getLeftEncoderInches();
-      rightDistanceTraveled = getRightEncoderInches(); 
-      distanceTraveled = (leftDistanceTraveled + rightDistanceTraveled) / 2;//Average the left and right encoders
-      if (Math.abs(distanceTraveled) >= Math.abs(distance)){//Check if gone the entire distance (note, direction is important)
-        driveStopped = true;
-      }
-      else if ((ultrasonicSensor.getRangeInches() < stopDistance) && (distance > 0.0)){//Check if too close. Can't use for reverse, but don't need at the moment
-        driveStopped = true;
-      }
-      else{//Otherwise make sure driving straight
-        leftRightDistanceDelta = leftDistanceTraveled - rightDistanceTraveled;
-        leftRightSpeedCorrection = leftRightDistanceDelta * Constants.DriveStraightPGain;
-        setSpeedPercent(direction * (speed - leftRightSpeedCorrection), direction * (speed + leftRightSpeedCorrection));
-      }
+*/
+  public double getUltrasonicRange(){
+    if (Robot.isReal() == true)
+      return ultrasonicSensor.getRangeInches();
+    else {
+      return ultrasonicRangeSimulation;
     }
-    //Not sure if this is needed or not. Joystick should take over on exit. ToDo : Check if needed
-    //setSpeedPercent(0, 0);
-    busy = false;
   }
-
 
   private void setSpeedRaw(double leftSpeed, double rightSpeed){
     //Speed is ticks per 100mS ?
-    leftFront.set(ControlMode.Velocity, leftSpeed);
-    rightFront.set(ControlMode.Velocity, rightSpeed);
+    if (Robot.isReal() == true){
+      leftFront.set(ControlMode.Velocity, leftSpeed);
+      rightFront.set(ControlMode.Velocity, rightSpeed);
+    }
+    else
+    {
+      leftSpeedSimulation = leftSpeed;
+      rightSpeedSimulation = rightSpeed;
+    }
   }
 
   @Override
@@ -208,7 +207,10 @@ public class DriveTrain extends Subsystem {
     setDefaultCommand(new DrivesWithJoysticks());
   }
 
-  public boolean isBusy(){
-    return busy;
+  public void updateDrivetrainSimulation(){
+    leftEncoderSimulation = (int)(leftEncoderSimulation + (leftSpeedSimulation / 50));
+    rightEncoderSimulation = (int)(rightEncoderSimulation + (rightSpeedSimulation / 50));
   }
+
+
 }

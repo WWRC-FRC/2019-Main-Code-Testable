@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 /**
  * Add your docs here.
@@ -19,11 +20,22 @@ public class Lift extends Subsystem {
   static TalonSRX liftMotor;
   VictorSPX liftFollower;
   static double liftPositionTarget = 0;
+  private static String CommandName = "Lift";
+  private static int encoderTargetCountSimulation = 0;//Set to random value to check that we actually reset correctly
+  private static int encoderCountSimulation = -42667;//Set to random value to check that we actually reset correctly
+  private static double liftVelocitySimulation = 0.0;//ToDo : Need to write simulation code for this
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  public void liftToPositionTicks(double heightTicks) {
-    liftMotor.set(ControlMode.Position, heightTicks);
+  public static void liftToPositionTicks(int heightTicks) {
+    Robot.logMessage(CommandName, "liftToPositionTicks");
+
+    if (Robot.isReal() == true)
+      liftMotor.set(ControlMode.Position, heightTicks);
+    else{
+      encoderTargetCountSimulation = heightTicks;
+      updateLiftSimulation();
+    }
   }
 
   public static void liftToPositionInches(double heightInches, double offset) {
@@ -39,7 +51,9 @@ public class Lift extends Subsystem {
     else if (target < 0)
       target = 0;
 
-    liftMotor.set(ControlMode.Position, target * Constants.LiftTicksPerInch);
+    //System.out.println("Lift height = " + target);
+    Robot.logMessage(CommandName, "Lift target height = " + target + " - " + target * Constants.LiftTicksPerInch);
+    liftToPositionTicks((int)(target * Constants.LiftTicksPerInch));
   }
 
   private void configureMotors(){
@@ -69,22 +83,32 @@ public class Lift extends Subsystem {
 
   //Constructor creates the motor controller connections and configures them
   public Lift(){
-    configureMotors();
+    Robot.logMessage(CommandName, "constructor");
+    if (Robot.isReal() == true){
+      configureMotors();
+    }
     resetEncoder();
   }
 
   private  void resetEncoder(){
     //ToDo : Check the parameters. They are supposed to be the count, PID & timeout values not the CAN ID
 //    lift.setSelectedSensorPosition(11,1,1);
-    liftMotor.setSelectedSensorPosition(0,0,Constants.LiftkTimeoutMs);
+    if (Robot.isReal() == true){
+      liftMotor.setSelectedSensorPosition(0,0,Constants.LiftkTimeoutMs);
+    }
+    else
+      encoderCountSimulation = 0;
   }
 
   public static double getLiftPositionTicks(){
-    return liftMotor.getSelectedSensorPosition();
+    if (Robot.isReal() == true)
+      return liftMotor.getSelectedSensorPosition();
+    else
+      return encoderCountSimulation;
   }
 
   public static double getLiftPositionInches(){
-    return liftMotor.getSelectedSensorPosition() / Constants.LiftTicksPerInch;
+      return getLiftPositionTicks() / Constants.LiftTicksPerInch;
   }
 
   public void moveLift(double moveDelta){
@@ -102,15 +126,26 @@ public class Lift extends Subsystem {
   }
 
   public static double getLiftPositionErrorPID(){
-    return liftMotor.getClosedLoopError();
+    if (Robot.isReal() == true)
+      return liftMotor.getClosedLoopError();
+    else
+      return 0;
   }
 
+  /*
   public static double getLiftMotorPower(){
-    return liftMotor.getMotorOutputPercent();
+    if (Robot.isReal() == true)
+      return liftMotor.getMotorOutputPercent();
+    else
+      return 
   }
+*/
 
   public static double getLiftVelocity(){
-    return liftMotor.getSelectedSensorVelocity();
+    if (Robot.isReal() == true)
+      return liftMotor.getSelectedSensorVelocity();
+    else
+      return liftVelocitySimulation;
   }
 
   public static boolean isBusy(){
@@ -120,10 +155,34 @@ public class Lift extends Subsystem {
     //Check the motor output power
     //Check the absolute position error
     //Check the PID calculated position error
+
+//    Robot.logMessage(CommandName, "isBusy - " + getLiftVelocity() + " - " + getLiftPositionError());
+
     if ((getLiftVelocity() < 100) && (getLiftPositionError() < Constants.LiftPositionTolerance))
       return false;
     else
       return true;
+  }
+
+  public static void updateLiftSimulation(){
+    if (encoderCountSimulation < encoderTargetCountSimulation){
+      //Need to move up. Fake an upward velocity
+      liftVelocitySimulation = (encoderTargetCountSimulation - encoderCountSimulation);
+      encoderCountSimulation = encoderCountSimulation + Constants.liftSpeedSimulation;
+      //For simplicity at the moment immediately 'stop' when at the 'correct' height
+      if (encoderCountSimulation > encoderTargetCountSimulation)
+        encoderCountSimulation = encoderTargetCountSimulation;
+    }
+    else if (encoderCountSimulation > encoderTargetCountSimulation){
+      //Need to move down. Fake a downward velocity
+      liftVelocitySimulation = (encoderCountSimulation - encoderTargetCountSimulation);
+      encoderCountSimulation = encoderCountSimulation - Constants.liftSpeedSimulation;
+      //For simplicity at the moment immediately 'stop' when at the 'correct' height
+      if (encoderCountSimulation < encoderTargetCountSimulation)
+        encoderCountSimulation = encoderTargetCountSimulation;
+    }
+    else
+      liftVelocitySimulation = 0;
   }
 
   @Override

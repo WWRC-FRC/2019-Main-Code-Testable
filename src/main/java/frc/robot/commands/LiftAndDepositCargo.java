@@ -31,5 +31,6 @@ public class LiftAndDepositCargo extends CommandGroup {
      addSequential(new HandleCargo(Constants.IntakeOut, true));//Eject the cargo, wait until ejected
      addSequential(new DriveToPosition(-Constants.AutoBackoffDistance, Constants.AutoOutSpeed, 10000));
      addSequential(new LiftToHeight(Constants.AutoDefaultLiftHeight,0, true));
+     addSequential(new WaitButtonsReleased());
   }
 }
