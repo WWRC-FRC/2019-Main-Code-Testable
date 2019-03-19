@@ -14,7 +14,6 @@ import com.ctre.phoenix.motorcontrol.can.*;
 import frc.robot.Constants;
 //import frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.Ultrasonic;
-import frc.robot.commands.*;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import frc.robot.Robot;
 
@@ -208,6 +207,10 @@ public class DriveTrain extends Subsystem {
     }
   }
 
+  public void setUltrasonicValueSimulation(double fakeInches){
+    ultrasonicRangeSimulation = fakeInches;
+  }
+
   private void setSpeedRaw(double leftSpeed, double rightSpeed){
     //Speed is ticks per 100mS ?
     if (Robot.isReal() == true){
@@ -224,12 +227,13 @@ public class DriveTrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // If not doing anything else then drive with the joysticks
-    setDefaultCommand(new DrivesWithJoysticks());
+    //setDefaultCommand(new DrivesWithJoysticks());//ToDo : Move to xxxLoops in robot to allow merged auto-joystick
   }
 
   public void updateDrivetrainSimulation(){
     leftEncoderSimulation = (int)(leftEncoderSimulation + (leftSpeedSimulation / 50));
     rightEncoderSimulation = (int)(rightEncoderSimulation + (rightSpeedSimulation / 50));
+    setUltrasonicValueSimulation(getUltrasonicRange() + ((leftSpeedSimulation / 50) + (rightSpeedSimulation / 50)));//ToDo : Fctor needs to be tuned to make reasonable
   }
 
   public void setAutoFlag(boolean state){

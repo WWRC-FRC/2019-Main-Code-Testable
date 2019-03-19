@@ -34,6 +34,10 @@ public class DrivesWithJoysticks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    //updateDriveFromJoystick();
+  }
+
+  public static void updateDriveFromJoystick(){
     double targetLeftSpeed;
     double targetRightSpeed;
     double currentLeftSpeed;
@@ -72,9 +76,10 @@ public class DrivesWithJoysticks extends Command {
     newRightSpeed = adjustSpeed(currentRightSpeed, targetRightSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
   
     Robot.driveTrain.setSpeedPercentJoystick(newLeftSpeed, newRightSpeed);
+
   }
   
-  private double adjustSpeed(double current, double target, double upDelta, double downDelta)
+  private static double adjustSpeed(double current, double target, double upDelta, double downDelta)
   {
     double result = 0.0;
 

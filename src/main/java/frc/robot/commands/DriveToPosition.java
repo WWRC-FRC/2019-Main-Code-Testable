@@ -38,6 +38,9 @@ public class DriveToPosition extends Command {
     Robot.logMessage(CommandName, "initialize");
     Robot.driveTrain.setAutoFlag(true);
     Robot.driveTrain.resetEncoders();//Reset the encoders so we can simply count from here
+    //ToDo : Need to come up with a reasonable ultrasonic simulation methodology
+    if (Robot.isSimulation())
+      Robot.driveTrain.setUltrasonicValueSimulation(30);
   }
 
   // Called repeatedly when this Command is scheduled to run

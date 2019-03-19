@@ -92,7 +92,6 @@ public class Robot extends TimedRobot {
     liftSystem.updateLiftSimulation();
     intakeSystem.updateIntakeSimulation();
     driveTrain.updateDrivetrainSimulation();
-
   }
   
   /**
@@ -105,10 +104,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    updateSmartDashboard();
     //Use this for simulation updates
     if (Robot.isSimulation())
       updateSimulations();
+    updateSmartDashboard();
   }
 
   /**
@@ -145,8 +144,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    Scheduler.getInstance().run();
-    driveTrain.updateDriveTrain();
+      doActivePeriodic();
     }
  
     @Override
@@ -159,8 +157,7 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run();
-    driveTrain.updateDriveTrain();
+    doActivePeriodic();
   }
 
   /**
@@ -172,6 +169,13 @@ public class Robot extends TimedRobot {
 
   public static void logMessage(String module, String message){
     System.out.println(module + " : " + message);
+  }
+
+  private void doActivePeriodic(){
+    //Since we don't have different auto vs teleop we should run the same events in both xxxPeriodic loops
+    Scheduler.getInstance().run();
+    DrivesWithJoysticks.updateDriveFromJoystick();
+    driveTrain.updateDriveTrain();
   }
 
  }
