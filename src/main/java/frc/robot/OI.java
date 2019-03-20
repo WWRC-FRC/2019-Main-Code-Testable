@@ -40,6 +40,7 @@ public class OI {
   Button ButtonHatchOutLow =           new JoystickButton(buttonBoard,Constants.HatchDepositLowButton);
   Button ButtonHatchOutMid =           new JoystickButton(buttonBoard,Constants.HatchDepositMidButton);
   Button ButtonHatchOutHigh =          new JoystickButton(buttonBoard,Constants.HatchDepositHighButton);
+  Button ButtonHatchInLow =            new JoystickButton(buttonBoard,Constants.HatchRetrieveDepotButton);
   Button ButtonHatchLift =             new JoystickButton(buttonBoard,Constants.HatchLiftButton);
   Button ButtonHatchDrop =             new JoystickButton(buttonBoard,Constants.HatchDropButton);
 
@@ -88,10 +89,11 @@ public class OI {
     ButtonCargoOutHigh.whileHeld(   new LiftAndDepositCargo(Constants.CargoDepositHighHeight));
     ButtonCargoInGround.whileHeld(  new CollectCargo(Constants.CargoRetrieveLocationGround)); 
     ButtonCargoInDepot.whileHeld(   new CollectCargo(Constants.CargoRetrieveLocationDepot));
-
+    
     ButtonHatchOutLow.whileHeld(    new LiftAndDepositHatch(Constants.HatchDepositLowHeight));
     ButtonHatchOutMid.whileHeld(    new LiftAndDepositHatch(Constants.HatchDepositMidHeight));
     ButtonHatchOutHigh.whileHeld(   new LiftAndDepositHatch(Constants.HatchDepositHighHeight));
+    ButtonHatchInLow.whileHeld(     new LiftAndRetrieveHatch());
     ButtonHatchLift.whenPressed(    new HandleHatch(Constants.HatchUpState, true));
     ButtonHatchDrop.whenPressed(    new HandleHatch(Constants.HatchDownState, true));
 

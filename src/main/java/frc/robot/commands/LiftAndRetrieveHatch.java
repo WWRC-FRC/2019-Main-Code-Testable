@@ -12,7 +12,7 @@ import frc.robot.Constants;
 //import frc.robot.commands.*;
 //import frc.robot.*;
 //import frc.robot.subsystems.*;
-public class LiftAndDepositHatch extends CommandGroup {
+public class LiftAndRetrieveHatch extends CommandGroup {
   /**
    * Deposit cargo to selected height
    *   Align with the guide line
@@ -22,7 +22,7 @@ public class LiftAndDepositHatch extends CommandGroup {
    *   Back away from the wall
    *   Set the lift to the default height
    */
-  public LiftAndDepositHatch(double  height) {
+  public LiftAndRetrieveHatch() {
     // A command group will require all of the subsystems that each member
     // would require.
     // e.g. if Command1 requires chassis, and Command2 requires arm,
@@ -30,10 +30,10 @@ public class LiftAndDepositHatch extends CommandGroup {
     // arm.
 
     addSequential(new FindLine());
-    addSequential(new LiftToHeight(height, Constants.HatchDepositDelta, true));//Move the lift to the selected height plus the offset since in the captured position and wait until finished
-    //addSequential(new DriveToPosition(24, Constants.AutoInSpeed, 4));//Move to within 4 inches of the target but a max of 24 inches
-  //  addSequential(new LiftToHeight(height, 0, true));//Move the lift down and wait until finished
-  //  addSequential(new DriveToPosition(-Constants.AutoBackoffDistance, Constants.AutoOutSpeed, 10000));//Back away
+    addSequential(new LiftToHeight(Constants.HatchRetrieveDepotHeight, 0, true));//Move the lift to the selected height plus the offset since in the captured position and wait until finished
+  //  addSequential(new DriveToPosition(24, Constants.AutoInSpeed, 4));//Move to within 4 inches of the target but a max of 24 inches
+   // addSequential(new LiftToHeight(Constants.HatchRetrieveDepotHeight, Constants.HatchDepositDelta, true));//Move the lift down and wait until finished
+   // addSequential(new DriveToPosition(-Constants.AutoBackoffDistance, Constants.AutoOutSpeed, 10000));//Back away
    // addSequential(new LiftToHeight(Constants.AutoDefaultLiftHeight, 0,true));//Lift to default height
     addSequential(new WaitButtonsReleased());
  }

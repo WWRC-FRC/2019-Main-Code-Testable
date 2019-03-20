@@ -23,7 +23,7 @@ public class Intake extends Subsystem {
   private static String CommandName = "Intake";
   private static boolean limitSwitchSimulation = false;
   private static int limitSwitchCounterSimulation = 0;
-
+  private static double intakeSpeed = 0;
   public Intake(){
     Robot.logMessage(CommandName, "constructor");
     if (Robot.isReal() == true){
@@ -40,6 +40,7 @@ public class Intake extends Subsystem {
   }
 
   public static void setIntakeSpeed(double speed){
+    intakeSpeed = speed;
     if (Robot.isReal() == true)
       intake.set(ControlMode.Velocity, speed);
     else
@@ -51,6 +52,10 @@ public class Intake extends Subsystem {
         limitSwitchCounterSimulation = 100;
         Robot.logMessage(CommandName, "Ejecting ball");
       }
+  }
+
+  public static double getIntakeSpeed(){
+    return intakeSpeed;
   }
 
   public void updateIntakeSimulation(){

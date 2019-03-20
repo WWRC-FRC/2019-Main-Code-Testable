@@ -33,14 +33,16 @@ public class CollectCargo extends CommandGroup {
       //addSequential(new FindLine());//Ground doesn't need the line finder
       addSequential(new LiftToHeight(Constants.CargoRetrieveGroundHeight,0, false));//Lift to height, no block, no offset
       addSequential(new HandleCargo(Constants.IntakeIn, false));//Turn on intake, no waiting until captured
+      addSequential(new WaitButtonsReleased());
     }
     else if(location == Constants.CargoRetrieveLocationDepot){
       addSequential(new FindLine());
       addSequential(new LiftToHeight(Constants.CargoRetrieveDepotHeight,0, true));//Lift to height, block, no offset
-      addSequential(new DriveToPosition(Constants.AutoStopMaxDistance, Constants.AutoInSpeed, Constants.AutoStopFromDistanceCargo));
+    //  addSequential(new DriveToPosition(Constants.AutoStopMaxDistance, Constants.AutoInSpeed, Constants.AutoStopFromDistanceCargo));
       addSequential(new HandleCargo(Constants.IntakeIn, true));
-      addSequential(new DriveToPosition(-Constants.AutoBackoffDistance, Constants.AutoOutSpeed, 10000));
-      addSequential(new LiftToHeight(Constants.AutoDefaultLiftHeight,0, false));//When done move to optimal height but don't block
+    //  addSequential(new DriveToPosition(-Constants.AutoBackoffDistance, Constants.AutoOutSpeed, 10000));
+     // addSequential(new LiftToHeight(Constants.AutoDefaultLiftHeight,0, false));//When done move to optimal height but don't block
+      addSequential(new WaitButtonsReleased());
     }
 
   }

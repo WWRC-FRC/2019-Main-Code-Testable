@@ -57,6 +57,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Right dist.", driveTrain.getRightEncoderInches());
     SmartDashboard.putBoolean("Cargo in", intakeSystem.isBallIn());
     SmartDashboard.putBoolean("Lift extend", pneumaticSystem.getPneumaticsState());
+    SmartDashboard.putNumber("Intake power", intakeSystem.getIntakeSpeed());
   }
 
   /**

@@ -27,9 +27,9 @@ public class LiftAndDepositCargo extends CommandGroup {
     // arm.
      addSequential(new FindLine());
      addSequential(new LiftToHeight(height, 0, true));//Move the lift to the selected height and wait until finished
-     addSequential(new DriveToPosition(24, Constants.AutoInSpeed, 4));//Move to within 4 inches of the target but a max of 24 inches
+     //addSequential(new DriveToPosition(24, Constants.AutoInSpeed, 4));//Move to within 4 inches of the target but a max of 24 inches
      addSequential(new HandleCargo(Constants.IntakeOut, true));//Eject the cargo, wait until ejected
-     addSequential(new DriveToPosition(-Constants.AutoBackoffDistance, Constants.AutoOutSpeed, 10000));
+     //addSequential(new DriveToPosition(-Constants.AutoBackoffDistance, Constants.AutoOutSpeed, 10000));
      addSequential(new LiftToHeight(Constants.AutoDefaultLiftHeight,0, false));
      addSequential(new WaitButtonsReleased());
   }

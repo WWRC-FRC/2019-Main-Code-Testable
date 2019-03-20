@@ -46,6 +46,7 @@ public class DriveToPosition extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    
     double distanceTraveled;
     double leftDistanceTraveled;
     double rightDistanceTraveled;
@@ -66,6 +67,7 @@ public class DriveToPosition extends Command {
       leftRightSpeedCorrection = leftRightDistanceDelta * Constants.DriveStraightPGain;
       Robot.driveTrain.setSpeedPercentAuto(direction * (localSpeed - leftRightSpeedCorrection), direction * (localSpeed + leftRightSpeedCorrection));
     }
+    
 }
 
   // Make this return true when this Command no longer needs to run execute()
