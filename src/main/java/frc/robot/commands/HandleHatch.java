@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 //import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.Constants;
+import frc.robot.*;
 import frc.robot.subsystems.*;
 
 public class HandleHatch extends Command {
@@ -65,6 +66,7 @@ public class HandleHatch extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Intake.setIntakeSpeed(0.0);
   }
 
   // Called when another command which requires one or more of the same

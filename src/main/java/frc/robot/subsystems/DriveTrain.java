@@ -19,7 +19,7 @@ import frc.robot.Robot;
 
 public class DriveTrain extends Subsystem {
   TalonSRX rightFront;
-  VictorSPX rightFollower;
+  TalonSRX rightFollower;
   TalonSRX leftFront;
   TalonSRX leftFollower;
   Ultrasonic ultrasonicSensor;
@@ -39,7 +39,7 @@ public class DriveTrain extends Subsystem {
 
   private void DriveTrainInit(){
     rightFront    = new TalonSRX(Constants.CANRightFrontMasterController);
-    rightFollower = new VictorSPX(Constants.CANRightFrontFollowerController);
+    rightFollower = new TalonSRX(Constants.CANRightFrontFollowerController);
     leftFront     = new TalonSRX(Constants.CANLeftFrontMasterController);
     leftFollower  = new TalonSRX(Constants.CANLeftFrontFollowerController);
 
@@ -49,11 +49,11 @@ public class DriveTrain extends Subsystem {
     leftFront.configFactoryDefault();
     leftFollower.configFactoryDefault();
 
-    //ToDo : Is this necessary? Does it actually fix the Talon issue?
-    //leftFollower.configReverseSoftLimitEnable(true);
+   
+   
 
     //Configure drive train
-    //ToDo : Change for integrated PID instead of wpilib
+
     //Make constants different to those used for the lift
     rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
     rightFront.setSensorPhase(Constants.DrivekSensorPhase);

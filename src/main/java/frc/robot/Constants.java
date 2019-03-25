@@ -33,7 +33,7 @@ public class Constants {
 
 	//Lift constants
 	public static final double LiftSprocketCircumference       = 4;//16 teeth spaced at 1/4 inch
-	public static final double LiftCountsPerRev                = 4096;//ToDo : Check this
+	public static final double LiftCountsPerRev                = 4096;
 	public static final double LiftTicksPerInch                = (LiftCountsPerRev / LiftSprocketCircumference) / 2;//Divided by 2 because of two-stage lift
 	public static final double LiftMaxHeight                   = 68;
 	public static final double LiftPositionTolerance           = 2;
@@ -48,10 +48,10 @@ public class Constants {
 	public static final double AutoBackoffDistance        = 12.0;//Distance to back up after picking up/depositing something
 
 	//Cargo constants
-	public static final double CargoDepositLowHeight       = 3.0;
-	public static final double CargoDepositMidHeight       = 29.0;
-	public static final double CargoDepositHighHeight      = 57.0;
-	public static final double CargoDepositRoverHeight     = 33.0;
+	public static final double CargoDepositLowHeight       = 25.0;
+	public static final double CargoDepositMidHeight       = 53.0;
+	public static final double CargoDepositHighHeight      = 76.0;
+	public static final double CargoDepositRoverHeight     = 35.0;
 	public static final double CargoRetrieveDepotHeight    = 40.0;
 	public static final double CargoRetrieveGroundHeight   = 2.0;
 	public static final int    CargoRetrieveLocationGround = 0;//Enumeration for different locations
@@ -67,11 +67,11 @@ public class Constants {
 
 	//Hatch constants
 	//Heights are the height at which the robot should be at to be able to go through center ToDo : THESE HEIGHTS NEED TO BE CHANGED 
-	public static final double  HatchDepositLowHeight       = 8.0;
-	public static final double  HatchDepositMidHeight       = 34.0;
-	public static final double  HatchDepositHighHeight      = 62.0;
-	public static final double  HatchDepositRoverHeight     = 4.0;
-	public static final double  HatchRetrieveDepotHeight    = 4.0;
+	public static final double  HatchDepositLowHeight       = 5.0;
+	public static final double  HatchDepositMidHeight       = 32.0;
+	public static final double  HatchDepositHighHeight      = 61.0;
+	public static final double  HatchDepositRoverHeight     = 3.0;
+	public static final double  HatchRetrieveDepotHeight    = 3.0;
 	public static final double  HatchDepositDelta           = 4.0;//Distance to move down in order to unhook when depositing
 	public static final double  HatchGrabDelta              = 4.0;//Distance to move up to grab when capturing
 	public static final boolean HatchDownState              = false;//Flag to note if hook is up or down
@@ -131,13 +131,13 @@ public class Constants {
 	public static final boolean LiftkMotorInvert     = true;
 	//kp, ki, kd, kf, izone, peak output
 	//ToDo : Need to set these parameters
-	public static final double  LiftPIDkP             = 0.3;
+	public static final double  LiftPIDkP             = 0.19;
 	public static final double  LiftPIDkI             = 0.0;
 	public static final double  LiftPIDkD             = 1.0;
 	public static final double  LiftPIDkF             = 0.0;
 	public static final double  LiftPIDizone          = 0.0;
 	public static final double  LiftPIDpeakoutputUp   = 1.0;
-	public static final double  LiftPIDpeakoutputDown = 0.6;
+	public static final double  LiftPIDpeakoutputDown = 0.4;
 	public static final int     LiftPIDmaxerror       = 1000;
 
 	//Drivetrain PID parameters
@@ -154,7 +154,7 @@ public class Constants {
 	public static final boolean DrivekMotorInvert     = true;
 	//kp, ki, kd, kf, izone, peak output
 	//ToDo : Need to set these parameters
-	public static final double  DrivePIDkP            = 0.2;
+	public static final double  DrivePIDkP            = 0.15;
 	public static final double  DrivePIDkI            = 0.0;
 	public static final double  DrivePIDkD            = 1.0;
 	public static final double  DrivePIDkF            = 0.0;

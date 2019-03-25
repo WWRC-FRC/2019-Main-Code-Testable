@@ -84,7 +84,8 @@ public class Robot extends TimedRobot {
      // pneumaticsSmash.setClosedLoopControl(true);
     
      if (Robot.isReal() == true){
-      CameraServer.getInstance().startAutomaticCapture();
+      CameraServer.getInstance().startAutomaticCapture(0);
+      CameraServer.getInstance().startAutomaticCapture(1);
      }
  
   }

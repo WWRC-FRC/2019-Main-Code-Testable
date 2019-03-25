@@ -34,15 +34,17 @@ public class Intake extends Subsystem {
 
   public static boolean isBallIn(){
     if (Robot.isReal() == true)
-      return limitSwitch.get();//ToDo : Check polarity. True SHOULD mean the cargo is in
+      return !limitSwitch.get();//ToDo : Check polarity. True SHOULD mean the cargo is in
     else
       return limitSwitchSimulation;
   }
 
   public static void setIntakeSpeed(double speed){
     intakeSpeed = speed;
-    if (Robot.isReal() == true)
-      intake.set(ControlMode.Velocity, speed);
+    if (Robot.isReal() == true){
+        intake.set(ControlMode.PercentOutput, speed);
+      Robot.logMessage(CommandName, "Intake Speed = " + speed);
+    }
     else
       if ((speed < 0) && (limitSwitchSimulation == false)){
         limitSwitchCounterSimulation = -100;//Wait some simulation time before updating limit switch

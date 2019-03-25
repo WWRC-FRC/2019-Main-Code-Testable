@@ -15,14 +15,16 @@ import frc.robot.subsystems.*;
 
 public class HandleCargo extends Command {
   private boolean localInOut;
+  private boolean localInControl;
   private boolean localBlock;
   private boolean isDone = false; 
   private String CommandName = "HandleCargo";
 
-  public HandleCargo(boolean inOut, boolean block) {
+  public HandleCargo(boolean inOut, boolean block, boolean inControl) {
     requires(Robot.intakeSystem);
     localInOut = inOut;
     localBlock = block;
+    localInControl = inControl;
   }
 
   // Called just before this Command runs the first time
@@ -43,7 +45,7 @@ public class HandleCargo extends Command {
   protected void execute() {
     //Now check if we need to wait or not...
     //if((inOut == Constants.IntakeIn) && (!Intake.isBallIn())){//Asking for intake and ball is not yet in
-    if (localBlock == true){
+    
       if (localInOut == Constants.IntakeIn){
         //Blocking and intaking so wait for the ball before finishing
         if (Intake.isBallIn() == true){
@@ -63,10 +65,8 @@ public class HandleCargo extends Command {
           Intake.setIntakeSpeed(0);
         }
       }
-    }
-    else{
-      isDone = true;//Not blocking so finished
-    }
+    
+   
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -79,6 +79,7 @@ public class HandleCargo extends Command {
   @Override
   protected void end() {
     Robot.logMessage(CommandName, "end");
+    if(localInOut == Constants.IntakeOut && !localInControl)Intake.setIntakeSpeed(0);
     //Intake.setIntakeSpeed(Constants.IntakeHoldSpeed);//Can't do this since we need the intake to remain running sometimes
   }
 

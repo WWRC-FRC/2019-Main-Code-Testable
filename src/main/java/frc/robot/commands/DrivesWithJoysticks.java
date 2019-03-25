@@ -45,8 +45,7 @@ public class DrivesWithJoysticks extends Command {
     double newLeftSpeed;
     double newRightSpeed;
   
-//    targetLeftSpeed =  -OI.getControllerDr().getY(Hand.kLeft); //positive is forward ToDo : Check since print shows not the case
-//    targetRightSpeed =  -OI.getControllerDr().getY(Hand.kRight); 
+
     targetLeftSpeed =  Robot.operatorInterface.getControllerStickLeft();
     targetRightSpeed = Robot.operatorInterface.getControllerStickRight();
 
@@ -60,11 +59,15 @@ public class DrivesWithJoysticks extends Command {
 
   currentLeftSpeed = Robot.driveTrain.getLeftSpeedPercent();
   currentRightSpeed = Robot.driveTrain.getRightSpeedPercent();
-
-  if(Robot.operatorInterface.getControllerTriggerRight() > 0.05){
-    targetLeftSpeed*=.75;
-    targetRightSpeed*=.75;
+  if(Robot.operatorInterface.getControllerTriggerLeft() > 0.05){
+    targetLeftSpeed*=.3;
+    targetRightSpeed*=.3;
    }
+   else if(Robot.operatorInterface.getControllerTriggerRight() > 0.05){
+    targetLeftSpeed*=.5;
+    targetRightSpeed*=.5;
+   }
+   else {}
    
     //if(OI.getControllerDr().getXButton()){
     if(Robot.operatorInterface.getControllerButtonState(Constants.XBoxButtonX)){

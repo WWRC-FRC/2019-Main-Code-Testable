@@ -18,7 +18,7 @@ import frc.robot.Robot;
  */
 public class Lift extends Subsystem {
   static TalonSRX liftMotor;
-  VictorSPX liftFollower;
+  static VictorSPX liftFollower;
   static double liftPositionTarget = 0;
   private static String CommandName = "Lift";
   private static int encoderTargetCountSimulation = 0;//Set to random value to check that we actually reset correctly
@@ -60,7 +60,7 @@ public class Lift extends Subsystem {
     liftMotor         = new TalonSRX(Constants.CANLiftMasterController);
     liftFollower = new VictorSPX(Constants.CANLiftFollowerController);
 
-    //ToDo : 'Constants' should really be noted as lift specific
+    
     liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.LiftkkPIDLoopIdx, Constants.LiftkTimeoutMs);
     liftMotor.setSensorPhase(Constants.LiftkSensorPhase);
     liftMotor.setInverted(Constants.LiftkMotorInvert);

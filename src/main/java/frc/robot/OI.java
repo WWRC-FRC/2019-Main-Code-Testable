@@ -77,11 +77,11 @@ public class OI {
     ButtonLiftIn.whenPressed(       new TogglePneumatics(false));
     ButtonLiftOut.whenPressed(      new TogglePneumatics(true));
 
-    ButtonIntakeIn.whileHeld(       new HandleCargo(Constants.IntakeIn,false));
-    ButtonIntakeOut.whileHeld(      new HandleCargo(Constants.IntakeOut,false));
+    ButtonIntakeIn.whileHeld(       new HandleCargo(Constants.IntakeIn,false, true));
+    ButtonIntakeOut.whileHeld(      new HandleCargo(Constants.IntakeOut,false, true));
 
-    ButtonLiftUp.whileHeld(         new HandleCargo(Constants.IntakeIn,false));
-    ButtonLiftDown.whileHeld(       new HandleCargo(Constants.IntakeOut,false));
+   // ButtonLiftUp.whileHeld(         new HandleCargo(Constants.IntakeIn,false));
+   // ButtonLiftDown.whileHeld(       new HandleCargo(Constants.IntakeOut,false));
     
     ButtonCargoOutRover.whileHeld(  new LiftAndDepositCargo(Constants.CargoDepositRoverHeight));
     ButtonCargoOutLow.whileHeld(    new LiftAndDepositCargo(Constants.CargoDepositLowHeight));
@@ -104,7 +104,7 @@ public class OI {
     return buttonBoard.getRawButton(1);
   }
 
-  public static XboxController getControllerDr() {//ToDo : This really is not testable. Need to abstract functions for each thing we want to read
+  public static XboxController getControllerDr() {
     return driveJoystick;
   }
 
