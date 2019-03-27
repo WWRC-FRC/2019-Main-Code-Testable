@@ -131,7 +131,7 @@ public class Constants {
 	public static final boolean LiftkMotorInvert     = true;
 	//kp, ki, kd, kf, izone, peak output
 	//ToDo : Need to set these parameters
-	public static final double  LiftPIDkP             = 0.19;
+	public static final double  LiftPIDkP             = 0.2;
 	public static final double  LiftPIDkI             = 0.0;
 	public static final double  LiftPIDkD             = 0.0;
 	public static final double  LiftPIDkF             = 0.0;
@@ -143,7 +143,8 @@ public class Constants {
 	//Drivetrain PID parameters
 	//Joystick parameters
 	public static final double  JoystickAccelleration = 0.1;
-	public static final double  JoystickDecelleration = 0.07;
+	public static final double  JoystickDecelleration = 0.3
+	;
 	public static final double  CrawlSpeed            = 0.15;
 
 	//PID parameters
