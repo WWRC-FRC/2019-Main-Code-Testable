@@ -28,7 +28,7 @@ public class Constants {
 	public static final double WheelDiameter                   = 6;//6 inch diameter
 	public static final double WheelCircumference              = Math.PI*WheelDiameter;
 	public static final double WheelTicksPerInch               = WheelCountsPerRev / WheelCircumference;
-	public static final int    SpeedMaxTicksPer100mS           = 6000;//ToDo : Need to measure
+	public static final int    SpeedMaxTicksPer100mS           = 10000;//ToDo : Need to measure
 	public static final double DriveStraightPGain              = 0.1;//ToDo : Need to tune
 
 	//Lift constants
@@ -133,7 +133,7 @@ public class Constants {
 	//ToDo : Need to set these parameters
 	public static final double  LiftPIDkP             = 0.19;
 	public static final double  LiftPIDkI             = 0.0;
-	public static final double  LiftPIDkD             = 1.0;
+	public static final double  LiftPIDkD             = 0.0;
 	public static final double  LiftPIDkF             = 0.0;
 	public static final double  LiftPIDizone          = 0.0;
 	public static final double  LiftPIDpeakoutputUp   = 1.0;

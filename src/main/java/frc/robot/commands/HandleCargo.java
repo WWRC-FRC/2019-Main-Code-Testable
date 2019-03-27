@@ -79,7 +79,8 @@ public class HandleCargo extends Command {
   @Override
   protected void end() {
     Robot.logMessage(CommandName, "end");
-    if(localInOut == Constants.IntakeOut && !localInControl)Intake.setIntakeSpeed(0);
+    if(localInOut == Constants.IntakeOut && !localInControl)
+      Intake.setIntakeSpeed(0);
     //Intake.setIntakeSpeed(Constants.IntakeHoldSpeed);//Can't do this since we need the intake to remain running sometimes
   }
 

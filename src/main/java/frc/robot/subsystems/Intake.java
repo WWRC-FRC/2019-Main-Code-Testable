@@ -13,6 +13,7 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.*;
 import frc.robot.Robot;
+import frc.robot.commands.*;
 
 /**
  * Add your docs here.
@@ -40,9 +41,10 @@ public class Intake extends Subsystem {
   }
 
   public static void setIntakeSpeed(double speed){
-    intakeSpeed = speed;
     if (Robot.isReal() == true){
-        intake.set(ControlMode.PercentOutput, speed);
+      if (isBallIn() & (speed > 0))
+        speed = Constants.IntakeHoldSpeed;
+      intake.set(ControlMode.PercentOutput, speed);
       Robot.logMessage(CommandName, "Intake Speed = " + speed);
     }
     else
@@ -79,5 +81,6 @@ public class Intake extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new CheckIntake());
   }
 }

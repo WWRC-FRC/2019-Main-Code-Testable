@@ -57,7 +57,7 @@ public class Lift extends Subsystem {
   }
 
   private void configureMotors(){
-    liftMotor         = new TalonSRX(Constants.CANLiftMasterController);
+    liftMotor    = new TalonSRX(Constants.CANLiftMasterController);
     liftFollower = new VictorSPX(Constants.CANLiftFollowerController);
 
     
