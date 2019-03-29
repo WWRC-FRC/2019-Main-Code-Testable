@@ -21,6 +21,7 @@ public class CollectHatch extends CommandGroup {
    *   Set the lift to the default height
    */
   public CollectHatch(double height) {
+    addSequential(new HandleCargo(Constants.IntakeStateOff));
     addSequential(new FindLine());
     addSequential(new LiftToHeight(Constants.HatchRetrieveDepotHeight,0, true));//Lift to opening height
    // addSequential(new DriveToPosition(Constants.AutoStopMaxDistance, Constants.AutoInSpeed, Constants.AutoStopFromDistanceHatch));
