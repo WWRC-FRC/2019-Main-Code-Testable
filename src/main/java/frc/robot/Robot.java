@@ -172,7 +172,7 @@ public class Robot extends TimedRobot {
   }
 
   public static void logMessage(String module, String message){
-    System.out.println(module + " : " + message);
+    //System.out.println(module + " : " + message);
   }
 
   private void doActivePeriodic(){

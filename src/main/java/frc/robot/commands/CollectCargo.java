@@ -30,6 +30,7 @@ public class CollectCargo extends CommandGroup {
   public CollectCargo(int location) {
     Robot.logMessage(CommandName, "constructor");
     if(location == Constants.CargoRetrieveLocationGround){
+      addSequential(new HandleCargo(Constants.IntakeStateIn));
       //addSequential(new FindLine());//Ground doesn't need the line finder
       addSequential(new LiftToHeight(Constants.CargoRetrieveGroundHeight,0, false));//Lift to height, no block, no offset
 //      addSequential(new HandleCargo(Constants.IntakeStateIn));
@@ -37,6 +38,7 @@ public class CollectCargo extends CommandGroup {
     }
     else if(location == Constants.CargoRetrieveLocationDepot){
       //addSequential(new FindLine());
+      addSequential(new HandleCargo(Constants.IntakeStateIn));
       addSequential(new LiftToHeight(Constants.CargoRetrieveDepotHeight,0, true));//Lift to height, block, no offset
     //  addSequential(new DriveToPosition(Constants.AutoStopMaxDistance, Constants.AutoInSpeed, Constants.AutoStopFromDistanceCargo));
   //    addSequential(new HandleCargo(Constants.IntakeStateIn));

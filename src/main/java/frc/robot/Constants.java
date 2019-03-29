@@ -96,7 +96,7 @@ public class Constants {
 	public static final int   CargoDepositHighButton       = 9;
 	public static final int   CargoDepositRoverButton      = 10;
 	public static final int   HatchDepositLowButton        = 11;
-	public static final int   HatchDepositRoverButton      = 11;
+//	public static final int   HatchDepositRoverButton      = 11;
 	public static final int   HatchDepositMidButton        = 12;
 	public static final int   HatchDepositHighButton       = 13;
 	public static final int   CargoRetrieveGroundButton    = 14;
@@ -166,7 +166,7 @@ public class Constants {
 	public static final int     DrivePIDmaxerror      = 0;
 
 	//Simulation parameters
-	public static final int liftSpeedSimulation       = 90;
+	public static final int liftSpeedSimulation       = 190;
 
 
 	/**
