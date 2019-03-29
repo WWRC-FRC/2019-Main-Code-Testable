@@ -20,6 +20,7 @@ public class Lift extends Subsystem {
   static TalonSRX liftMotor;
   static VictorSPX liftFollower;
   static double liftPositionTarget = 0;
+  static double liftPositionTargetTotal = 0;
   private static String CommandName = "Lift";
   private static int encoderTargetCountSimulation = 0;//Set to random value to check that we actually reset correctly
   private static int encoderCountSimulation = -42667;//Set to random value to check that we actually reset correctly
@@ -44,6 +45,7 @@ public class Lift extends Subsystem {
 
     //The actual target is the selected height plus the hatch offset
     double target = liftPositionTarget + offset;
+    liftPositionTargetTotal = target;
 
     //Make sure not too high/low
     if (target > Constants.LiftMaxHeight)
@@ -125,6 +127,12 @@ public class Lift extends Subsystem {
     return getLiftPositionInches() - getLiftPositionTarget();
   }
 
+  public static double getLiftPositionErrorTotal(){
+    return getLiftPositionInches() - liftPositionTargetTotal;
+  }
+
+
+  
   public static double getLiftPositionErrorPID(){
     if (Robot.isReal() == true)
       return liftMotor.getClosedLoopError();

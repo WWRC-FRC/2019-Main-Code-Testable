@@ -42,8 +42,8 @@ public class Intake extends Subsystem {
 
   public static void setIntakeSpeed(double speed){
     if (Robot.isReal() == true){
-      if (isBallIn() & (speed > 0))
-        speed = Constants.IntakeHoldSpeed;
+      //if (isBallIn() & (speed > 0))
+        //speed = Constants.IntakeHoldSpeed;
       intake.set(ControlMode.PercentOutput, speed);
       Robot.logMessage(CommandName, "Intake Speed = " + speed);
     }

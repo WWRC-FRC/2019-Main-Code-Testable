@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DrivesWithJoysticks;
-//import frc.robot.commands.*;
+import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 //https://www.bing.com/videos/search?q=best+tom+and+jerry&view=detail&mid=ADE99A515A0765A73415ADE99A515A0765A73415&FORM=VIRE 
@@ -42,6 +42,7 @@ public class Robot extends TimedRobot {
   //Not needed anymore? public static DifferentialDrive driveSystem;
     //public static DrivesWithJoysticks driveIntake = new DrivesWithJoysticks();
   public static DrivesWithJoysticks driveIntake;
+  public static CheckIntake checkIntake;
   //public static boolean;
   //static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
@@ -58,6 +59,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Cargo in", intakeSystem.isBallIn());
     SmartDashboard.putBoolean("Lift extend", pneumaticSystem.getPneumaticsState());
     SmartDashboard.putNumber("Intake power", intakeSystem.getIntakeSpeed());
+    SmartDashboard.putNumber("Lift error", liftSystem.getLiftPositionErrorTotal());
   }
 
   /**
@@ -85,7 +87,7 @@ public class Robot extends TimedRobot {
     
      if (Robot.isReal() == true){
       CameraServer.getInstance().startAutomaticCapture(0);
-      CameraServer.getInstance().startAutomaticCapture(1);
+      //CameraServer.getInstance().startAutomaticCapture(1);
      }
  
   }
@@ -110,7 +112,9 @@ public class Robot extends TimedRobot {
     if (Robot.isSimulation())
       updateSimulations();
     updateSmartDashboard();
+    checkIntake.CheckIntake();
   }
+
 
   /**
    * This function is called once each time the robot enters Disabled mode.

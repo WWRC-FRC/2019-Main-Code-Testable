@@ -28,6 +28,7 @@ public class CheckIntake extends Command {
   protected void execute() {
     if(Robot.intakeSystem.isBallIn() && (Robot.intakeSystem.getIntakeSpeed() > 0)){
         Robot.intakeSystem.setIntakeSpeed(Constants.IntakeHoldSpeed);
+        Robot.logMessage("", "Slowing Ball");
     }
   }
 

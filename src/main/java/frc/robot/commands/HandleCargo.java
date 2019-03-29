@@ -48,15 +48,19 @@ public class HandleCargo extends Command {
     
       if (localInOut == Constants.IntakeIn){
         //Blocking and intaking so wait for the ball before finishing
+        Robot.logMessage(CommandName, "Intaking");
         if (Intake.isBallIn() == true){
+          Robot.logMessage(CommandName, "Ball in");
           //Yes, intaking and ball is captured
           isDone = true;
           //Keep the cargo held
-          Intake.setIntakeSpeed(Constants.IntakeHoldSpeed);
+          //Intake.setIntakeSpeed(Constants.IntakeHoldSpeed);
         }
       }
       else {//Ejecting the ball so make sure it is out
+        Robot.logMessage(CommandName, "Ejecting");
         if (Intake.isBallIn() == false){
+          Robot.logMessage(CommandName, "Ball out");
           //Yes, ejecting and ball is out
           //Need to delay a little though to allow the ball to really get out
           Timer.delay(Constants.CargoEjectDelay);
@@ -79,8 +83,8 @@ public class HandleCargo extends Command {
   @Override
   protected void end() {
     Robot.logMessage(CommandName, "end");
-    if(localInOut == Constants.IntakeOut && !localInControl)
-      Intake.setIntakeSpeed(0);
+    //if(localInOut == Constants.IntakeOut && !localInControl)
+    //  Intake.setIntakeSpeed(0);
     //Intake.setIntakeSpeed(Constants.IntakeHoldSpeed);//Can't do this since we need the intake to remain running sometimes
   }
 
@@ -88,6 +92,6 @@ public class HandleCargo extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Intake.setIntakeSpeed(Constants.IntakeHoldSpeed);
+    //Intake.setIntakeSpeed(Constants.IntakeHoldSpeed);
   }
 }

@@ -71,7 +71,7 @@ public class Constants {
 	public static final double  HatchDepositMidHeight       = 32.0;
 	public static final double  HatchDepositHighHeight      = 61.0;
 	public static final double  HatchDepositRoverHeight     = 3.0;
-	public static final double  HatchRetrieveDepotHeight    = 3.0;
+	public static final double  HatchRetrieveDepotHeight    = 4.5;
 	public static final double  HatchDepositDelta           = 4.0;//Distance to move down in order to unhook when depositing
 	public static final double  HatchGrabDelta              = 4.0;//Distance to move up to grab when capturing
 	public static final boolean HatchDownState              = false;//Flag to note if hook is up or down
@@ -131,7 +131,7 @@ public class Constants {
 	public static final boolean LiftkMotorInvert     = true;
 	//kp, ki, kd, kf, izone, peak output
 	//ToDo : Need to set these parameters
-	public static final double  LiftPIDkP             = 0.2;
+	public static final double  LiftPIDkP             = 0.1;
 	public static final double  LiftPIDkI             = 0.0;
 	public static final double  LiftPIDkD             = 0.0;
 	public static final double  LiftPIDkF             = 0.0;
