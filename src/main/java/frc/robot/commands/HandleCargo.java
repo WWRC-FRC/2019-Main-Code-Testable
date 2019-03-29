@@ -14,19 +14,49 @@ import frc.robot.Constants;
 import frc.robot.subsystems.*;
 
 public class HandleCargo extends Command {
-  private boolean localInOut;
-  private boolean localInControl;
-  private boolean localBlock;
+  private int localState;
   private boolean isDone = false; 
   private String CommandName = "HandleCargo";
 
-  public HandleCargo(boolean inOut, boolean block, boolean inControl) {
+  public HandleCargo(int state) {
     requires(Robot.intakeSystem);
-    localInOut = inOut;
-    localBlock = block;
-    localInControl = inControl;
+    localState = state;
   }
 
+    // Called just before this Command runs the first time
+    @Override
+    protected void initialize() {
+      Robot.logMessage(CommandName, "initialize");
+      switch(localState)
+      {
+        case Constants.IntakeStateOff :
+          Robot.intakeSystem.setIntakeSpeed(0);
+          //Intake.setIntakeSpeed(0);
+          break;
+        case Constants.IntakeStateHold :
+          Robot.intakeSystem.setIntakeSpeed(Constants.IntakeHoldSpeed);
+          //Intake.setIntakeSpeed(Constants.IntakeHoldSpeed);
+          break;
+        case Constants.IntakeStateIn :
+          Robot.intakeSystem.setIntakeSpeed(Constants.IntakeInSpeed);
+          //Intake.setIntakeSpeed(Constants.IntakeInSpeed);
+          break;
+        case Constants.IntakeStateOut :
+          Robot.intakeSystem.setIntakeSpeed(Constants.IntakeEjectSpeed);
+          //Intake.setIntakeSpeed(Constants.IntakeEjectSpeed);
+          break;
+        default :
+          Intake.setIntakeSpeed(0);
+      }
+      
+    }
+  
+    // Called repeatedly when this Command is scheduled to run
+    @Override
+    protected void execute() {
+    }
+  
+  /*
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
@@ -72,11 +102,12 @@ public class HandleCargo extends Command {
     
    
   }
+*/
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return isDone;
+    return true;
   }
 
   // Called once after isFinished returns true

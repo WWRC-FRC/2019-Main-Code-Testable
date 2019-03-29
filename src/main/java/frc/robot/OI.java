@@ -77,8 +77,8 @@ public class OI {
     ButtonLiftIn.whenPressed(       new TogglePneumatics(false));
     ButtonLiftOut.whenPressed(      new TogglePneumatics(true));
 
-    ButtonIntakeIn.whileHeld(       new HandleCargo(Constants.IntakeIn,false, true));
-    ButtonIntakeOut.whileHeld(      new HandleCargo(Constants.IntakeOut,false, true));
+    ButtonIntakeIn.whileHeld(       new HandleCargo(Constants.IntakeStateIn));
+    ButtonIntakeOut.whileHeld(      new HandleCargo(Constants.IntakeStateOut));
 
    // ButtonLiftUp.whileHeld(         new HandleCargo(Constants.IntakeIn,false));
    // ButtonLiftDown.whileHeld(       new HandleCargo(Constants.IntakeOut,false));

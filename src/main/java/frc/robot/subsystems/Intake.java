@@ -24,6 +24,7 @@ public class Intake extends Subsystem {
   private static String CommandName = "Intake";
   private static boolean limitSwitchSimulation = false;
   private static int limitSwitchCounterSimulation = 0;
+  private static double targetIntakeSpeed = 0;
   private static double intakeSpeed = 0;
   public Intake(){
     Robot.logMessage(CommandName, "constructor");
@@ -41,21 +42,18 @@ public class Intake extends Subsystem {
   }
 
   public static void setIntakeSpeed(double speed){
-    if (Robot.isReal() == true){
-      //if (isBallIn() & (speed > 0))
-        //speed = Constants.IntakeHoldSpeed;
-      intake.set(ControlMode.PercentOutput, speed);
-      Robot.logMessage(CommandName, "Intake Speed = " + speed);
-    }
-    else
-      if ((speed < 0) && (limitSwitchSimulation == false)){
+    Robot.logMessage(CommandName, "Target intake Speed = " + speed);
+    targetIntakeSpeed = speed;
+    if (Robot.isSimulation() == true){
+      if ((speed > 0) && (limitSwitchSimulation == false)){
         limitSwitchCounterSimulation = -100;//Wait some simulation time before updating limit switch
         Robot.logMessage(CommandName, "Intaking ball");
       }
-      else if((speed > 0) && (limitSwitchSimulation == true)){
+      else if((speed < 0) && (limitSwitchSimulation == true)){
         limitSwitchCounterSimulation = 100;
         Robot.logMessage(CommandName, "Ejecting ball");
       }
+    }
   }
 
   public static double getIntakeSpeed(){
@@ -77,10 +75,20 @@ public class Intake extends Subsystem {
     }
   }
 
+  public void updateIntake(){
+    if ((targetIntakeSpeed > 0) && (isBallIn() == true))//Intaking the ball but already captured so make sure only holding
+      targetIntakeSpeed = Constants.IntakeHoldSpeed;
+
+    intakeSpeed = targetIntakeSpeed;
+    Robot.logMessage(CommandName, "intakeSpeed = " + intakeSpeed);
+    if (Robot.isReal() == true){
+      intake.set(ControlMode.PercentOutput, intakeSpeed);
+    }
+
+  }
+
+
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new CheckIntake());
   }
 }

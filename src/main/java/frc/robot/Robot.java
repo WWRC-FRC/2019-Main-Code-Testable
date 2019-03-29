@@ -32,17 +32,16 @@ public class Robot extends TimedRobot {
   public static Hand rightStick = Hand.kRight;
 
   public static DriveTrain driveTrain;
+  public static Intake intakeSystem;
   public static ADIS16470_IMU imu;
   public static Lift liftSystem;
   public static Pneumatics pneumaticSystem;
   //public static Vision vision;
-  public static Intake intakeSystem;
   //public static UltrasonicSensor ultrasonicSensorVision;
   //public static UltrasonicSensorDrive ultrasonicSensorDrive;
   //Not needed anymore? public static DifferentialDrive driveSystem;
     //public static DrivesWithJoysticks driveIntake = new DrivesWithJoysticks();
   public static DrivesWithJoysticks driveIntake;
-  public static CheckIntake checkIntake;
   //public static boolean;
   //static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
@@ -87,7 +86,7 @@ public class Robot extends TimedRobot {
     
      if (Robot.isReal() == true){
       CameraServer.getInstance().startAutomaticCapture(0);
-      //CameraServer.getInstance().startAutomaticCapture(1);
+      CameraServer.getInstance().startAutomaticCapture(1);
      }
  
   }
@@ -112,7 +111,6 @@ public class Robot extends TimedRobot {
     if (Robot.isSimulation())
       updateSimulations();
     updateSmartDashboard();
-    checkIntake.CheckIntake();
   }
 
 
@@ -182,6 +180,7 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
     DrivesWithJoysticks.updateDriveFromJoystick();
     driveTrain.updateDriveTrain();
+    intakeSystem.updateIntake();
   }
 
  }

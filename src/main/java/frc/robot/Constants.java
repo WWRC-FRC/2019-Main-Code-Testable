@@ -59,8 +59,10 @@ public class Constants {
 	public static final double CargoEjectDelay             = 0.1;
 
 	//Intake constants
-	public static final boolean IntakeIn         = true;
-	public static final boolean IntakeOut        = false;
+	public static final int     IntakeStateOff   = 0;
+	public static final int     IntakeStateHold  = 1;
+	public static final int     IntakeStateIn    = 2;
+	public static final int     IntakeStateOut   = 3;
 	public static final double  IntakeInSpeed    = 0.75;
 	public static final double  IntakeEjectSpeed = -1;
 	public static final double  IntakeHoldSpeed  = 0.2;
