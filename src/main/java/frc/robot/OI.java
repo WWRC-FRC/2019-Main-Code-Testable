@@ -28,7 +28,7 @@ public class OI {
   Button ButtonLiftUp =                new JoystickButton(driveJoystick,Constants.LiftUpButton);
   Button ButtonLiftDown =              new JoystickButton(driveJoystick,Constants.LiftDownButton);
 //  Button ButtonTest =                  new JoystickButton(buttonBoard, Constants.TestButton);
-
+  Button ButtonSetDriveHeightButton =  new JoystickButton(buttonBoard, Constants.SetDriveHeightButton);
   Button ButtonIntakeIn =              new JoystickButton(buttonBoard,Constants.CargoIntakeInButton);
   Button ButtonIntakeOut =             new JoystickButton(buttonBoard,Constants.CargoIntakeOutButton);
   Button ButtonCargoInGround =         new JoystickButton(buttonBoard,Constants.CargoRetrieveGroundButton);
@@ -97,6 +97,7 @@ public class OI {
     ButtonHatchLift.whenPressed(    new HandleHatch(Constants.HatchUpState, true));
     ButtonHatchDrop.whenPressed(    new HandleHatch(Constants.HatchDownState, true));
 
+    ButtonSetDriveHeightButton.whenPressed(new LiftAndDepositCargo(Constants.DriveHeight));
 //    ButtonTest.whenPressed(         new TestCommand());
   }
 

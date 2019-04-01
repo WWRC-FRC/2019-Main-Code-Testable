@@ -76,10 +76,10 @@ public class Intake extends Subsystem {
   }
 
   public void updateIntake(){
-    if ((targetIntakeSpeed > 0) && (isBallIn() == true))//Intaking the ball but already captured so make sure only holding
-      targetIntakeSpeed = Constants.IntakeHoldSpeed;
-
     intakeSpeed = targetIntakeSpeed;
+    if ((targetIntakeSpeed > 0) && (isBallIn() == true))//Intaking the ball but already captured so make sure only holding
+      intakeSpeed = Constants.IntakeHoldSpeed;
+
     Robot.logMessage(CommandName, "intakeSpeed = " + intakeSpeed);
     if (Robot.isReal() == true){
       intake.set(ControlMode.PercentOutput, intakeSpeed);

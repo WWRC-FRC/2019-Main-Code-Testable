@@ -28,7 +28,7 @@ public class Constants {
 	public static final double WheelDiameter                   = 6;//6 inch diameter
 	public static final double WheelCircumference              = Math.PI*WheelDiameter;
 	public static final double WheelTicksPerInch               = WheelCountsPerRev / WheelCircumference;
-	public static final int    SpeedMaxTicksPer100mS           = 10000;//ToDo : Need to measure
+	public static final int    SpeedMaxTicksPer100mS           = 8000;//ToDo : Need to measure
 	public static final double DriveStraightPGain              = 0.1;//ToDo : Need to tune
 
 	//Lift constants
@@ -65,7 +65,8 @@ public class Constants {
 	public static final int     IntakeStateOut   = 3;
 	public static final double  IntakeInSpeed    = 0.75;
 	public static final double  IntakeEjectSpeed = -1;
-	public static final double  IntakeHoldSpeed  = 0.2;
+	public static final double  IntakeHoldSpeed  = 0.25;
+	public static final double  DriveHeight      = 5.0;
 
 	//Hatch constants
 	//Heights are the height at which the robot should be at to be able to go through center ToDo : THESE HEIGHTS NEED TO BE CHANGED 
@@ -89,7 +90,7 @@ public class Constants {
 	public static final int   LiftMoveUpButton             = 2;
 	public static final int   CargoIntakeOutButton         = 3;
 	public static final int   HatchDropButton              = 4;
-	public static final int   LiftMoveDownButton           = 5;
+	public static final int   SetDriveHeightButton         = 5;
 	public static final int   CargoIntakeInButton          = 6;
 	public static final int   CargoDepositLowButton        = 7;
 	public static final int   CargoDepositMidButton        = 8;
@@ -144,9 +145,8 @@ public class Constants {
 
 	//Drivetrain PID parameters
 	//Joystick parameters
-	public static final double  JoystickAccelleration = 0.1;
-	public static final double  JoystickDecelleration = 0.3
-	;
+	public static final double  JoystickAccelleration = 0.07;
+	public static final double  JoystickDecelleration = 0.1;
 	public static final double  CrawlSpeed            = 0.15;
 
 	//PID parameters
