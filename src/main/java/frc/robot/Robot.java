@@ -24,6 +24,7 @@ import frc.robot.subsystems.*;
 //https://www.bing.com/videos/search?q=best+tom+and+jerry&view=detail&mid=ADE99A515A0765A73415ADE99A515A0765A73415&FORM=VIRE 
 public class Robot extends TimedRobot {
   public static OI operatorInterface;
+  public static Vision visionSystem;
   //Command m_autonomousCommand;
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
   Command driveWithJoystick;
@@ -74,6 +75,7 @@ public class Robot extends TimedRobot {
     driveWithJoystick = new DrivesWithJoysticks();
     //OI must come after subsystems since it references commands which in turn reference sub-systems
     operatorInterface = new OI();
+    visionSystem = new Vision();
 
     updateSmartDashboard();
     
@@ -172,7 +174,7 @@ public class Robot extends TimedRobot {
   }
 
   public static void logMessage(String module, String message){
-    //System.out.println(module + " : " + message);
+    System.out.println(module + " : " + message);
   }
 
   private void doActivePeriodic(){

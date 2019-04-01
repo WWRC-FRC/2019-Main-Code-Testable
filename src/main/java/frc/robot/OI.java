@@ -129,8 +129,4 @@ public class OI {
     return driveJoystick.getTriggerAxis(Hand.kRight);
   }
 
-//  public void logMessage(String module, String message){
-//    System.out.println(module + " : " + message);
-//  }
-
 }                    
