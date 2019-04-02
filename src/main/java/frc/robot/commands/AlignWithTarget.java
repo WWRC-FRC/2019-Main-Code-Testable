@@ -8,37 +8,32 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Constants;
 import frc.robot.Robot;
 
-public class LocateTargets extends Command {
-  private String CommandName = "LocateTargets";
-  private Boolean isDone = false;
-  private double targetError = 0;
-
-  public LocateTargets() {
+public class AlignWithTarget extends Command {
+  //variables
+  private static boolean isDone = true;
+  
+  public AlignWithTarget() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    Robot.logMessage(CommandName, "Constructor");
-    requires(Robot.visionSystem);
+    
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.logMessage(CommandName, "Initialize");
-    Robot.visionSystem.triggerMeasurement();
+    isDone = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //Robot.logMessage(CommandName, "Execute");
-    //Wait for result to coma back
-
-    if(Robot.visionSystem.getResultStatus()){
-      targetError = Robot.visionSystem.getResult();
+    if(Math.abs(Robot.visionSystem.getTargetError()) > Constants.MaxAllowableTargetError) {
+      Robot.driveTrain.setAutoFlag(true);
+      
     }
-
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -50,13 +45,11 @@ public class LocateTargets extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.logMessage(CommandName, "End");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.logMessage(CommandName, "Interrupted");
   }
 }

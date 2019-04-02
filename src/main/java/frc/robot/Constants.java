@@ -30,6 +30,7 @@ public class Constants {
 	public static final double WheelTicksPerInch               = WheelCountsPerRev / WheelCircumference;
 	public static final int    SpeedMaxTicksPer100mS           = 8000;//ToDo : Need to measure
 	public static final double DriveStraightPGain              = 0.1;//ToDo : Need to tune
+	public static final double MaxAllowableTargetError         = 0.03;
 
 	//Lift constants
 	public static final double LiftSprocketCircumference       = 4;//16 teeth spaced at 1/4 inch

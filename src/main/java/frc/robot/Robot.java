@@ -60,6 +60,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Lift extend", pneumaticSystem.getPneumaticsState());
     SmartDashboard.putNumber("Intake power", intakeSystem.getIntakeSpeed());
     SmartDashboard.putNumber("Lift error", liftSystem.getLiftPositionErrorTotal());
+    SmartDashboard.putNumber("Target error", visionSystem.getTargetError());
   }
 
   /**
@@ -74,8 +75,8 @@ public class Robot extends TimedRobot {
     intakeSystem = new Intake();
     driveWithJoystick = new DrivesWithJoysticks();
     //OI must come after subsystems since it references commands which in turn reference sub-systems
-    operatorInterface = new OI();
     visionSystem = new Vision();
+    operatorInterface = new OI();
 
     updateSmartDashboard();
     
