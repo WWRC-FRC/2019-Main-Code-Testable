@@ -43,6 +43,7 @@ public class OI {
   Button ButtonHatchInLow =            new JoystickButton(buttonBoard,Constants.HatchRetrieveDepotButton);
   Button ButtonHatchLift =             new JoystickButton(buttonBoard,Constants.HatchLiftButton);
   Button ButtonHatchDrop =             new JoystickButton(buttonBoard,Constants.HatchDropButton);
+  Button ButtonHabClimb =              new JoystickButton(driveJoystick, Constants.LogitechButtonStart);
 
 
   //// CREATING BUTTONS
@@ -98,6 +99,8 @@ public class OI {
     ButtonHatchDrop.whenPressed(    new HandleHatch(Constants.HatchDownState, true));
 
     ButtonSetDriveHeightButton.whenPressed(new LiftAndDepositCargo(Constants.DriveHeight));
+
+    ButtonHabClimb.whileHeld(       new BalanceRobot());
 //    ButtonTest.whenPressed(         new TestCommand());
   }
 

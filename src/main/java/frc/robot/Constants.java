@@ -12,6 +12,7 @@ public class Constants {
 	public static final int    CANLiftMasterController         = 10;
 	public static final int    CANLiftFollowerController       = 12;
 	public static final int    CANIntakeController             = 8;
+	public static final int    CANClimberController            = 5;  //change for actual id and check for robot 2
 
 	//Pneumatic constants
 	public static final int     PneuStroke1Channel             = 0;
@@ -125,7 +126,9 @@ public class Constants {
 	public static final int   XBoxButtonTriggerLeft       = 5;
 	public static final int   XBoxButtonTriggerRight      = 6;
 	public static final int   XBoxButtonHome              = 7;
-	public static final int   XBoxButtonMenu              = 8;
+	public static final int   XBoxButtonMenu              = 8; 
+	
+	public static final int   LogitechButtonStart         = 8;    //climber articulation
 
 	//Lift PID parameters
 	public static final int     LiftkPIDkSlotIdx     = 0;
@@ -169,6 +172,23 @@ public class Constants {
 	//Simulation parameters
 	public static final int liftSpeedSimulation       = 190;
 
+	/*//Climber PID parameters
+	//PID parameters
+	public static final int     ClimberkPIDkSlotIdx     = 1;
+	public static final int     ClimberkkPIDLoopIdx     = 0;
+	public static final int     ClimberkTimeoutMs       = 30;
+	public static final boolean ClimberkSensorPhase     = true;
+	public static final boolean ClimberkMotorInvert     = true;
+	//kp, ki, kd, kf, izone, peak output
+	//ToDo : Need to set these parameters
+	public static final double  ClimberPIDkP            = 0.15;
+	public static final double  ClimberPIDkI            = 0.0;
+	public static final double  ClimberPIDkD            = 1.0;
+	public static final double  ClimberPIDkF            = 0.0;
+	public static final double  ClimberPIDizone         = 0.0;
+	public static final double  ClimberPIDpeakoutput    = 1.0;
+	public static final int     ClimberPIDmaxerror      = 0;
+*/
 
 	/**
 	 * Which PID slot to pull gains from. Starting 2018, you can choose from
