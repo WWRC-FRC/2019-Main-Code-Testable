@@ -59,6 +59,9 @@ public class DrivesWithJoysticks extends Command {
       targetRightSpeed = 0;
     }
 
+    currentLeftSpeed = Robot.driveTrain.getLeftSpeedPercent();
+    currentRightSpeed = Robot.driveTrain.getRightSpeedPercent();
+
     if(Robot.operatorInterface.getControllerTriggerLeft() > 0.05){
       targetLeftSpeed*=.3;
       targetRightSpeed*=.3;
@@ -72,9 +75,6 @@ public class DrivesWithJoysticks extends Command {
       targetLeftSpeed = Constants.CrawlSpeed;
       targetRightSpeed = Constants.CrawlSpeed;
     }
-
-    currentLeftSpeed = Robot.driveTrain.getLeftSpeedPercent();
-    currentRightSpeed = Robot.driveTrain.getRightSpeedPercent();
 
     newLeftSpeed = adjustSpeed(currentLeftSpeed, targetLeftSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
     newRightSpeed = adjustSpeed(currentRightSpeed, targetRightSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);

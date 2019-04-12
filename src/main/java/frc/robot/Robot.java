@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DrivesWithJoysticks;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.SerialPort.Port;
+import edu.wpi.first.wpilibj.SerialPort;
 
 //https://www.bing.com/videos/search?q=best+tom+and+jerry&view=detail&mid=ADE99A515A0765A73415ADE99A515A0765A73415&FORM=VIRE 
 public class Robot extends TimedRobot {
@@ -42,6 +44,9 @@ public class Robot extends TimedRobot {
 
   Faults _faults_L = new Faults();
   Faults _faults_R = new Faults();
+
+  SerialPort visionPort = null;
+  int loopCount = 0;
 
   private void updateSmartDashboard(){
     //Historically we have found that if items are not added 
@@ -100,7 +105,7 @@ public class Robot extends TimedRobot {
     
      if (Robot.isReal() == true){
       CameraServer.getInstance().startAutomaticCapture(0);
-      CameraServer.getInstance().startAutomaticCapture(1);
+      //CameraServer.getInstance().startAutomaticCapture(1);
      }
  
   }
@@ -124,7 +129,9 @@ public class Robot extends TimedRobot {
     //Use this for simulation updates or when on RoboRio but no hardware connected
 //    if (Robot.isSimulation() || ((Robot.isReal() && (Robot.useHardware() == false))))
       updateSimulations();
-    RobotAccelerometer.updateAveraging();
+    //RobotAccelerometer.updateAveraging();
+    Robot.imu.updateAveraging();
+    Robot.visionSystem.updateVision();
     updateSmartDashboard();
   }
 
@@ -193,6 +200,10 @@ public class Robot extends TimedRobot {
   public static boolean useHardware(){
       return false;
   }
+
+  public static boolean useJoysticks(){
+    return true;
+}
 
   private void doActivePeriodic(){
     //Since we don't have different auto vs teleop we should run the same events in both xxxPeriodic loops

@@ -29,7 +29,7 @@ public class LiftAndRetrieveHatch extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
-    addSequential(new FindLine());
+    //addSequential(new FindLine());
     addSequential(new LiftToHeight(Constants.HatchRetrieveDepotHeight, 0, true));//Move the lift to the selected height plus the offset since in the captured position and wait until finished
   //  addSequential(new DriveToPosition(24, Constants.AutoInSpeed, 4));//Move to within 4 inches of the target but a max of 24 inches
    // addSequential(new LiftToHeight(Constants.HatchRetrieveDepotHeight, Constants.HatchDepositDelta, true));//Move the lift down and wait until finished

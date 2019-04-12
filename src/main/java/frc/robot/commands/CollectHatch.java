@@ -22,7 +22,7 @@ public class CollectHatch extends CommandGroup {
    */
   public CollectHatch(double height) {
     addSequential(new HandleCargo(Constants.IntakeStateOff));
-    addSequential(new FindLine());
+    //addSequential(new FindLine());
     addSequential(new LiftToHeight(Constants.HatchRetrieveDepotHeight,0, true));//Lift to opening height
    // addSequential(new DriveToPosition(Constants.AutoStopMaxDistance, Constants.AutoInSpeed, Constants.AutoStopFromDistanceHatch));
    // addSequential(new LiftToHeight(Constants.HatchRetrieveDepotHeight, Constants.HatchGrabDelta,true));//Lift up to grab the hatch

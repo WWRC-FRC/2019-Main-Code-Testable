@@ -74,54 +74,75 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
   public OI(){
-    driveJoystick.getPOV();
-    ButtonLiftIn.whenPressed(       new TogglePneumatics(false));
-    ButtonLiftOut.whenPressed(      new TogglePneumatics(true));
 
-    ButtonIntakeIn.whileHeld(       new HandleCargo(Constants.IntakeStateIn));
-    ButtonIntakeOut.whileHeld(      new HandleCargo(Constants.IntakeStateOut));
+    //driveJoystick.getPOV();
+    if (Robot.useJoysticks() == true){
+      ButtonLiftIn.whenPressed(       new TogglePneumatics(false));
+      ButtonLiftOut.whenPressed(      new TogglePneumatics(true));
 
-    ButtonCargoOutRover.whileHeld(  new LiftAndDepositCargo(Constants.CargoDepositRoverHeight));
-    ButtonCargoOutLow.whileHeld(    new LiftAndDepositCargo(Constants.CargoDepositLowHeight));
-    ButtonCargoOutMid.whileHeld(    new LiftAndDepositCargo(Constants.CargoDepositMidHeight));
-    ButtonCargoOutHigh.whileHeld(   new LiftAndDepositCargo(Constants.CargoDepositHighHeight));
-    ButtonCargoInGround.whileHeld(  new CollectCargo(Constants.CargoRetrieveLocationGround)); 
-    ButtonCargoInDepot.whileHeld(   new CollectCargo(Constants.CargoRetrieveLocationDepot));
-    
-    ButtonHatchOutLow.whileHeld(    new LiftAndDepositHatch(Constants.HatchDepositLowHeight));
-    ButtonHatchOutMid.whileHeld(    new LiftAndDepositHatch(Constants.HatchDepositMidHeight));
-    ButtonHatchOutHigh.whileHeld(   new LiftAndDepositHatch(Constants.HatchDepositHighHeight));
-    ButtonHatchInLow.whileHeld(     new LiftAndRetrieveHatch());
-    ButtonHatchLift.whenPressed(    new HandleHatch(Constants.HatchUpState, true));
-    ButtonHatchDrop.whenPressed(    new HandleHatch(Constants.HatchDownState, true));
+      ButtonIntakeIn.whileHeld(       new HandleCargo(Constants.IntakeStateIn));
+      ButtonIntakeOut.whileHeld(      new HandleCargo(Constants.IntakeStateOut));
 
-    ButtonSetDriveHeightButton.whenPressed(new LiftAndDepositCargo(Constants.DriveHeight));
+      ButtonCargoOutRover.whileHeld(  new LiftAndDepositCargo(Constants.CargoDepositRoverHeight));
+      ButtonCargoOutLow.whileHeld(    new LiftAndDepositCargo(Constants.CargoDepositLowHeight));
+      ButtonCargoOutMid.whileHeld(    new LiftAndDepositCargo(Constants.CargoDepositMidHeight));
+      ButtonCargoOutHigh.whileHeld(   new LiftAndDepositCargo(Constants.CargoDepositHighHeight));
+      ButtonCargoInGround.whileHeld(  new CollectCargo(Constants.CargoRetrieveLocationGround)); 
+      ButtonCargoInDepot.whileHeld(   new CollectCargo(Constants.CargoRetrieveLocationDepot));
+      
+      ButtonHatchOutLow.whileHeld(    new LiftAndDepositHatch(Constants.HatchDepositLowHeight));
+      ButtonHatchOutMid.whileHeld(    new LiftAndDepositHatch(Constants.HatchDepositMidHeight));
+      ButtonHatchOutHigh.whileHeld(   new LiftAndDepositHatch(Constants.HatchDepositHighHeight));
+      ButtonHatchInLow.whileHeld(     new LiftAndRetrieveHatch());
+      ButtonHatchLift.whenPressed(    new HandleHatch(Constants.HatchUpState, true));
+      ButtonHatchDrop.whenPressed(    new HandleHatch(Constants.HatchDownState, true));
 
-    ButtonHabClimb.whileHeld(       new BalanceRobot());
+      ButtonSetDriveHeightButton.whenPressed(new LiftAndDepositCargo(Constants.DriveHeight));
+
+      ButtonHabClimb.whileHeld(       new BalanceRobot());
+    }
   }
 
   public double getControllerStickLeft(){
-    return -driveJoystick.getY(Hand.kLeft);
+    if (Robot.useJoysticks() == true)
+      return -driveJoystick.getY(Hand.kLeft);
+    else
+      return 0;
   }
 
   public double getControllerStickRight(){
-    return -driveJoystick.getY(Hand.kRight);
+    if (Robot.useJoysticks() == true)
+      return -driveJoystick.getY(Hand.kRight);
+    else
+      return 0;
   }
 
   public boolean getControllerButtonState(int buttonID){
-    return driveJoystick.getRawButton(buttonID);
+    if (Robot.useJoysticks() == true)
+      return driveJoystick.getRawButton(buttonID);
+    else
+      return false;
   }
 
   public double getControllerTriggerLeft(){
-    return driveJoystick.getTriggerAxis(Hand.kLeft);
+    if (Robot.useJoysticks() == true)
+      return driveJoystick.getTriggerAxis(Hand.kLeft);
+    else
+      return 0;
   }
 
   public double getControllerTriggerRight(){
-    return driveJoystick.getTriggerAxis(Hand.kRight);
+    if (Robot.useJoysticks() == true)
+      return driveJoystick.getTriggerAxis(Hand.kRight);
+    else
+      return 0;
   }
 
   public int getPOV(){
-    return driveJoystick.getPOV();
+    if (Robot.useJoysticks() == true)
+      return driveJoystick.getPOV();
+    else
+      return -1;
   }
 
 }                    
