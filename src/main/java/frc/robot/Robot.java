@@ -36,15 +36,9 @@ public class Robot extends TimedRobot {
   public static Intake intakeSystem;
   public static Lift liftSystem;
   public static Pneumatics pneumaticSystem;
-  public static Accelerometer imu;
-  //public static Vision vision;
-  //public static UltrasonicSensor ultrasonicSensorVision;
-  //public static UltrasonicSensorDrive ultrasonicSensorDrive;
-  //Not needed anymore? public static DifferentialDrive driveSystem;
-    //public static DrivesWithJoysticks driveIntake = new DrivesWithJoysticks();
+  public static RobotAccelerometer imu;
   public static DrivesWithJoysticks driveIntake;
-  //public static boolean;
-  //static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  public static Climber habClimber;
 
   Faults _faults_L = new Faults();
   Faults _faults_R = new Faults();
@@ -62,13 +56,17 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Lift error", liftSystem.getLiftPositionErrorTotal());
     SmartDashboard.putNumber("Target error", visionSystem.getTargetError());
 
-    SmartDashboard.putNumber("Gyro-X", imu.getAngleX());
-    SmartDashboard.putNumber("Gyro-Y", imu.getAngleY());
-    SmartDashboard.putNumber("Gyro-Z", imu.getAngleZ());
+//    SmartDashboard.putNumber("Gyro-X", imu.getAngleX());
+//    SmartDashboard.putNumber("Gyro-Y", imu.getAngleY());
+//    SmartDashboard.putNumber("Gyro-Z", imu.getAngleZ());
     
     SmartDashboard.putNumber("Accel-X", imu.getAccelX());
     SmartDashboard.putNumber("Accel-Y", imu.getAccelY());
     SmartDashboard.putNumber("Accel-Z", imu.getAccelZ());
+    SmartDashboard.putNumber("Accel-Z Ave.", imu.getAccelZAverage());
+    SmartDashboard.putNumber("Climber Power", habClimber.getClimberPower());
+    SmartDashboard.putNumber("Crawler Power", habClimber.getCrawlerPower());
+
   }
 
   /**
@@ -84,8 +82,12 @@ public class Robot extends TimedRobot {
     driveWithJoystick = new DrivesWithJoysticks();
     //OI must come after subsystems since it references commands which in turn reference sub-systems
     visionSystem = new Vision();
-    imu = new Accelerometer();
+    imu = new RobotAccelerometer();
+    habClimber = new Climber();
     operatorInterface = new OI();
+
+    //Make a note of the current angle of the accelerometer
+    imu.captureOffset();
 
     updateSmartDashboard();
     
@@ -119,9 +121,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    //Use this for simulation updates
-    if (Robot.isSimulation())
+    //Use this for simulation updates or when on RoboRio but no hardware connected
+//    if (Robot.isSimulation() || ((Robot.isReal() && (Robot.useHardware() == false))))
       updateSimulations();
+    RobotAccelerometer.updateAveraging();
     updateSmartDashboard();
   }
 
@@ -185,6 +188,10 @@ public class Robot extends TimedRobot {
 
   public static void logMessage(String module, String message){
     System.out.println(module + " : " + message);
+  }
+
+  public static boolean useHardware(){
+      return false;
   }
 
   private void doActivePeriodic(){

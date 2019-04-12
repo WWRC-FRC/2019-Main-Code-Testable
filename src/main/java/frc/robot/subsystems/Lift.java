@@ -31,7 +31,7 @@ public class Lift extends Subsystem {
   public static void liftToPositionTicks(int heightTicks) {
     Robot.logMessage(CommandName, "liftToPositionTicks");
 
-    if (Robot.isReal() == true)
+    if (Robot.isReal() && Robot.useHardware())
       liftMotor.set(ControlMode.Position, heightTicks);
     else{
       encoderTargetCountSimulation = heightTicks;
@@ -86,24 +86,22 @@ public class Lift extends Subsystem {
   //Constructor creates the motor controller connections and configures them
   public Lift(){
     Robot.logMessage(CommandName, "constructor");
-    if (Robot.isReal() == true){
+    if (Robot.isReal() && Robot.useHardware())
       configureMotors();
-    }
     resetEncoder();
   }
 
   private  void resetEncoder(){
     //ToDo : Check the parameters. They are supposed to be the count, PID & timeout values not the CAN ID
 //    lift.setSelectedSensorPosition(11,1,1);
-    if (Robot.isReal() == true){
+    if (Robot.isReal() && Robot.useHardware())
       liftMotor.setSelectedSensorPosition(0,0,Constants.LiftkTimeoutMs);
-    }
     else
       encoderCountSimulation = 0;
   }
 
   public static double getLiftPositionTicks(){
-    if (Robot.isReal() == true)
+    if (Robot.isReal() && Robot.useHardware())
       return liftMotor.getSelectedSensorPosition();
     else
       return encoderCountSimulation;
@@ -114,9 +112,9 @@ public class Lift extends Subsystem {
   }
 
   public void moveLift(double moveDelta){
-    //Move to where we are right now plus some delta
-    //Offset = 0 since we are reading where we really are first so any offsets become invalid anyhow
-    liftToPositionInches(getLiftPositionInches() + moveDelta, 0);
+    //Move to where we are targetting right now plus some delta
+    //Offset = 0 since using the total target as the starting point
+    liftToPositionInches(liftPositionTargetTotal + moveDelta, 0);
   }
 
   public static double getLiftPositionTarget(){
@@ -131,26 +129,15 @@ public class Lift extends Subsystem {
     return getLiftPositionInches() - liftPositionTargetTotal;
   }
 
-
-  
   public static double getLiftPositionErrorPID(){
-    if (Robot.isReal() == true)
+    if (Robot.isReal() && Robot.useHardware())
       return liftMotor.getClosedLoopError();
     else
       return 0;
   }
 
-  /*
-  public static double getLiftMotorPower(){
-    if (Robot.isReal() == true)
-      return liftMotor.getMotorOutputPercent();
-    else
-      return 
-  }
-*/
-
-  public static double getLiftVelocity(){
-    if (Robot.isReal() == true)
+    public static double getLiftVelocity(){
+    if (Robot.isReal() && Robot.useHardware())
       return liftMotor.getSelectedSensorVelocity();
     else
       return liftVelocitySimulation;

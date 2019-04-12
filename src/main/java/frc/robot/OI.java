@@ -7,7 +7,6 @@
 
 package frc.robot;
 import frc.robot.commands.*;
-import frc.robot.subsystems.Intake;
 //import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
@@ -44,7 +43,7 @@ public class OI {
   Button ButtonHatchInLow =            new JoystickButton(buttonBoard,Constants.HatchRetrieveDepotButton);
   Button ButtonHatchLift =             new JoystickButton(buttonBoard,Constants.HatchLiftButton);
   Button ButtonHatchDrop =             new JoystickButton(buttonBoard,Constants.HatchDropButton);
-  Button ButtonHabClimb =              new JoystickButton(driveJoystick, Constants.LogitechButtonStart);
+  Button ButtonHabClimb =              new JoystickButton(driveJoystick, Constants.HabClimbButton);
 
 
   //// CREATING BUTTONS
@@ -75,17 +74,13 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
   public OI(){
-
+    driveJoystick.getPOV();
     ButtonLiftIn.whenPressed(       new TogglePneumatics(false));
     ButtonLiftOut.whenPressed(      new TogglePneumatics(true));
 
     ButtonIntakeIn.whileHeld(       new HandleCargo(Constants.IntakeStateIn));
     ButtonIntakeOut.whileHeld(      new HandleCargo(Constants.IntakeStateOut));
-    //ButtonIntakeIn.whileHeld(       new HandleCargo(4));
 
-    //ButtonLiftUp.whileHeld(         
-   // ButtonLiftDown.whileHeld(       new HandleCargo(Constants.IntakeOut,false));
-    
     ButtonCargoOutRover.whileHeld(  new LiftAndDepositCargo(Constants.CargoDepositRoverHeight));
     ButtonCargoOutLow.whileHeld(    new LiftAndDepositCargo(Constants.CargoDepositLowHeight));
     ButtonCargoOutMid.whileHeld(    new LiftAndDepositCargo(Constants.CargoDepositMidHeight));
@@ -103,15 +98,6 @@ public class OI {
     ButtonSetDriveHeightButton.whenPressed(new LiftAndDepositCargo(Constants.DriveHeight));
 
     ButtonHabClimb.whileHeld(       new BalanceRobot());
-//    ButtonTest.whenPressed(         new TestCommand());
-  }
-
-  public static boolean getButtonPad1(){
-    return buttonBoard.getRawButton(1);
-  }
-
-  public static XboxController getControllerDr() {
-    return driveJoystick;
   }
 
   public double getControllerStickLeft(){
@@ -132,6 +118,10 @@ public class OI {
 
   public double getControllerTriggerRight(){
     return driveJoystick.getTriggerAxis(Hand.kRight);
+  }
+
+  public int getPOV(){
+    return driveJoystick.getPOV();
   }
 
 }                    

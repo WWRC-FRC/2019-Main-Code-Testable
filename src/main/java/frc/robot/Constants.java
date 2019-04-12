@@ -12,7 +12,8 @@ public class Constants {
 	public static final int    CANLiftMasterController         = 10;
 	public static final int    CANLiftFollowerController       = 12;
 	public static final int    CANIntakeController             = 8;
-	public static final int    CANClimberController            = 5;  //change for actual id and check for robot 2
+	public static final int    CANClimberController            = 5;
+	public static final int    CANCrawlerController            = 1;  //change for actual id and check for robot 2
 
 	//Pneumatic constants
 	public static final int     PneuStroke1Channel             = 0;
@@ -39,6 +40,7 @@ public class Constants {
 	public static final double LiftTicksPerInch                = (LiftCountsPerRev / LiftSprocketCircumference) / 2;//Divided by 2 because of two-stage lift
 	public static final double LiftMaxHeight                   = 81;
 	public static final double LiftPositionTolerance           = 2;
+	public static final double LiftManualSpeed                 = 4.0/50;//4 inches per second since loops at 50 itterations / second
 
 	//Auto constants
 	public static final double AutoInSpeed                = 0.4;//Speed at which the semi-auto moves towards the target
@@ -48,11 +50,12 @@ public class Constants {
 	public static final double AutoStopMaxDistance        = 30.0;//Max distance to try to travel when moving towards target
 	public static final double AutoDefaultLiftHeight      = 30.0;//Height to move lift to after picking up/depositing something
 	public static final double AutoBackoffDistance        = 12.0;//Distance to back up after picking up/depositing something
+	public static final double AutoHabCreepSpeed          = 0.3;//Speed at which the drive train runs when climbing the hab
 
 	//Cargo constants
 	public static final double CargoDepositLowHeight       = 25.0;
 	public static final double CargoDepositMidHeight       = 53.0;
-	public static final double CargoDepositHighHeight      = 80.0; //og 76.0
+	public static final double CargoDepositHighHeight      = 76.0;
 	public static final double CargoDepositRoverHeight     = 35.0;
 	public static final double CargoRetrieveDepotHeight    = 40.0;
 	public static final double CargoRetrieveGroundHeight   = 2.0;
@@ -71,17 +74,16 @@ public class Constants {
 	public static final double  DriveHeight      = 5.0;
 
 	//Hatch constants
-	//Heights are the height at which the robot should be at to be able to go through center ToDo : THESE HEIGHTS NEED TO BE CHANGED 
+	//Heights are the height at which the robot should be at to be able to go through center ToDo : THESE HEIGHTS NEED TO BE CHANGED
 	//decreased by 2in
-	//give the hatch panel pick up about 1 in to 1.5in of clearance at the top of the panel
+	//give the hatch panel pick up about 1 in to 1.5in of clearance at the top of the panel 
 	public static final double  HatchDepositLowHeight       = 3.0;
-	public static final double  HatchDepositMidHeight       = 34.0;
+	public static final double  HatchDepositMidHeight       = 32.0;
 	public static final double  HatchDepositHighHeight      = 61.0;
 	public static final double  HatchDepositRoverHeight     = 3.0;
 	public static final double  HatchRetrieveDepotHeight    = 4.5;
-	public static final double  HatchDepositDelta           = 4.0;     //Distance to move down in order to unhook when depositing
-	//public static final double  HatchGrabDelta              = 6.0;     //Distance to move up to grab when capturing... doubled
-	public static final boolean HatchDownState              = false;   //Flag to note if hook is up or down
+	public static final double  HatchDepositDelta           = 4.0;//Distance to move down in order to unhook when depositing
+	public static final boolean HatchDownState              = false;//Flag to note if hook is up or down
 	public static final boolean HatchUpState                = true;
 
 	//Controller slots
@@ -119,10 +121,6 @@ public class Constants {
 	public static final int   XBoxButtonY                 = 4;
 	public static final int   XBoxButtonA                 = 1;
 	public static final int   XBoxButtonB                 = 2;
-//	public static final int   XBoxButtonUp                = 3;
-//	public static final int   XBoxButtonDown              = 3;
-//	public static final int   XBoxButtonLeft              = 3;
-//	public static final int   XBoxButtonRight             = 3;
 	public static final int   XBoxButtonStickLeft         = 9;
 	public static final int   XBoxButtonStickRight        = 10;
 	public static final int   XBoxButtonTriggerLeft       = 5;
@@ -130,7 +128,8 @@ public class Constants {
 	public static final int   XBoxButtonHome              = 7;
 	public static final int   XBoxButtonMenu              = 8; 
 	
-	public static final int   LogitechButtonStart         = 8;    //climber articulation
+	public static final int   HabClimbButton              = XBoxButtonMenu;    //climber articulation = LogitechButtonStart
+	public static final int   HabRetractButton            = XBoxButtonHome;    //climber articulation = LogitechButtonStart
 
 	//Lift PID parameters
 	public static final int     LiftkPIDkSlotIdx     = 0;
@@ -174,23 +173,12 @@ public class Constants {
 	//Simulation parameters
 	public static final int liftSpeedSimulation       = 190;
 
-	/*//Climber PID parameters
-	//PID parameters
-	public static final int     ClimberkPIDkSlotIdx     = 1;
-	public static final int     ClimberkkPIDLoopIdx     = 0;
+	//Climber PID parameters
 	public static final int     ClimberkTimeoutMs       = 30;
-	public static final boolean ClimberkSensorPhase     = true;
-	public static final boolean ClimberkMotorInvert     = true;
-	//kp, ki, kd, kf, izone, peak output
-	//ToDo : Need to set these parameters
-	public static final double  ClimberPIDkP            = 0.15;
-	public static final double  ClimberPIDkI            = 0.0;
-	public static final double  ClimberPIDkD            = 1.0;
-	public static final double  ClimberPIDkF            = 0.0;
-	public static final double  ClimberPIDizone         = 0.0;
 	public static final double  ClimberPIDpeakoutput    = 1.0;
-	public static final int     ClimberPIDmaxerror      = 0;
-*/
+	public static final double  ClimberTargetZ          = 0.1;
+	public static final double  HabCrawlSpeed           = 1.0;
+	public static final double  ClimberRetractSpeed     = 1.0;//ToDo : Check polarity
 
 	/**
 	 * Which PID slot to pull gains from. Starting 2018, you can choose from

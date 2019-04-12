@@ -45,19 +45,25 @@ public class Vision extends Subsystem {
     }
   }
 
-public double getResult() {
-    if(JeVoisVision.getBytesReceived() > 3){
-      errorString = JeVoisVision.readString();
-      offsetError = Double.parseDouble(errorString);
+  public double getResult() {
+    if (Robot.isReal()){
+      if(JeVoisVision.getBytesReceived() > 3){
+        errorString = JeVoisVision.readString();
+        offsetError = Double.parseDouble(errorString);
+      }
     }
     return offsetError;
   }
 
   public boolean getResultStatus() {
-    if(JeVoisVision.getBytesReceived() > 3)
-      return true;
+    if (Robot.isReal()){
+      if(JeVoisVision.getBytesReceived() > 3)
+        return true;
+      else
+        return false;
+    }
     else
-      return false;
+      return true;
   }
 
   @Override

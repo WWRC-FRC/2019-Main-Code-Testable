@@ -25,14 +25,14 @@ public class LocateTargets extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.logMessage(CommandName, "Initialize");
+//    Robot.logMessage(CommandName, "Initialize");
     Robot.visionSystem.triggerMeasurement();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //Robot.logMessage(CommandName, "Execute");
+//    Robot.logMessage(CommandName, "Execute");
     //Wait for result to coma back
 
     if(Robot.visionSystem.getResultStatus()){
@@ -44,19 +44,19 @@ public class LocateTargets extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return isDone;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.logMessage(CommandName, "End");
+//    Robot.logMessage(CommandName, "End");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.logMessage(CommandName, "Interrupted");
+//    Robot.logMessage(CommandName, "Interrupted");
   }
 }

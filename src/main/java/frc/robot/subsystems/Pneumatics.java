@@ -31,14 +31,12 @@ public class Pneumatics extends Subsystem {
     solenoid = new DoubleSolenoid(Constants.PneuStroke1Channel, Constants.PneuStroke2Channel);
     compressor = new Compressor();
 
-Robot.logMessage(CommandName, "turn Compressor on");
     compressor.setClosedLoopControl(true);
   }
 
   public Pneumatics(){ 
     Robot.logMessage(CommandName, "constructor");
-    if (Robot.isReal() == true)
-    Robot.logMessage(CommandName, "initialize Pnumatics");
+    if (Robot.isReal() && Robot.useHardware())
       initPneumatics();
   }
 
@@ -46,12 +44,12 @@ Robot.logMessage(CommandName, "turn Compressor on");
     
     if(state == Constants.PneuLiftIn){
       pneumaticState = false;
-      if (Robot.isReal() == true)
+      if (Robot.isReal() && Robot.useHardware())
         solenoid.set(DoubleSolenoid.Value.kReverse);
     }
     else{
       pneumaticState = true;
-      if (Robot.isReal() == true)
+      if (Robot.isReal() && Robot.useHardware())
         solenoid.set(DoubleSolenoid.Value.kForward);
     }
   }

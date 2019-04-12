@@ -28,14 +28,14 @@ public class Intake extends Subsystem {
   private static double intakeSpeed = 0;
   public Intake(){
     Robot.logMessage(CommandName, "constructor");
-    if (Robot.isReal() == true){
+    if (Robot.isReal() && Robot.useHardware()){
       intake = new TalonSRX(Constants.CANIntakeController);
       limitSwitch = new DigitalInput(0);
     }
   }
 
   public static boolean isBallIn(){
-    if (Robot.isReal() == true)
+    if (Robot.isReal() && Robot.useHardware())
       return !limitSwitch.get();//ToDo : Check polarity. True SHOULD mean the cargo is in
     else
       return limitSwitchSimulation;
@@ -81,9 +81,8 @@ public class Intake extends Subsystem {
       intakeSpeed = Constants.IntakeHoldSpeed;
 
 //    Robot.logMessage(CommandName, "intakeSpeed = " + intakeSpeed);
-    if (Robot.isReal() == true){
+    if (Robot.isReal() && Robot.useHardware())
       intake.set(ControlMode.PercentOutput, intakeSpeed);
-    }
 
   }
 

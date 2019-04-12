@@ -37,7 +37,7 @@ public class DriveTrain extends Subsystem {
   private double rightSpeedSimulation = 0;
   private boolean autoFlag = false;
 
-  private void DriveTrainInit(){
+  private void driveTrainInit(){
     rightFront    = new TalonSRX(Constants.CANRightFrontMasterController);
     rightFollower = new TalonSRX(Constants.CANRightFrontFollowerController);
     leftFront     = new TalonSRX(Constants.CANLeftFrontMasterController);
@@ -49,11 +49,7 @@ public class DriveTrain extends Subsystem {
     leftFront.configFactoryDefault();
     leftFollower.configFactoryDefault();
 
-   
-   
-
-    //Configure drive train
-
+     //Configure drive train
     //Make constants different to those used for the lift
     rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.DrivekkPIDLoopIdx, Constants.DrivekTimeoutMs);
     rightFront.setSensorPhase(Constants.DrivekSensorPhase);
@@ -115,8 +111,8 @@ public class DriveTrain extends Subsystem {
     //Drive train constructor
     Robot.logMessage(CommandName, "constructor");
     //Initialize the drive train
-    if (Robot.isReal() == true){
-      DriveTrainInit();
+    if (Robot.isReal() && Robot.useHardware()){
+      driveTrainInit();
     }
     resetEncoders();
   }
@@ -125,7 +121,7 @@ public class DriveTrain extends Subsystem {
     //ToDo : Check the parameters. They are supposed to be the count, PID & timeout values  the CAN ID
 //    _leftFront.setSelectedSensorPosition(6,1,1);
 //    _rightFront.setSelectedSensorPosition(8,1,1);
-    if (Robot.isReal() == true){
+    if (Robot.isReal() && Robot.useHardware()){
       leftFront.setSelectedSensorPosition(0,0,Constants.DrivekTimeoutMs);
       rightFront.setSelectedSensorPosition(0,0,Constants.DrivekTimeoutMs);
     }
@@ -136,14 +132,14 @@ public class DriveTrain extends Subsystem {
   }
 
   private double getLeftEncoderTicks(){
-    if (Robot.isReal() == true)
+    if (Robot.isReal() && Robot.useHardware())
       return leftFront.getSelectedSensorPosition();
     else
       return leftEncoderSimulation;
   }
 
   private double getRightEncoderTicks(){
-    if (Robot.isReal() == true)
+    if (Robot.isReal() && Robot.useHardware())
       return rightFront.getSelectedSensorPosition();
     else
       return rightEncoderSimulation;
@@ -200,7 +196,7 @@ public class DriveTrain extends Subsystem {
   }
 */
   public double getUltrasonicRange(){
-    if (Robot.isReal() == true)
+    if (Robot.isReal() && Robot.useHardware())
       return ultrasonicSensor.getRangeInches();
     else {
       return ultrasonicRangeSimulation;
@@ -213,7 +209,7 @@ public class DriveTrain extends Subsystem {
 
   private void setSpeedRaw(double leftSpeed, double rightSpeed){
     //Speed is ticks per 100mS ?
-    if (Robot.isReal() == true){
+    if (Robot.isReal() && Robot.useHardware()){
       leftFront.set(ControlMode.Velocity, leftSpeed);
       rightFront.set(ControlMode.Velocity, rightSpeed);
     }

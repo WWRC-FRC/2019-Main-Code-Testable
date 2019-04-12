@@ -51,36 +51,64 @@ public class DrivesWithJoysticks extends Command {
     targetLeftSpeed =  Robot.operatorInterface.getControllerStickLeft();
     targetRightSpeed = Robot.operatorInterface.getControllerStickRight();
 
-    if (Math.abs(targetLeftSpeed) < 0.10) 
-    {
+    if (Math.abs(targetLeftSpeed) < 0.10) {
       targetLeftSpeed = 0;
     }
+
     if (Math.abs(targetRightSpeed) < 0.10) {
       targetRightSpeed = 0;
-  }
+    }
 
-  currentLeftSpeed = Robot.driveTrain.getLeftSpeedPercent();
-  currentRightSpeed = Robot.driveTrain.getRightSpeedPercent();
-  if(Robot.operatorInterface.getControllerTriggerLeft() > 0.05){
-    targetLeftSpeed*=.3;
-    targetRightSpeed*=.3;
-   }
-   else if(Robot.operatorInterface.getControllerTriggerRight() > 0.05){
-    targetLeftSpeed*=.5;
-    targetRightSpeed*=.5;
-   }
-   else {}
-   
-    //if(OI.getControllerDr().getXButton()){
+    if(Robot.operatorInterface.getControllerTriggerLeft() > 0.05){
+      targetLeftSpeed*=.3;
+      targetRightSpeed*=.3;
+    }
+    else if(Robot.operatorInterface.getControllerTriggerRight() > 0.05){
+      targetLeftSpeed*=.5;
+      targetRightSpeed*=.5;
+    }
+    
     if(Robot.operatorInterface.getControllerButtonState(Constants.XBoxButtonX)){
       targetLeftSpeed = Constants.CrawlSpeed;
       targetRightSpeed = Constants.CrawlSpeed;
     }
 
+    currentLeftSpeed = Robot.driveTrain.getLeftSpeedPercent();
+    currentRightSpeed = Robot.driveTrain.getRightSpeedPercent();
+
     newLeftSpeed = adjustSpeed(currentLeftSpeed, targetLeftSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
     newRightSpeed = adjustSpeed(currentRightSpeed, targetRightSpeed, Constants.JoystickAccelleration, Constants.JoystickDecelleration);
     Robot.driveTrain.setSpeedPercentJoystick(newLeftSpeed, newRightSpeed);
 
+    //Check if we need to adjust the lift height for hab climb
+    if (Robot.operatorInterface.getPOV() == 0){
+      Robot.liftSystem.moveLift(Constants.LiftManualSpeed);
+    }
+    else if (Robot.operatorInterface.getPOV() == 180){
+      Robot.liftSystem.moveLift(-Constants.LiftManualSpeed);
+    }
+
+    //Check if we need to turn on the hab climb crawl motor
+    if (Robot.operatorInterface.getPOV() == 90){
+      Robot.habClimber.setCrawlerPower(Constants.HabCrawlSpeed);
+    }
+    else if (Robot.operatorInterface.getPOV() == 270){
+      Robot.habClimber.setCrawlerPower(-Constants.HabCrawlSpeed);
+    }
+    else{
+      Robot.habClimber.setCrawlerPower(0);
+    }
+
+    if (Robot.operatorInterface.getControllerButtonState(Constants.HabClimbButton) == false){
+      //Not currently climbing so check if retracting
+      //Not really the best way to do this but should work... kinda
+      //Button to retract the rear climber back up
+      if (Robot.operatorInterface.getControllerButtonState(Constants.HabRetractButton))
+        Robot.habClimber.setClimberPower(Constants.ClimberRetractSpeed);
+      else
+        Robot.habClimber.setClimberPower(0);
+    }
+    
   }
   
   private static double adjustSpeed(double current, double target, double upDelta, double downDelta)
@@ -124,3 +152,4 @@ public class DrivesWithJoysticks extends Command {
   protected void interrupted() {
   }
 }
+
