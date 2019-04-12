@@ -10,14 +10,14 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-import com.analog.adis16470.frc.ADIS16470_IMU;
+//import com.analog.adis16470.frc.ADIS16470_IMU;
 import frc.robot.Robot;
 /**
  * Add your docs here.
  */
 public class RobotAccelerometer extends Subsystem {
   private static double averagingTracker[];
-  //public static ADIS16470_IMU imu;
+  //public static ADIS16470_IMU robotGyro;
   private static BuiltInAccelerometer imu;
   private static String CommandName = "Accelerometer";
   private static int averagingCount = 20;
@@ -29,6 +29,7 @@ public class RobotAccelerometer extends Subsystem {
   public RobotAccelerometer() {
     //imu = new ADIS16470_IMU();
     imu = new BuiltInAccelerometer(Accelerometer.Range.k2G);
+    //robotGyro = new ADIS16470_IMU();
     //Initialize an array for our averaging filter
     averagingTracker = new double[averagingCount];
     double currentReading = getAccelZ();
@@ -56,8 +57,9 @@ public class RobotAccelerometer extends Subsystem {
   }
 
   public static double getAngleX(){
-    //return imu.getAngleX();
+    //return robotGyro.getAccelZ();
     return 0;
+
   } 
   public static double getAngleY(){
     //return imu.getAngleY();
