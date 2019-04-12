@@ -45,6 +45,8 @@ public class HandleCargo extends Command {
           Robot.intakeSystem.setIntakeSpeed(Constants.IntakeEjectSpeed);
           //Intake.setIntakeSpeed(Constants.IntakeEjectSpeed);
           break;
+        //case 4 :
+          //Robot.intakeSystem.setIntakeSpeed(.75);
         default :
           Intake.setIntakeSpeed(0);
       }

@@ -7,6 +7,7 @@
 
 package frc.robot;
 import frc.robot.commands.*;
+import frc.robot.subsystems.Intake;
 //import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
@@ -80,8 +81,9 @@ public class OI {
 
     ButtonIntakeIn.whileHeld(       new HandleCargo(Constants.IntakeStateIn));
     ButtonIntakeOut.whileHeld(      new HandleCargo(Constants.IntakeStateOut));
+    //ButtonIntakeIn.whileHeld(       new HandleCargo(4));
 
-   // ButtonLiftUp.whileHeld(         new HandleCargo(Constants.IntakeIn,false));
+    //ButtonLiftUp.whileHeld(         
    // ButtonLiftDown.whileHeld(       new HandleCargo(Constants.IntakeOut,false));
     
     ButtonCargoOutRover.whileHeld(  new LiftAndDepositCargo(Constants.CargoDepositRoverHeight));

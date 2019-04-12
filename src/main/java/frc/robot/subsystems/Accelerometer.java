@@ -23,7 +23,7 @@ public class Accelerometer extends Subsystem {
   }
 
   public static double getAngleX(){
-    Robot.logMessage(CommandName, "getting angle");
+    //Robot.logMessage(CommandName, "getting angle");
     return imu.getAngleX();
   } 
   public static double getAngleY(){
