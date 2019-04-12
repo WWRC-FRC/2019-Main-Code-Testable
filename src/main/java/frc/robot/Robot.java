@@ -198,7 +198,7 @@ public class Robot extends TimedRobot {
   }
 
   public static boolean useHardware(){
-      return false;
+      return true;
   }
 
   public static boolean useJoysticks(){
