@@ -25,7 +25,7 @@ public class Vision extends Subsystem {
   private static double xPositionTemp = 0; 
   private static double yPositionTemp = 0;
   private static boolean isBusy = false;
-  private static int testCount = 0;
+  private static int timeoutCounter = 0;
 
   public Vision(){
     Robot.logMessage(CommandName, "constructor");
@@ -36,8 +36,7 @@ public class Vision extends Subsystem {
         jeVoisAlive = true;
         JeVoisVision.setWriteBufferMode(SerialPort.WriteBufferMode.kFlushOnAccess );
         JeVoisVision.enableTermination();
-        Robot.logMessage(CommandName, "JeVois GOOD" + testCount);
-        testCount = testCount + 1;
+        Robot.logMessage(CommandName, "JeVois GOOD");
       } catch (Exception e) {
         jeVoisAlive = false;
         Robot.logMessage(CommandName, "JeVois FAILED");
@@ -88,19 +87,27 @@ public class Vision extends Subsystem {
     if ((jeVoisAlive == true) && (isBusy == true)){
       //Check if there is a character in the buffer
       //Robot.logMessage(CommandName, "Waiting for JeVois");
-    
+      timeoutCounter = timeoutCounter + 1;
+      if (timeoutCounter >= 50){//Sent message but didn't receive what we expected so reset and try again
+        rXString = "";
+        isBusy = false;
+        timeoutCounter = 0;
+      }
+
       while(JeVoisVision.getBytesReceived() > 0){
         //Character there so add to retrieved string and check if end of string marker
         rXChar = JeVoisVision.readString(1);
         //Robot.logMessage(CommandName, "Received '" + rXChar + "'");
         //Robot.logMessage(CommandName, "RX = " + rXChar);          
-        if (Objects.equals(rXChar, "X")){
+        //if (Objects.equals(rXChar, "X")){
+        
+        if (rXChar.charAt(0) == 'X'){
           //Characters received so far denote X position
           xPositionTemp = stringToDouble(rXString);// Double.parseDouble(rXString);
           rXString = "";
           //Robot.logMessage(CommandName, "Received X = " + xPositionTemp);
         }
-        else if (Objects.equals(rXChar, "Y")){
+        /*else if (Objects.equals(rXChar, "Y")){
           //Characters received so far denote Y position (not used currently)
           yPositionTemp = stringToDouble(rXString);//Double.parseDouble(rXString);
           rXString = "";
@@ -111,7 +118,8 @@ public class Vision extends Subsystem {
           rXString = "";
           //Robot.logMessage(CommandName, "Received T = ???");
         }
-        else if (Objects.equals(rXChar, "G")){
+        */
+        else if (rXChar.charAt(0) == 'G'){
           //End of sequence marker to indicate all results are good
           rXString = "";
           xPosition = xPositionTemp;
@@ -119,8 +127,8 @@ public class Vision extends Subsystem {
           isBusy = false;
           //Robot.logMessage(CommandName, "Vision done" + Double.toString(xPosition));
         }
-        else if (Objects.equals(rXChar, "O")){}//Ignore "OK" and new lines
-        else if (Objects.equals(rXChar, "K")){}
+        else if (rXChar.charAt(0) == 'O'){}//Ignore "OK" and new lines
+        else if (rXChar.charAt(0) == 'K'){}
         else if (Objects.equals(rXChar, "/n")){}
         else{
           rXString = rXString + rXChar;
