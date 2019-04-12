@@ -72,26 +72,37 @@ public class Vision extends Subsystem {
     scanBuffer();
   }
 
+  private double stringToDouble(String inString){
+    double temp;
+    try {
+      temp = Double.parseDouble(rXString);
+      return temp;
+    } catch (Exception e) {
+      return 0;
+    }  
+  
+  }
+  
   private void  scanBuffer() {
     String rXChar;
     if ((jeVoisAlive == true) && (isBusy == true)){
       //Check if there is a character in the buffer
-      //Robot.logMessage(CommandName, "Waiting for JeVois " + JeVoisVision.getBytesReceived());
+      //Robot.logMessage(CommandName, "Waiting for JeVois");
     
       while(JeVoisVision.getBytesReceived() > 0){
-        //Robot.logMessage(CommandName, "Received something");
         //Character there so add to retrieved string and check if end of string marker
         rXChar = JeVoisVision.readString(1);
+        //Robot.logMessage(CommandName, "Received '" + rXChar + "'");
         //Robot.logMessage(CommandName, "RX = " + rXChar);          
         if (Objects.equals(rXChar, "X")){
           //Characters received so far denote X position
-          xPositionTemp = Double.parseDouble(rXString);
+          xPositionTemp = stringToDouble(rXString);// Double.parseDouble(rXString);
           rXString = "";
           //Robot.logMessage(CommandName, "Received X = " + xPositionTemp);
         }
         else if (Objects.equals(rXChar, "Y")){
           //Characters received so far denote Y position (not used currently)
-          yPositionTemp = Double.parseDouble(rXString);
+          yPositionTemp = stringToDouble(rXString);//Double.parseDouble(rXString);
           rXString = "";
           //Robot.logMessage(CommandName, "Received Y = " +yPositionTemp);
         }
